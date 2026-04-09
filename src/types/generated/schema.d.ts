@@ -6838,6 +6838,11 @@ export interface SankeyData {
          */
         pad?: number;
         /**
+         * If the value is `auto` (the default), the vertical order of nodes will be determined automatically by the layout. If the value is `input`, the vertical order is kept the same as the order in the input node array
+         * @default 'auto'
+         */
+        sort?: 'auto' | 'input';
+        /**
          * Sets the thickness (in px) of the `nodes`.
          * @default 20
          * Minimum: 1
