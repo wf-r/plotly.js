@@ -40,6 +40,7 @@ function sankeyModel(layout, d, traceIndex) {
         right: d3Sankey.sankeyRight,
         center: d3Sankey.sankeyCenter
     }[trace.node.align];
+    var input_sort = trace.node.sort == 'input';
 
     var width = layout.width * (domain.x[1] - domain.x[0]);
     var height = layout.height * (domain.y[1] - domain.y[0]);
@@ -67,6 +68,7 @@ function sankeyModel(layout, d, traceIndex) {
           return d.pointNumber;
       })
       .nodeAlign(nodeAlign)
+      .nodeSort(input_sort ? null : undefined)
       .nodes(nodes)
       .links(links);
 

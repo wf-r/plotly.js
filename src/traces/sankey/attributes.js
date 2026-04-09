@@ -170,6 +170,16 @@ var attrs = (module.exports = overrideAll(
                 dflt: 'justify',
                 description: 'Sets the alignment method used to position the nodes along the horizontal axis.'
             },
+            sort: {
+                valType: 'enumerated',
+                values: ['auto', 'input'],
+                dflt: 'auto',
+                description: [
+                    'If the value is `auto` (the default), the vertical order of nodes will be determined automatically',
+                    'by the layout.',
+                    'If the value is `input`, the vertical order is kept the same as the order in the input node array'
+                ].join(' ')
+            },
             description: 'The nodes of the Sankey plot.'
         },
 
