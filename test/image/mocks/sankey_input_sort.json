@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "type": "sankey",
+      "node": {
+        "label": ["0", "1", "2", "3", "4", "5"],
+        "align": "center",
+        "sort": "input"
+      },
+      "link": {
+        "source": [0, 0, 0, 0, 1, 4],
+        "target": [1, 2, 3, 4, 5, 5],
+        "value": [1, 2, 1, 1, 1, 1]
+      }
+    }
+  ],
+  "layout": {
+    "title": { "text": "Sankey with fixed vertical node ordering" },
+    "width": 800,
+    "height": 800
+  }
+}
