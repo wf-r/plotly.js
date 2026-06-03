@@ -385,7 +385,7 @@ export interface ColorBar {
     title?: {
         /** Sets this color bar's title font. */
         font?: Font;
-        /** Determines the location of color bar's title with respect to the color bar. Defaults to *top* when `orientation` if *v* and defaults to *right* when `orientation` if *h*. */
+        /** Determines the location of color bar's title with respect to the color bar. Defaults to *top* when `orientation` is *v* and defaults to *right* when `orientation` is *h*. */
         side?: 'right' | 'top' | 'bottom';
         /** Sets the title of the color bar. */
         text?: string;
@@ -466,7 +466,7 @@ export namespace _internal {
         clipmax?: any;
         /** Clip autorange minimum if it goes beyond this value. Has no effect when `autorangeoptions.minallowed` is provided. */
         clipmin?: any;
-        /** Ensure this value is included in autorange. */
+        /** Extends the autorange to include this value or array of values, even when they fall outside the data range. Has no effect on endpoints set by `autorangeoptions.minallowed` or `autorangeoptions.maxallowed`. Subject to `autorangeoptions.clipmin` and `autorangeoptions.clipmax`. */
         include?: any;
         /** Use this value exactly as autorange maximum. */
         maxallowed?: any;
