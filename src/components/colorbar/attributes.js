@@ -226,8 +226,8 @@ module.exports = overrideAll(
                 description: [
                     "Determines the location of color bar's title",
                     'with respect to the color bar.',
-                    'Defaults to *top* when `orientation` if *v* and',
-                    'defaults to *right* when `orientation` if *h*.'
+                    'Defaults to *top* when `orientation` is *v* and',
+                    'defaults to *right* when `orientation` is *h*.'
                 ].join(' ')
             }
         }
