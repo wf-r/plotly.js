@@ -317,7 +317,13 @@ module.exports = {
             arrayOk: true,
             editType: 'plot',
             impliedEdits: { 'range[0]': undefined, 'range[1]': undefined },
-            description: ['Ensure this value is included in autorange.'].join(' ')
+            description: [
+                'Extends the autorange to include this value or array of values,',
+                'even when they fall outside the data range.',
+                'Has no effect on endpoints set by `autorangeoptions.minallowed`',
+                'or `autorangeoptions.maxallowed`.',
+                'Subject to `autorangeoptions.clipmin` and `autorangeoptions.clipmax`.'
+            ].join(' ')
         },
         editType: 'plot'
     },
