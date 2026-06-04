@@ -116,7 +116,7 @@ module.exports = function convert(gd, calcTrace) {
 
         Lib.extendFlat(symbol.layout, {
             visibility: 'visible',
-            'icon-image': '{symbol}-15',
+            'icon-image': '{symbol}',
             'text-field': '{text}'
         });
 

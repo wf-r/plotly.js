@@ -107,14 +107,14 @@ proto.createMap = function(calcData, fullLayout, resolve, reject) {
     var requestedIcons = {};
     map.on('styleimagemissing', function(e) {
         var id = e.id;
-        if(!requestedIcons[id] && id.includes('-15')) {
+        if(!requestedIcons[id] && /^[a-zA-Z0-9-]+$/.test(id)) {
             requestedIcons[id] = true;
             var img = new Image(15, 15);
             img.onload = function() {
                 map.addImage(id, img, {sdf: true});
             };
             img.crossOrigin = 'Anonymous';
-            img.src = "https://cdn.jsdelivr.net/npm/@mapbox/maki@8.2.0/icons/" + id.slice(0, -3) + '.svg';
+            img.src = "https://cdn.jsdelivr.net/npm/@mapbox/maki@8.2.0/icons/" + id + '.svg';
         }
     });
 
