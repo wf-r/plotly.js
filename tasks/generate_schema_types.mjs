@@ -30,7 +30,7 @@ let META_KEYS = new Set();
 // emitted as named type aliases in the output. Each anchor specifies a
 // PascalCase type name and a `match(key, path, values)` predicate. If multiple
 // enumerated attributes match the predicate, the one with the largest set of values
-//  is chosen.
+// is chosen.
 // ---------------------------------------------------------------------------
 
 const COMMON_TYPE_ANCHORS = [
@@ -70,14 +70,7 @@ const ATTR_NAME_OVERRIDES = new Map([['marker.symbol', 'MarkerSymbol']]);
  * Inside the namespace, sibling references are bare (`line?: Line`); outside,
  * references are prefixed (`marker?: _internal.Marker`) via `refName()`.
  */
-const INTERNAL_INTERFACES = new Set([
-    'AutoRangeOptions',
-    'ErrorY',
-    'Lighting',
-    'Line',
-    'Marker',
-    'Stream'
-]);
+const INTERNAL_INTERFACES = new Set(['AutoRangeOptions', 'ErrorY', 'Lighting', 'Line', 'Marker', 'Stream']);
 
 function refName(name, inInternalNamespace) {
     if (inInternalNamespace) return name;
@@ -807,7 +800,14 @@ function attrsToProperties(attrs, indent, pathPrefix, sharedTypes, fieldOverride
                 lines.push(`${indent}${key}?: ${refName(sharedName, inInternalNamespace)}[];`);
                 continue;
             }
-            const nested = attrsToProperties(itemChild, indent + '    ', attrPath, sharedTypes, undefined, inInternalNamespace);
+            const nested = attrsToProperties(
+                itemChild,
+                indent + '    ',
+                attrPath,
+                sharedTypes,
+                undefined,
+                inInternalNamespace
+            );
             if (nested.length > 0) {
                 lines.push(...formatJSDoc(val, indent));
                 lines.push(`${indent}${key}?: Array<{`);

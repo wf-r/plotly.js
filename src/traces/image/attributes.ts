@@ -1,9 +1,8 @@
-import type { AttributeMap } from '../../types/lib/attributes';
-
-import baseAttrs from '../../plots/attributes';
-import { zorder } from '../scatter/attributes';
-import { hovertemplateAttrs, templatefallbackAttrs } from '../../plots/template_attributes';
 import { extendFlat } from '../../lib/extend';
+import baseAttrs from '../../plots/attributes';
+import { hovertemplateAttrs, templatefallbackAttrs } from '../../plots/template_attributes';
+import type { AttributeMap } from '../../types/lib/attributes';
+import { zorder } from '../scatter/attributes';
 import { colormodel } from './constants';
 
 const cm = ['rgb', 'rgba', 'rgba256', 'hsl', 'hsla'] as const;
