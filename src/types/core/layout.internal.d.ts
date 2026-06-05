@@ -9,6 +9,7 @@
 import type { Locale, Selection } from 'd3';
 import type { Layout } from '../generated/schema';
 import type { Color } from '../lib/common';
+import type { GraphDiv } from './graph-div.internal';
 
 /**
  * Fully processed layout with all defaults applied (internal use).
@@ -22,7 +23,7 @@ export interface FullLayout extends Layout {
     /** Resolved list of base-plot modules in use (cartesian, polar, …). */
     _basePlotModules?: any[];
     /** Recomputes inverse-transform caches after a transform change. */
-    _calcInverseTransform?: (gd: any) => void;
+    _calcInverseTransform?: (gd: GraphDiv) => void;
     /** True once initial autosize has completed at least once. */
     _initialAutoSizeIsDone?: boolean;
     /** Cached inverse CSS transform for hit-testing. */
@@ -242,9 +243,9 @@ export interface FullLayout extends Layout {
     /** Index of the active shape in `layout.shapes`. */
     _activeShapeIndex?: number;
     /** Callback to deactivate the active selection. */
-    _deactivateSelection?: (gd: any) => void;
+    _deactivateSelection?: (gd: GraphDiv) => void;
     /** Callback to deactivate the active shape. */
-    _deactivateShape?: (gd: any) => void;
+    _deactivateShape?: (gd: GraphDiv) => void;
     /** Cached deselect callback. */
     _deselect?: any;
     /** Vertical offset for colorbar title repositioning. */

@@ -5,6 +5,7 @@
  * properties. For public trace types, see data.d.ts.
  */
 
+import type { Datum } from '../lib/common';
 import type { Data } from './data';
 
 /**
@@ -21,11 +22,11 @@ export interface CalcData {
     /** Back-reference to the fully-populated trace this calcdata belongs to. */
     trace?: FullData;
     /** Computed x coordinate(s). */
-    x?: any;
+    x?: Datum | Datum[];
     /** Computed y coordinate(s). */
-    y?: any;
+    y?: Datum | Datum[];
     /** Computed z coordinate(s) (for 3-D traces). */
-    z?: any;
+    z?: Datum | Datum[];
     /** Trace-module-specific calc fields. */
     [key: string]: any;
 }
@@ -43,13 +44,13 @@ interface FullDataInternals {
     /** Cached extremes (per axis) for autorange computation. */
     _extremes?: Record<string, any>;
     /** Snapshot of the trace before transforms were applied. */
-    _fullInput?: any;
+    _fullInput?: Data;
     /** True when the trace has a transform that affects `calcdata`. */
     _hasCalcTransform?: boolean;
     /** Map from `_expandedIndex` back to original point indices. */
     _indexToPoints?: { [key: number]: number[] };
     /** Original user-supplied trace object (pre-defaults). */
-    _input?: any;
+    _input?: Data;
     /** Length of the trace's data arrays (after coercion). */
     _length?: number;
     /** Captured `meta` references from trace and layout for template binding. */

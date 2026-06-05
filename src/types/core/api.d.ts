@@ -19,8 +19,8 @@ import type { Icon, Template } from './layout';
 export type Root = string | HTMLElement;
 
 /**
- * Figure-shaped object accepted by `toImage`/`downloadImage` when called
- * without an attached graph div.
+ * Figure-shaped object accepted by `newPlot` (in the `data` position) and
+ * by `toImage`/`downloadImage` when called without an attached graph div.
  */
 export interface PlotlyDataLayoutConfig {
     /** Trace data array. */
@@ -29,6 +29,8 @@ export interface PlotlyDataLayoutConfig {
     layout?: Partial<Layout>;
     /** Optional config overrides. */
     config?: Partial<Config>;
+    /** Optional animation frames. */
+    frames?: Frame[];
 }
 
 /** Either a regular root target or a figure-shaped object. */
@@ -46,34 +48,34 @@ export interface StaticPlots {
 
 /** Names of icons bundled with Plotly's mode-bar. */
 export type DefaultIcons =
-    | 'undo'
-    | 'home'
-    | 'camera-retro'
-    | 'zoombox'
-    | 'pan'
-    | 'zoom_plus'
-    | 'zoom_minus'
+    | '3d_rotate'
     | 'autoscale'
+    | 'camera-retro'
+    | 'camera'
+    | 'disk'
+    | 'drawcircle'
+    | 'drawclosedpath'
+    | 'drawline'
+    | 'drawopenpath'
+    | 'drawrect'
+    | 'eraseshape'
+    | 'home'
+    | 'lasso'
+    | 'movie'
+    | 'newplotlylogo'
+    | 'pan'
+    | 'pencil'
+    | 'plotlylogo'
+    | 'question'
+    | 'selectbox'
+    | 'spikeline'
     | 'tooltip_basic'
     | 'tooltip_compare'
-    | 'plotlylogo'
+    | 'undo'
     | 'z-axis'
-    | '3d_rotate'
-    | 'camera'
-    | 'movie'
-    | 'question'
-    | 'disk'
-    | 'drawopenpath'
-    | 'drawclosedpath'
-    | 'lasso'
-    | 'selectbox'
-    | 'drawline'
-    | 'drawrect'
-    | 'drawcircle'
-    | 'eraseshape'
-    | 'spikeline'
-    | 'pencil'
-    | 'newplotlylogo';
+    | 'zoom_minus'
+    | 'zoom_plus'
+    | 'zoombox';
 
 /** Map of built-in icon name → `Icon` definition. */
 export type IconsMap = { [K in DefaultIcons]: Icon };
@@ -193,6 +195,18 @@ export function newPlot(
     data: Data[],
     layout?: Partial<Layout>,
     config?: Partial<Config>
+): Promise<PlotlyHTMLElement>;
+/**
+ * Create a new plot at `root` from a figure-shaped object containing
+ * `data`/`layout`/`config`/`frames`. Replaces any existing plot.
+ *
+ * @param root - graph div id or element
+ * @param figure - figure-shaped object
+ * @returns the graph div once the plot has rendered
+ */
+export function newPlot(
+    root: Root,
+    figure: PlotlyDataLayoutConfig
 ): Promise<PlotlyHTMLElement>;
 
 /** Update layout properties on an existing plot. */
