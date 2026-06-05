@@ -346,7 +346,9 @@ function valTypeToTS(attr, attrPath) {
 
     switch (valType) {
         case 'data_array':
-            return 'Datum[] | TypedArray';
+            // Loose union — `data_array` has no dimensionality in the schema. See the
+            // dimensionality TODO in src/types/README.md for the precise long-term fix.
+            return 'Datum[] | Datum[][] | TypedArray';
 
         case 'number':
         case 'integer': {

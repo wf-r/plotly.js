@@ -28,6 +28,14 @@ This directory documents the TypeScript conversion in progress.
   hand-written union that can drift. Consumers need `.default` appended per the established
   [conversion pattern](CONVERTING_ATTRIBUTES.md#L72-L86).
 
+- **Add dimensionality to `data_array` in the JS attribute sources.** The
+  schema's `data_array` valType carries no shape info, but several attributes
+  are genuinely 2D (heatmap/contour/contourcarpet `z`, surface `z` and
+  `surfacecolor`, 2D `text`/`customdata`/`hovertext` on those traces) or 3D
+  (`image.z`). The generator currently emits the loose union
+  `Datum[] | Datum[][] | TypedArray` for *every* `data_array` so 2D/3D usage
+  typechecks, but the trade-off is that 1D-only fields also accept 2D arrays.
+
 The published consumer surface lives at [`lib/index.d.ts`](../../lib/index.d.ts).
 This `src/types/` directory is the authoring location — internal types live
 here, public types are re-exported through `lib/index.d.ts` to consumers.

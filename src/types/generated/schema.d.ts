@@ -373,9 +373,9 @@ export interface ColorBar {
     /** Sets a tick label suffix. */
     ticksuffix?: string;
     /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-    ticktext?: Datum[] | TypedArray;
+    ticktext?: Datum[] | Datum[][] | TypedArray;
     /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-    tickvals?: Datum[] | TypedArray;
+    tickvals?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the tick width (in px).
      * @default 1
@@ -476,9 +476,9 @@ export namespace _internal {
 
     export interface ErrorY {
         /** Sets the data corresponding the length of each error bar. Values are plotted relative to the underlying data. */
-        array?: Datum[] | TypedArray;
+        array?: Datum[] | Datum[][] | TypedArray;
         /** Sets the data corresponding the length of each error bar in the bottom (left) direction for vertical (horizontal) bars Values are plotted relative to the underlying data. */
-        arrayminus?: Datum[] | TypedArray;
+        arrayminus?: Datum[] | Datum[][] | TypedArray;
         /** Sets the stroke color of the error bars. */
         color?: Color;
         /** Determines whether or not the error bars have the same length in both direction (top/bottom for vertical bars, left/right for horizontal bars. */
@@ -758,7 +758,7 @@ export interface BarData {
      */
     constraintext?: 'inside' | 'outside' | 'both' | 'none';
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the x coordinate step. See `x0` for more info.
      * @default 1
@@ -771,9 +771,9 @@ export interface BarData {
     dy?: number;
     error_x?: {
         /** Sets the data corresponding the length of each error bar. Values are plotted relative to the underlying data. */
-        array?: Datum[] | TypedArray;
+        array?: Datum[] | Datum[][] | TypedArray;
         /** Sets the data corresponding the length of each error bar in the bottom (left) direction for vertical (horizontal) bars Values are plotted relative to the underlying data. */
-        arrayminus?: Datum[] | TypedArray;
+        arrayminus?: Datum[] | Datum[][] | TypedArray;
         /** Sets the stroke color of the error bars. */
         color?: Color;
         copy_ystyle?: boolean;
@@ -834,7 +834,7 @@ export interface BarData {
     /** Sets hover text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines if texts are kept at center or start/end points in `textposition` *inside* mode.
      * @default 'end'
@@ -1002,7 +1002,7 @@ export interface BarData {
      */
     width?: number | number[];
     /** Sets the x coordinates. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `x`. Builds a linear space of x coordinates. Use with `dx` where `x0` is the starting coordinate and `dx` the step.
      * @default 0
@@ -1033,7 +1033,7 @@ export interface BarData {
      */
     xperiodalignment?: 'start' | 'middle' | 'end';
     /** Sets the y coordinates. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `y`. Builds a linear space of y coordinates. Use with `dy` where `y0` is the starting coordinate and `dy` the step.
      * @default 0
@@ -1074,7 +1074,7 @@ export interface BarpolarData {
     /** Sets where the bar base is drawn (in radial axis units). In *stack* barmode, traces that set *base* will be excluded and drawn in *overlay* mode instead. */
     base?: any;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the r coordinate step.
      * @default 1
@@ -1098,7 +1098,7 @@ export interface BarpolarData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -1183,7 +1183,7 @@ export interface BarpolarData {
      */
     opacity?: number;
     /** Sets the radial coordinates */
-    r?: Datum[] | TypedArray;
+    r?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `r`. Builds a linear space of r coordinates. Use with `dr` where `r0` is the starting coordinate and `dr` the step.
      * @default 0
@@ -1217,7 +1217,7 @@ export interface BarpolarData {
     /** Sets hover text elements associated with each bar. If a single string, the same string appears over all bars. If an array of string, the items are mapped in order to the this trace's coordinates. */
     text?: string | string[];
     /** Sets the angular coordinates */
-    theta?: Datum[] | TypedArray;
+    theta?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `theta`. Builds a linear space of theta coordinates. Use with `dtheta` where `theta0` is the starting coordinate and `dtheta` the step.
      * @default 0
@@ -1265,7 +1265,7 @@ export interface BoxData {
     /** If *outliers*, only the sample points lying outside the whiskers are shown If *suspectedoutliers*, the outlier points are shown and points either less than 4*Q1-3*Q3 or greater than 4*Q3-3*Q1 are highlighted (see `outliercolor`) If *all*, all sample points are shown If *false*, only the box(es) are shown with no sample points Defaults to *suspectedoutliers* when `marker.outliercolor` or `marker.line.outliercolor` is set. Defaults to *all* under the q1/median/q3 signature. Otherwise defaults to *outliers*. */
     boxpoints?: 'all' | 'outliers' | 'suspectedoutliers' | false;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /** Sets the x coordinate step for multi-box traces set using q1/median/q3. */
     dx?: number;
     /** Sets the y coordinate step for multi-box traces set using q1/median/q3. */
@@ -1293,7 +1293,7 @@ export interface BoxData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the amount of jitter in the sample points drawn. If *0*, the sample points align along the distribution axis. If *1*, the sample points are drawn in a random jitter of width equal to the width of the box(es).
      * Range: [0, 1]
@@ -1319,7 +1319,7 @@ export interface BoxData {
     legendwidth?: number;
     line?: _internal.ErrorY;
     /** Sets the lower fence values. There should be as many items as the number of boxes desired. This attribute has effect only under the q1/median/q3 signature. If `lowerfence` is not provided but a sample (in `y` or `x`) is set, we compute the lower as the last sample point below 1.5 times the IQR. */
-    lowerfence?: Datum[] | TypedArray;
+    lowerfence?: Datum[] | Datum[][] | TypedArray;
     marker?: {
         /**
          * Sets the marker angle in respect to `angleref`.
@@ -1373,9 +1373,9 @@ export interface BoxData {
         symbol?: MarkerSymbol;
     };
     /** Sets the mean values. There should be as many items as the number of boxes desired. This attribute has effect only under the q1/median/q3 signature. If `mean` is not provided but a sample (in `y` or `x`) is set, we compute the mean for each box using the sample values. */
-    mean?: Datum[] | TypedArray;
+    mean?: Datum[] | Datum[][] | TypedArray;
     /** Sets the median values. There should be as many items as the number of boxes desired. */
-    median?: Datum[] | TypedArray;
+    median?: Datum[] | Datum[][] | TypedArray;
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
     meta?: any;
     /** Sets the trace name. The trace name appears as the legend item and on hover. For box traces, the name will also be used for the position coordinate, if `x` and `x0` (`y` and `y0` if horizontal) are missing and the position axis is categorical */
@@ -1383,7 +1383,7 @@ export interface BoxData {
     /** Determines whether or not notches are drawn. Notches displays a confidence interval around the median. We compute the confidence interval as median +/- 1.57 * IQR / sqrt(N), where IQR is the interquartile range and N is the sample size. If two boxes' notches do not overlap there is 95% confidence their medians differ. See https://sites.google.com/site/davidsstatistics/home/notched-box-plots for more info. Defaults to *false* unless `notchwidth` or `notchspan` is set. */
     notched?: boolean;
     /** Sets the notch span from the boxes' `median` values. There should be as many items as the number of boxes desired. This attribute has effect only under the q1/median/q3 signature. If `notchspan` is not provided but a sample (in `y` or `x`) is set, we compute it as 1.57 * IQR / sqrt(N), where N is the sample size. */
-    notchspan?: Datum[] | TypedArray;
+    notchspan?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the width of the notches relative to the box width. For example, with 0, the notches are as wide as the box(es).
      * @default 0.25
@@ -1406,16 +1406,16 @@ export interface BoxData {
      */
     pointpos?: number;
     /** Sets the Quartile 1 values. There should be as many items as the number of boxes desired. */
-    q1?: Datum[] | TypedArray;
+    q1?: Datum[] | Datum[][] | TypedArray;
     /** Sets the Quartile 3 values. There should be as many items as the number of boxes desired. */
-    q3?: Datum[] | TypedArray;
+    q3?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the method used to compute the sample's Q1 and Q3 quartiles. The *linear* method uses the 25th percentile for Q1 and 75th percentile for Q3 as computed using method #10 (listed on http://jse.amstat.org/v14n3/langford.html). The *exclusive* method uses the median to divide the ordered dataset into two halves if the sample is odd, it does not include the median in either half - Q1 is then the median of the lower half and Q3 the median of the upper half. The *inclusive* method also uses the median to divide the ordered dataset into two halves but if the sample is odd, it includes the median in both halves - Q1 is then the median of the lower half and Q3 the median of the upper half.
      * @default 'linear'
      */
     quartilemethod?: 'linear' | 'exclusive' | 'inclusive';
     /** Sets the standard deviation values. There should be as many items as the number of boxes desired. This attribute has effect only under the q1/median/q3 signature. If `sd` is not provided but a sample (in `y` or `x`) is set, we compute the standard deviation for each box using the sample values. */
-    sd?: Datum[] | TypedArray;
+    sd?: Datum[] | Datum[][] | TypedArray;
     /**
      * Scales the box size when sizemode=sd Allowing boxes to be drawn across any stddev range For example 1-stddev, 3-stddev, 5-stddev
      * @default 1
@@ -1477,7 +1477,7 @@ export interface BoxData {
         };
     };
     /** Sets the upper fence values. There should be as many items as the number of boxes desired. This attribute has effect only under the q1/median/q3 signature. If `upperfence` is not provided but a sample (in `y` or `x`) is set, we compute the upper as the last sample point above 1.5 times the IQR. */
-    upperfence?: Datum[] | TypedArray;
+    upperfence?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
      * @default true
@@ -1496,7 +1496,7 @@ export interface BoxData {
      */
     width?: number;
     /** Sets the x sample data or coordinates. See overview for more info. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /** Sets the x coordinate for single-box traces or the starting coordinate for multi-box traces set using q1/median/q3. See overview for more info. */
     x0?: any;
     /**
@@ -1524,7 +1524,7 @@ export interface BoxData {
      */
     xperiodalignment?: 'start' | 'middle' | 'end';
     /** Sets the y sample data or coordinates. See overview for more info. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /** Sets the y coordinate for single-box traces or the starting coordinate for multi-box traces set using q1/median/q3. See overview for more info. */
     y0?: any;
     /**
@@ -1560,16 +1560,16 @@ export interface BoxData {
 
 export interface CandlestickData {
     /** Sets the close values. */
-    close?: Datum[] | TypedArray;
+    close?: Datum[] | Datum[][] | TypedArray;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     decreasing?: {
         /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
         fillcolor?: Color;
         line?: _internal.ErrorY;
     };
     /** Sets the high values. */
-    high?: Datum[] | TypedArray;
+    high?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
@@ -1614,7 +1614,7 @@ export interface CandlestickData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     increasing?: {
         /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
         fillcolor?: Color;
@@ -1647,7 +1647,7 @@ export interface CandlestickData {
         width?: number;
     };
     /** Sets the low values. */
-    low?: Datum[] | TypedArray;
+    low?: Datum[] | Datum[][] | TypedArray;
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
     meta?: any;
     /** Sets the trace name. The trace name appears as the legend item and on hover. */
@@ -1659,7 +1659,7 @@ export interface CandlestickData {
      */
     opacity?: number;
     /** Sets the open values. */
-    open?: Datum[] | TypedArray;
+    open?: Datum[] | Datum[][] | TypedArray;
     /** Array containing integer indices of selected points. Has an effect only for traces that support selections. Note that an empty array means an empty selection where the `unselected` are turned on for all points, whereas, any other non-array values means no selection all where the `selected` and `unselected` styles have no effect. */
     selectedpoints?: any;
     /**
@@ -1687,7 +1687,7 @@ export interface CandlestickData {
      */
     whiskerwidth?: number;
     /** Sets the x coordinates. If absent, linear coordinate will be generated. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's x coordinates and a 2D cartesian x axis. If *x* (the default value), the x coordinates refer to `layout.xaxis`. If *x2*, the x coordinates refer to `layout.xaxis2`, and so on.
      * @default 'x'
@@ -1728,7 +1728,7 @@ export interface CandlestickData {
 
 export interface CarpetData {
     /** An array containing values of the first parameter value */
-    a?: Datum[] | TypedArray;
+    a?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `a`. Builds a linear space of a coordinates. Use with `da` where `a0` is the starting coordinate and `da` the step.
      * @default 0
@@ -1758,7 +1758,7 @@ export interface CarpetData {
          */
         autotypenumbers?: 'convert types' | 'strict';
         /** Sets the order in which categories on this axis appear. Only has an effect if `categoryorder` is set to *array*. Used with `categoryorder`. */
-        categoryarray?: Datum[] | TypedArray;
+        categoryarray?: Datum[] | Datum[][] | TypedArray;
         /**
          * Specifies the ordering logic for the case of categorical variables. By default, plotly uses *trace*, which specifies the order that is present in the data supplied. Set `categoryorder` to *category ascending* or *category descending* if order should be determined by the alphanumerical order of the category names. Set `categoryorder` to *array* to derive the ordering from the attribute `categoryarray`. If a category is not found in the `categoryarray` array, the sorting behavior for that attribute will be identical to the *trace* mode. The unspecified categories will follow the categories in `categoryarray`.
          * @default 'trace'
@@ -1948,9 +1948,9 @@ export interface CarpetData {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         title?: {
             /** Sets this axis' title font. */
             font?: Font;
@@ -1969,7 +1969,7 @@ export interface CarpetData {
         type?: '-' | 'linear' | 'date' | 'category';
     };
     /** A two dimensional array of y coordinates at each carpet point. */
-    b?: Datum[] | TypedArray;
+    b?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `b`. Builds a linear space of a coordinates. Use with `db` where `b0` is the starting coordinate and `db` the step.
      * @default 0
@@ -1999,7 +1999,7 @@ export interface CarpetData {
          */
         autotypenumbers?: 'convert types' | 'strict';
         /** Sets the order in which categories on this axis appear. Only has an effect if `categoryorder` is set to *array*. Used with `categoryorder`. */
-        categoryarray?: Datum[] | TypedArray;
+        categoryarray?: Datum[] | Datum[][] | TypedArray;
         /**
          * Specifies the ordering logic for the case of categorical variables. By default, plotly uses *trace*, which specifies the order that is present in the data supplied. Set `categoryorder` to *category ascending* or *category descending* if order should be determined by the alphanumerical order of the category names. Set `categoryorder` to *array* to derive the ordering from the attribute `categoryarray`. If a category is not found in the `categoryarray` array, the sorting behavior for that attribute will be identical to the *trace* mode. The unspecified categories will follow the categories in `categoryarray`.
          * @default 'trace'
@@ -2189,9 +2189,9 @@ export interface CarpetData {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         title?: {
             /** Sets this axis' title font. */
             font?: Font;
@@ -2222,7 +2222,7 @@ export interface CarpetData {
      */
     color?: Color;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the a coordinate step. See `a0` for more info.
      * @default 1
@@ -2236,7 +2236,7 @@ export interface CarpetData {
     /** The default font used for axis & tick labels on this carpet */
     font?: Font;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -2275,14 +2275,14 @@ export interface CarpetData {
      */
     visible?: true | false | 'legendonly';
     /** A two dimensional array of x coordinates at each carpet point. If omitted, the plot is a cheater plot and the xaxis is hidden by default. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's x coordinates and a 2D cartesian x axis. If *x* (the default value), the x coordinates refer to `layout.xaxis`. If *x2*, the x coordinates refer to `layout.xaxis2`, and so on.
      * @default 'x'
      */
     xaxis?: string;
     /** A two dimensional array of y coordinates at each carpet point. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's y coordinates and a 2D cartesian y axis. If *y* (the default value), the y coordinates refer to `layout.yaxis`. If *y2*, the y coordinates refer to `layout.yaxis2`, and so on.
      * @default 'y'
@@ -2310,7 +2310,7 @@ export interface ChoroplethData {
      */
     colorscale?: ColorScale;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the key in GeoJSON features which is used as id to match the items included in the `locations` array. Only has an effect when `geojson` is set. Support nested property, for example *properties.name*.
      * @default 'id'
@@ -2339,7 +2339,7 @@ export interface ChoroplethData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -2364,7 +2364,7 @@ export interface ChoroplethData {
      */
     locationmode?: 'ISO-3' | 'USA-states' | 'country names' | 'geojson-id';
     /** Sets the coordinates via location IDs or names. See `locationmode` for more info. */
-    locations?: Datum[] | TypedArray;
+    locations?: Datum[] | Datum[][] | TypedArray;
     marker?: {
         line?: _internal.Line;
         /**
@@ -2427,7 +2427,7 @@ export interface ChoroplethData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the color values. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -2464,7 +2464,7 @@ export interface ChoroplethmapData {
      */
     colorscale?: ColorScale;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the key in GeoJSON features which is used as id to match the items included in the `locations` array. Support nested property, for example *properties.name*.
      * @default 'id'
@@ -2488,7 +2488,7 @@ export interface ChoroplethmapData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -2508,7 +2508,7 @@ export interface ChoroplethmapData {
      */
     legendwidth?: number;
     /** Sets which features found in *geojson* to plot using their feature `id` field. */
-    locations?: Datum[] | TypedArray;
+    locations?: Datum[] | Datum[][] | TypedArray;
     marker?: {
         line?: _internal.Line;
         /**
@@ -2576,7 +2576,7 @@ export interface ChoroplethmapData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the color values. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -2613,7 +2613,7 @@ export interface ChoroplethmapboxData {
      */
     colorscale?: ColorScale;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the key in GeoJSON features which is used as id to match the items included in the `locations` array. Support nested property, for example *properties.name*.
      * @default 'id'
@@ -2637,7 +2637,7 @@ export interface ChoroplethmapboxData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -2657,7 +2657,7 @@ export interface ChoroplethmapboxData {
      */
     legendwidth?: number;
     /** Sets which features found in *geojson* to plot using their feature `id` field. */
-    locations?: Datum[] | TypedArray;
+    locations?: Datum[] | Datum[][] | TypedArray;
     marker?: {
         line?: _internal.Line;
         /**
@@ -2725,7 +2725,7 @@ export interface ChoroplethmapboxData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the color values. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -2782,7 +2782,7 @@ export interface ConeData {
      */
     colorscale?: ColorScale;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'x+y+z+norm+text+name'
@@ -2799,7 +2799,7 @@ export interface ConeData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -2884,7 +2884,7 @@ export interface ConeData {
     text?: string | string[];
     type?: 'cone';
     /** Sets the x components of the vector field. */
-    u?: Datum[] | TypedArray;
+    u?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `u` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
     uhoverformat?: string;
     /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
@@ -2892,7 +2892,7 @@ export interface ConeData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the y components of the vector field. */
-    v?: Datum[] | TypedArray;
+    v?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `v` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
     vhoverformat?: string;
     /**
@@ -2901,19 +2901,19 @@ export interface ConeData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the z components of the vector field. */
-    w?: Datum[] | TypedArray;
+    w?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `w` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
     whoverformat?: string;
     /** Sets the x coordinates of the vector field and of the displayed cones. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the y coordinates of the vector field and of the displayed cones. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
     yhoverformat?: string;
     /** Sets the z coordinates of the vector field and of the displayed cones. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `z` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `zaxis.hoverformat`. */
     zhoverformat?: string;
 }
@@ -2995,7 +2995,7 @@ export interface ContourData {
         value?: any;
     };
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the x coordinate step. See `x0` for more info.
      * @default 1
@@ -3029,9 +3029,9 @@ export interface ContourData {
      */
     hovertemplatefallback?: any;
     /** Same as `text`. */
-    hovertext?: Datum[] | TypedArray;
+    hovertext?: Datum[] | Datum[][] | TypedArray;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -3103,7 +3103,7 @@ export interface ContourData {
     showscale?: boolean;
     stream?: _internal.Stream;
     /** Sets the text elements associated with each z value. */
-    text?: Datum[] | TypedArray;
+    text?: Datum[] | Datum[][] | TypedArray;
     /** For this trace it only has an effect if `coloring` is set to *heatmap*. Sets the text font. */
     textfont?: Font;
     /** For this trace it only has an effect if `coloring` is set to *heatmap*. Template string used for rendering the information text that appears on points. Note that this will override `textinfo`. Variables are inserted using %{variable}, for example "y: %{y}". Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. All attributes that can be specified per-point (the ones that are `arrayOk: true`) are available. Finally, the template string has access to variables `x`, `y`, `z` and `text`. */
@@ -3132,7 +3132,7 @@ export interface ContourData {
      * Sets the x coordinates.
      * Setting this also sets: xtype = "array"
      */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `x`. Builds a linear space of x coordinates. Use with `dx` where `x0` is the starting coordinate and `dx` the step.
      * @default 0
@@ -3171,7 +3171,7 @@ export interface ContourData {
      * Sets the y coordinates.
      * Setting this also sets: ytype = "array"
      */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `y`. Builds a linear space of y coordinates. Use with `dy` where `y0` is the starting coordinate and `dy` the step.
      * @default 0
@@ -3207,7 +3207,7 @@ export interface ContourData {
     /** If *array*, the heatmap's y coordinates are given by *y* (the default behavior when `y` is provided) If *scaled*, the heatmap's y coordinates are given by *y0* and *dy* (the default behavior when `y` is not provided) */
     ytype?: 'array' | 'scaled';
     /** Sets the z data. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -3239,7 +3239,7 @@ export interface ContourcarpetData {
      * Sets the x coordinates.
      * Setting this also sets: xtype = "array"
      */
-    a?: Datum[] | TypedArray;
+    a?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `x`. Builds a linear space of x coordinates. Use with `dx` where `x0` is the starting coordinate and `dx` the step.
      * @default 0
@@ -3262,7 +3262,7 @@ export interface ContourcarpetData {
      * Sets the y coordinates.
      * Setting this also sets: ytype = "array"
      */
-    b?: Datum[] | TypedArray;
+    b?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `y`. Builds a linear space of y coordinates. Use with `dy` where `y0` is the starting coordinate and `dy` the step.
      * @default 0
@@ -3337,7 +3337,7 @@ export interface ContourcarpetData {
         value?: any;
     };
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the x coordinate step. See `x0` for more info.
      * @default 1
@@ -3353,9 +3353,9 @@ export interface ContourcarpetData {
     /** Sets the fill color if `contours.type` is *constraint*. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /** Same as `text`. */
-    hovertext?: Datum[] | TypedArray;
+    hovertext?: Datum[] | Datum[][] | TypedArray;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -3427,7 +3427,7 @@ export interface ContourcarpetData {
     showscale?: boolean;
     stream?: _internal.Stream;
     /** Sets the text elements associated with each z value. */
-    text?: Datum[] | TypedArray;
+    text?: Datum[] | Datum[][] | TypedArray;
     /**
      * Transposes the z data.
      * @default false
@@ -3454,7 +3454,7 @@ export interface ContourcarpetData {
      */
     yaxis?: string;
     /** Sets the z data. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -3496,7 +3496,7 @@ export interface DensitymapData {
      */
     colorscale?: ColorScale;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
@@ -3513,9 +3513,9 @@ export interface DensitymapData {
     /** Sets hover text elements associated with each (lon,lat) pair If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the latitude coordinates (in degrees North). */
-    lat?: Datum[] | TypedArray;
+    lat?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -3535,7 +3535,7 @@ export interface DensitymapData {
      */
     legendwidth?: number;
     /** Sets the longitude coordinates (in degrees East). */
-    lon?: Datum[] | TypedArray;
+    lon?: Datum[] | Datum[][] | TypedArray;
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
     meta?: any;
     /** Sets the trace name. The trace name appears as the legend item and on hover. */
@@ -3586,7 +3586,7 @@ export interface DensitymapData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the points' weight. For example, a value of 10 would be equivalent to having 10 points of weight 1 in the same spot */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -3623,7 +3623,7 @@ export interface DensitymapboxData {
      */
     colorscale?: ColorScale;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
@@ -3640,9 +3640,9 @@ export interface DensitymapboxData {
     /** Sets hover text elements associated with each (lon,lat) pair If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the latitude coordinates (in degrees North). */
-    lat?: Datum[] | TypedArray;
+    lat?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -3662,7 +3662,7 @@ export interface DensitymapboxData {
      */
     legendwidth?: number;
     /** Sets the longitude coordinates (in degrees East). */
-    lon?: Datum[] | TypedArray;
+    lon?: Datum[] | Datum[][] | TypedArray;
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
     meta?: any;
     /** Sets the trace name. The trace name appears as the legend item and on hover. */
@@ -3713,7 +3713,7 @@ export interface DensitymapboxData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the points' weight. For example, a value of 10 would be equivalent to having 10 points of weight 1 in the same spot */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -3774,7 +3774,7 @@ export interface FunnelData {
      */
     constraintext?: 'inside' | 'outside' | 'both' | 'none';
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the x coordinate step. See `x0` for more info.
      * @default 1
@@ -3801,7 +3801,7 @@ export interface FunnelData {
     /** Sets hover text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines if texts are kept at center or start/end points in `textposition` *inside* mode.
      * @default 'middle'
@@ -3943,7 +3943,7 @@ export interface FunnelData {
      */
     width?: number;
     /** Sets the x coordinates. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `x`. Builds a linear space of x coordinates. Use with `dx` where `x0` is the starting coordinate and `dx` the step.
      * @default 0
@@ -3969,7 +3969,7 @@ export interface FunnelData {
      */
     xperiodalignment?: 'start' | 'middle' | 'end';
     /** Sets the y coordinates. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `y`. Builds a linear space of y coordinates. Use with `dy` where `y0` is the starting coordinate and `dy` the step.
      * @default 0
@@ -4015,7 +4015,7 @@ export interface FunnelareaData {
      */
     baseratio?: number;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the label step. See `label0` for more info.
      * @default 1
@@ -4038,7 +4038,7 @@ export interface FunnelareaData {
     /** Sets hover text elements associated with each sector. If a single string, the same string appears for all data points. If an array of string, the items are mapped in order of this trace's sectors. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo` lying inside the sector. */
     insidetextfont?: FontArray;
     /**
@@ -4047,7 +4047,7 @@ export interface FunnelareaData {
      */
     label0?: number;
     /** Sets the sector labels. If `labels` entries are duplicated, we sum associated `values` or simply count occurrences if `values` is not provided. For other array attributes (including color) we use the first non-empty entry among all occurrences of the label. */
-    labels?: Datum[] | TypedArray;
+    labels?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -4068,7 +4068,7 @@ export interface FunnelareaData {
     legendwidth?: number;
     marker?: {
         /** Sets the color of each sector. If not specified, the default trace color set is used to pick the sector colors. */
-        colors?: Datum[] | TypedArray;
+        colors?: Datum[] | Datum[][] | TypedArray;
         line?: _internal.Line;
         /** Sets the pattern within the marker. */
         pattern?: Pattern;
@@ -4092,7 +4092,7 @@ export interface FunnelareaData {
     showlegend?: boolean;
     stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
-    text?: Datum[] | TypedArray;
+    text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
     /** Determines which trace information appear on the graph. */
@@ -4126,7 +4126,7 @@ export interface FunnelareaData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the values of the sectors. If omitted, we count occurrences of each label. */
-    values?: Datum[] | TypedArray;
+    values?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
      * @default true
@@ -4151,7 +4151,7 @@ export interface HeatmapData {
     /** Determines whether or not gaps (i.e. {nan} or missing values) in the `z` data are filled in. It is defaulted to true if `z` is a one dimensional array and `zsmooth` is not false; otherwise it is defaulted to false. */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the x coordinate step. See `x0` for more info.
      * @default 1
@@ -4183,9 +4183,9 @@ export interface HeatmapData {
      */
     hovertemplatefallback?: any;
     /** Same as `text`. */
-    hovertext?: Datum[] | TypedArray;
+    hovertext?: Datum[] | Datum[][] | TypedArray;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -4231,7 +4231,7 @@ export interface HeatmapData {
     showscale?: boolean;
     stream?: _internal.Stream;
     /** Sets the text elements associated with each z value. */
-    text?: Datum[] | TypedArray;
+    text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the text font. */
     textfont?: Font;
     /** Template string used for rendering the information text that appears on points. Note that this will override `textinfo`. Variables are inserted using %{variable}, for example "y: %{y}". Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. All attributes that can be specified per-point (the ones that are `arrayOk: true`) are available. Finally, the template string has access to variables `x`, `y`, `z` and `text`. */
@@ -4260,7 +4260,7 @@ export interface HeatmapData {
      * Sets the x coordinates.
      * Setting this also sets: xtype = "array"
      */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `x`. Builds a linear space of x coordinates. Use with `dx` where `x0` is the starting coordinate and `dx` the step.
      * @default 0
@@ -4308,7 +4308,7 @@ export interface HeatmapData {
      * Sets the y coordinates.
      * Setting this also sets: ytype = "array"
      */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `y`. Builds a linear space of y coordinates. Use with `dy` where `y0` is the starting coordinate and `dy` the step.
      * @default 0
@@ -4353,7 +4353,7 @@ export interface HeatmapData {
     /** If *array*, the heatmap's y coordinates are given by *y* (the default behavior when `y` is provided) If *scaled*, the heatmap's y coordinates are given by *y0* and *dy* (the default behavior when `y` is not provided) */
     ytype?: 'array' | 'scaled';
     /** Sets the z data. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -4422,12 +4422,12 @@ export interface HistogramData {
         enabled?: boolean;
     };
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     error_x?: {
         /** Sets the data corresponding the length of each error bar. Values are plotted relative to the underlying data. */
-        array?: Datum[] | TypedArray;
+        array?: Datum[] | Datum[][] | TypedArray;
         /** Sets the data corresponding the length of each error bar in the bottom (left) direction for vertical (horizontal) bars Values are plotted relative to the underlying data. */
-        arrayminus?: Datum[] | TypedArray;
+        arrayminus?: Datum[] | Datum[][] | TypedArray;
         /** Sets the stroke color of the error bars. */
         color?: Color;
         copy_ystyle?: boolean;
@@ -4495,7 +4495,7 @@ export interface HistogramData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines if texts are kept at center or start/end points in `textposition` *inside* mode.
      * @default 'end'
@@ -4668,7 +4668,7 @@ export interface HistogramData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the sample data to be binned on the x axis. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's x coordinates and a 2D cartesian x axis. If *x* (the default value), the x coordinates refer to `layout.xaxis`. If *x2*, the x coordinates refer to `layout.xaxis2`, and so on.
      * @default 'x'
@@ -4690,7 +4690,7 @@ export interface HistogramData {
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the sample data to be binned on the y axis. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's y coordinates and a 2D cartesian y axis. If *y* (the default value), the y coordinates refer to `layout.yaxis`. If *y2*, the y coordinates refer to `layout.yaxis2`, and so on.
      * @default 'y'
@@ -4739,7 +4739,7 @@ export interface Histogram2dData {
      */
     colorscale?: ColorScale;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Specifies the binning function used for this histogram trace. If *count*, the histogram values are computed by counting the number of values lying inside each bin. If *sum*, *avg*, *min*, *max*, the histogram values are computed using the sum, the average, the minimum or the maximum of the values lying inside each bin respectively.
      * @default 'count'
@@ -4761,7 +4761,7 @@ export interface Histogram2dData {
      */
     hovertemplatefallback?: any;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -4782,7 +4782,7 @@ export interface Histogram2dData {
     legendwidth?: number;
     marker?: {
         /** Sets the aggregation data. */
-        color?: Datum[] | TypedArray;
+        color?: Datum[] | Datum[][] | TypedArray;
     };
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
     meta?: any;
@@ -4842,7 +4842,7 @@ export interface Histogram2dData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the sample data to be binned on the x axis. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's x coordinates and a 2D cartesian x axis. If *x* (the default value), the x coordinates refer to `layout.xaxis`. If *x2*, the x coordinates refer to `layout.xaxis2`, and so on.
      * @default 'x'
@@ -4872,7 +4872,7 @@ export interface Histogram2dData {
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the sample data to be binned on the y axis. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's y coordinates and a 2D cartesian y axis. If *y* (the default value), the y coordinates refer to `layout.yaxis`. If *y2*, the y coordinates refer to `layout.yaxis2`, and so on.
      * @default 'y'
@@ -4902,7 +4902,7 @@ export interface Histogram2dData {
     /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
     yhoverformat?: string;
     /** Sets the aggregation data. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -5010,7 +5010,7 @@ export interface Histogram2dcontourData {
         value?: any;
     };
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Specifies the binning function used for this histogram trace. If *count*, the histogram values are computed by counting the number of values lying inside each bin. If *sum*, *avg*, *min*, *max*, the histogram values are computed using the sum, the average, the minimum or the maximum of the values lying inside each bin respectively.
      * @default 'count'
@@ -5032,7 +5032,7 @@ export interface Histogram2dcontourData {
      */
     hovertemplatefallback?: any;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -5074,7 +5074,7 @@ export interface Histogram2dcontourData {
     };
     marker?: {
         /** Sets the aggregation data. */
-        color?: Datum[] | TypedArray;
+        color?: Datum[] | Datum[][] | TypedArray;
     };
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
     meta?: any;
@@ -5140,7 +5140,7 @@ export interface Histogram2dcontourData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the sample data to be binned on the x axis. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's x coordinates and a 2D cartesian x axis. If *x* (the default value), the x coordinates refer to `layout.xaxis`. If *x2*, the x coordinates refer to `layout.xaxis2`, and so on.
      * @default 'x'
@@ -5164,7 +5164,7 @@ export interface Histogram2dcontourData {
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the sample data to be binned on the y axis. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's y coordinates and a 2D cartesian y axis. If *y* (the default value), the y coordinates refer to `layout.yaxis`. If *y2*, the y coordinates refer to `layout.yaxis2`, and so on.
      * @default 'y'
@@ -5188,7 +5188,7 @@ export interface Histogram2dcontourData {
     /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
     yhoverformat?: string;
     /** Sets the aggregation data. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
      * @default true
@@ -5222,7 +5222,7 @@ export interface IcicleData {
      */
     count?: 'branches' | 'leaves' | (string & {});
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     domain?: Domain;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
@@ -5240,11 +5240,11 @@ export interface IcicleData {
     /** Sets hover text elements associated with each sector. If a single string, the same string appears for all data points. If an array of string, the items are mapped in order of this trace's sectors. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo` lying inside the sector. */
     insidetextfont?: FontArray;
     /** Sets the labels of each of the sectors. */
-    labels?: Datum[] | TypedArray;
+    labels?: Datum[] | Datum[][] | TypedArray;
     leaf?: {
         /**
          * Sets the opacity of the leaves. With colorscale it is defaulted to 1; otherwise it is defaulted to 0.7
@@ -5297,7 +5297,7 @@ export interface IcicleData {
         coloraxis?: string;
         colorbar?: ColorBar;
         /** Sets the color of each sector of this trace. If not specified, the default trace color set is used to pick the sector colors. */
-        colors?: Datum[] | TypedArray;
+        colors?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the colorscale. Has an effect only if colors is set to a numerical array. The colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsv, or named color string. At minimum, a mapping for the lowest (0) and highest (1) values are required. For example, `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`. To control the bounds of the colorscale in color space, use `marker.cmin` and `marker.cmax`. Alternatively, `colorscale` may be a palette name string of the following list: Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd.
          * Setting this also sets: autocolorscale = false
@@ -5335,7 +5335,7 @@ export interface IcicleData {
     /** Sets the font used for `textinfo` lying outside the sector. This option refers to the root of the hierarchy presented on top left corner of a treemap graph. Please note that if a hierarchy has multiple root nodes, this option won't have any effect and `insidetextfont` would be used. */
     outsidetextfont?: FontArray;
     /** Sets the parent sectors for each of the sectors. Empty string items '' are understood to reference the root node in the hierarchy. If `ids` is filled, `parents` items are understood to be "ids" themselves. When `ids` is not set, plotly attempts to find matching items in `labels`, but beware they must be unique. */
-    parents?: Datum[] | TypedArray;
+    parents?: Datum[] | Datum[][] | TypedArray;
     pathbar?: {
         /**
          * Determines which shape is used for edges between `barpath` labels.
@@ -5368,7 +5368,7 @@ export interface IcicleData {
     sort?: boolean;
     stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
-    text?: Datum[] | TypedArray;
+    text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
     /** Determines which trace information appear on the graph. */
@@ -5406,7 +5406,7 @@ export interface IcicleData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the values associated with each of the sectors. Use with `branchvalues` to determine how the values are summed. */
-    values?: Datum[] | TypedArray;
+    values?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
      * @default true
@@ -5418,7 +5418,7 @@ export interface ImageData {
     /** Color model used to map the numerical color components described in `z` into colors. If `source` is specified, this attribute will be set to `rgba256` otherwise it defaults to `rgb`. */
     colormodel?: 'rgb' | 'rgba' | 'rgba256' | 'hsl' | 'hsla';
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Set the pixel's horizontal size.
      * @default 1
@@ -5443,9 +5443,9 @@ export interface ImageData {
      */
     hovertemplatefallback?: any;
     /** Same as `text`. */
-    hovertext?: Datum[] | TypedArray;
+    hovertext?: Datum[] | Datum[][] | TypedArray;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -5476,7 +5476,7 @@ export interface ImageData {
     source?: string;
     stream?: _internal.Stream;
     /** Sets the text elements associated with each z value. */
-    text?: Datum[] | TypedArray;
+    text?: Datum[] | Datum[][] | TypedArray;
     type?: 'image';
     /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
     uid?: string;
@@ -5508,7 +5508,7 @@ export interface ImageData {
      */
     yaxis?: string;
     /** A 2-dimensional array in which each element is an array of 3 or 4 numbers representing a color. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /** Array defining the higher bound for each color component. Note that the default value will depend on the colormodel. For the `rgb` colormodel, it is [255, 255, 255]. For the `rgba` colormodel, it is [255, 255, 255, 1]. For the `rgba256` colormodel, it is [255, 255, 255, 255]. For the `hsl` colormodel, it is [360, 100, 100]. For the `hsla` colormodel, it is [360, 100, 100, 1]. */
     zmax?: [number, number, number, number];
     /** Array defining the lower bound for each color component. Note that the default value will depend on the colormodel. For the `rgb` colormodel, it is [0, 0, 0]. For the `rgba` colormodel, it is [0, 0, 0, 0]. For the `rgba256` colormodel, it is [0, 0, 0, 0]. For the `hsl` colormodel, it is [0, 0, 0]. For the `hsla` colormodel, it is [0, 0, 0, 0]. */
@@ -5529,7 +5529,7 @@ export interface IndicatorData {
     /** Sets the horizontal alignment of the `text` within the box. Note that this attribute has no effect if an angular gauge is displayed: in this case, it is always centered */
     align?: 'left' | 'center' | 'right';
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     delta?: {
         decreasing?: {
             /**
@@ -5678,9 +5678,9 @@ export interface IndicatorData {
             /** Sets a tick label suffix. */
             ticksuffix?: string;
             /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-            ticktext?: Datum[] | TypedArray;
+            ticktext?: Datum[] | Datum[][] | TypedArray;
             /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-            tickvals?: Datum[] | TypedArray;
+            tickvals?: Datum[] | Datum[][] | TypedArray;
             /**
              * Sets the tick width (in px).
              * @default 1
@@ -5759,7 +5759,7 @@ export interface IndicatorData {
         };
     };
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -5909,7 +5909,7 @@ export interface IsosurfaceData {
         width?: number;
     };
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not normal smoothing is applied to the meshes, creating meshes with an angular, low-poly look via flat reflections.
      * @default true
@@ -5931,7 +5931,7 @@ export interface IsosurfaceData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the maximum boundary for iso-surface plot. */
     isomax?: number;
     /** Sets the minimum boundary for iso-surface plot. */
@@ -6017,7 +6017,7 @@ export interface IsosurfaceData {
              * Specifies the location(s) of slices on the axis. When not specified slices would be created for all points of the axis x except start and end.
              * @default []
              */
-            locations?: Datum[] | TypedArray;
+            locations?: Datum[] | Datum[][] | TypedArray;
             /**
              * Determines whether or not slice planes about the x dimension are drawn.
              * @default false
@@ -6035,7 +6035,7 @@ export interface IsosurfaceData {
              * Specifies the location(s) of slices on the axis. When not specified slices would be created for all points of the axis y except start and end.
              * @default []
              */
-            locations?: Datum[] | TypedArray;
+            locations?: Datum[] | Datum[][] | TypedArray;
             /**
              * Determines whether or not slice planes about the y dimension are drawn.
              * @default false
@@ -6053,7 +6053,7 @@ export interface IsosurfaceData {
              * Specifies the location(s) of slices on the axis. When not specified slices would be created for all points of the axis z except start and end.
              * @default []
              */
-            locations?: Datum[] | TypedArray;
+            locations?: Datum[] | Datum[][] | TypedArray;
             /**
              * Determines whether or not slice planes about the z dimension are drawn.
              * @default false
@@ -6107,7 +6107,7 @@ export interface IsosurfaceData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the 4th dimension (value) of the vertices. */
-    value?: Datum[] | TypedArray;
+    value?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `value` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
     valuehoverformat?: string;
     /**
@@ -6116,15 +6116,15 @@ export interface IsosurfaceData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the X coordinates of the vertices on X axis. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the Y coordinates of the vertices on Y axis. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
     yhoverformat?: string;
     /** Sets the Z coordinates of the vertices on Z axis. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `z` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `zaxis.hoverformat`. */
     zhoverformat?: string;
 }
@@ -6186,14 +6186,14 @@ export interface Mesh3dData {
         width?: number;
     };
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the Delaunay axis, which is the axis that is perpendicular to the surface of the Delaunay triangulation. It has an effect if `i`, `j`, `k` are not provided and `alphahull` is set to indicate Delaunay triangulation.
      * @default 'z'
      */
     delaunayaxis?: 'x' | 'y' | 'z';
     /** Sets the color of each face Overrides *color* and *vertexcolor*. */
-    facecolor?: Datum[] | TypedArray;
+    facecolor?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not normal smoothing is applied to the meshes, creating meshes with an angular, low-poly look via flat reflections.
      * @default false
@@ -6215,20 +6215,20 @@ export interface Mesh3dData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** A vector of vertex indices, i.e. integer values between 0 and the length of the vertex vectors, representing the *first* vertex of a triangle. For example, `{i[m], j[m], k[m]}` together represent face m (triangle m) in the mesh, where `i[m] = n` points to the triplet `{x[n], y[n], z[n]}` in the vertex arrays. Therefore, each element in `i` represents a point in space, which is the first vertex of a triangle. */
-    i?: Datum[] | TypedArray;
+    i?: Datum[] | Datum[][] | TypedArray;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the intensity values for vertices or cells as defined by `intensitymode`. It can be used for plotting fields on meshes. */
-    intensity?: Datum[] | TypedArray;
+    intensity?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines the source of `intensity` values.
      * @default 'vertex'
      */
     intensitymode?: 'vertex' | 'cell';
     /** A vector of vertex indices, i.e. integer values between 0 and the length of the vertex vectors, representing the *second* vertex of a triangle. For example, `{i[m], j[m], k[m]}` together represent face m (triangle m) in the mesh, where `j[m] = n` points to the triplet `{x[n], y[n], z[n]}` in the vertex arrays. Therefore, each element in `j` represents a point in space, which is the second vertex of a triangle. */
-    j?: Datum[] | TypedArray;
+    j?: Datum[] | Datum[][] | TypedArray;
     /** A vector of vertex indices, i.e. integer values between 0 and the length of the vertex vectors, representing the *third* vertex of a triangle. For example, `{i[m], j[m], k[m]}` together represent face m (triangle m) in the mesh, where `k[m] = n` points to the triplet `{x[n], y[n], z[n]}` in the vertex arrays. Therefore, each element in `k` represents a point in space, which is the third vertex of a triangle. */
-    k?: Datum[] | TypedArray;
+    k?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -6307,14 +6307,14 @@ export interface Mesh3dData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the color of each vertex Overrides *color*. While Red, green and blue colors are in the range of 0 and 255; in the case of having vertex color data in RGBA format, the alpha color should be normalized to be between 0 and 1. */
-    vertexcolor?: Datum[] | TypedArray;
+    vertexcolor?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
      * @default true
      */
     visible?: true | false | 'legendonly';
     /** Sets the X coordinates of the vertices. The nth element of vectors `x`, `y` and `z` jointly represent the X, Y and Z coordinates of the nth vertex. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the calendar system to use with `x` date data.
      * @default 'gregorian'
@@ -6323,7 +6323,7 @@ export interface Mesh3dData {
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the Y coordinates of the vertices. The nth element of vectors `x`, `y` and `z` jointly represent the X, Y and Z coordinates of the nth vertex. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the calendar system to use with `y` date data.
      * @default 'gregorian'
@@ -6332,7 +6332,7 @@ export interface Mesh3dData {
     /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
     yhoverformat?: string;
     /** Sets the Z coordinates of the vertices. The nth element of vectors `x`, `y` and `z` jointly represent the X, Y and Z coordinates of the nth vertex. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the calendar system to use with `z` date data.
      * @default 'gregorian'
@@ -6344,9 +6344,9 @@ export interface Mesh3dData {
 
 export interface OhlcData {
     /** Sets the close values. */
-    close?: Datum[] | TypedArray;
+    close?: Datum[] | Datum[][] | TypedArray;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     decreasing?: {
         line?: {
             /**
@@ -6368,7 +6368,7 @@ export interface OhlcData {
         };
     };
     /** Sets the high values. */
-    high?: Datum[] | TypedArray;
+    high?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
@@ -6413,7 +6413,7 @@ export interface OhlcData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     increasing?: {
         line?: {
             /**
@@ -6466,7 +6466,7 @@ export interface OhlcData {
         width?: number;
     };
     /** Sets the low values. */
-    low?: Datum[] | TypedArray;
+    low?: Datum[] | Datum[][] | TypedArray;
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
     meta?: any;
     /** Sets the trace name. The trace name appears as the legend item and on hover. */
@@ -6478,7 +6478,7 @@ export interface OhlcData {
      */
     opacity?: number;
     /** Sets the open values. */
-    open?: Datum[] | TypedArray;
+    open?: Datum[] | Datum[][] | TypedArray;
     /** Array containing integer indices of selected points. Has an effect only for traces that support selections. Note that an empty array means an empty selection where the `unselected` are turned on for all points, whereas, any other non-array values means no selection all where the `selected` and `unselected` styles have no effect. */
     selectedpoints?: any;
     /**
@@ -6506,7 +6506,7 @@ export interface OhlcData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the x coordinates. If absent, linear coordinate will be generated. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets a reference between this trace's x coordinates and a 2D cartesian x axis. If *x* (the default value), the x coordinates refer to `layout.xaxis`. If *x2*, the x coordinates refer to `layout.xaxis2`, and so on.
      * @default 'x'
@@ -6564,7 +6564,7 @@ export interface ParcatsData {
     counts?: number | number[];
     dimensions?: Array<{
         /** Sets the order in which categories in this dimension appear. Only has an effect if `categoryorder` is set to *array*. Used with `categoryorder`. */
-        categoryarray?: Datum[] | TypedArray;
+        categoryarray?: Datum[] | Datum[][] | TypedArray;
         /**
          * Specifies the ordering logic for the categories in the dimension. By default, plotly uses *trace*, which specifies the order that is present in the data supplied. Set `categoryorder` to *category ascending* or *category descending* if order should be determined by the alphanumerical order of the category names. Set `categoryorder` to *array* to derive the ordering from the attribute `categoryarray`. If a category is not found in the `categoryarray` array, the sorting behavior for that attribute will be identical to the *trace* mode. The unspecified categories will follow the categories in `categoryarray`.
          * @default 'trace'
@@ -6575,12 +6575,12 @@ export interface ParcatsData {
         /** The shown name of the dimension. */
         label?: string;
         /** Sets alternative tick labels for the categories in this dimension. Only has an effect if `categoryorder` is set to *array*. Should be an array the same length as `categoryarray` Used with `categoryorder`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /**
          * Dimension values. `values[n]` represents the category value of the `n`th point in the dataset, therefore the `values` vector for all dimensions must be the same (longer vectors will be truncated).
          * @default []
          */
-        values?: Datum[] | TypedArray;
+        values?: Datum[] | Datum[][] | TypedArray;
         /**
          * Shows the dimension when set to `true` (the default). Hides the dimension for `false`.
          * @default true
@@ -6695,7 +6695,7 @@ export interface ParcatsData {
 
 export interface ParcoordsData {
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     dimensions?: Array<{
         /** The domain range to which the filter on the dimension is constrained. Must be an array of `[fromValue, toValue]` with `fromValue <= toValue`, or if `multiselect` is not disabled, you may give an array of arrays, where each inner array is `[fromValue, toValue]`. */
         constraintrange?: any[];
@@ -6715,11 +6715,11 @@ export interface ParcoordsData {
         /** Sets the tick label formatting rule using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46* */
         tickformat?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /** Dimension values. `values[n]` represents the value of the `n`th point in the dataset, therefore the `values` vector for all dimensions must be the same (longer vectors will be truncated). Each value must be a finite number. */
-        values?: Datum[] | TypedArray;
+        values?: Datum[] | Datum[][] | TypedArray;
         /**
          * Shows the dimension when set to `true` (the default). Hides the dimension for `false`.
          * @default true
@@ -6728,7 +6728,7 @@ export interface ParcoordsData {
     }>;
     domain?: Domain;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the angle of the labels with respect to the horizontal. For example, a `tickangle` of -90 draws the labels vertically. Tilted labels with *labelangle* may be positioned better inside margins when `labelposition` is set to *bottom*.
      * @default 0
@@ -6845,7 +6845,7 @@ export interface PieData {
      */
     automargin?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Specifies the direction at which succeeding sectors follow one another.
      * @default 'counterclockwise'
@@ -6879,7 +6879,7 @@ export interface PieData {
     /** Sets hover text elements associated with each sector. If a single string, the same string appears for all data points. If an array of string, the items are mapped in order of this trace's sectors. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo` lying inside the sector. */
     insidetextfont?: FontArray;
     /**
@@ -6893,7 +6893,7 @@ export interface PieData {
      */
     label0?: number;
     /** Sets the sector labels. If `labels` entries are duplicated, we sum associated `values` or simply count occurrences if `values` is not provided. For other array attributes (including color) we use the first non-empty entry among all occurrences of the label. */
-    labels?: Datum[] | TypedArray;
+    labels?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show the pie slices in. Can be an array if `values` is set. In that case, each entry specifies the legend reference for one slice. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -6914,7 +6914,7 @@ export interface PieData {
     legendwidth?: number;
     marker?: {
         /** Sets the color of each sector. If not specified, the default trace color set is used to pick the sector colors. */
-        colors?: Datum[] | TypedArray;
+        colors?: Datum[] | Datum[][] | TypedArray;
         line?: _internal.Line;
         /** Sets the pattern within the marker. */
         pattern?: Pattern;
@@ -6956,7 +6956,7 @@ export interface PieData {
     sort?: boolean;
     stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
-    text?: Datum[] | TypedArray;
+    text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
     /** Determines which trace information appear on the graph. */
@@ -6987,7 +6987,7 @@ export interface PieData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the values of the sectors. If omitted, we count occurrences of each label. */
-    values?: Datum[] | TypedArray;
+    values?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
      * @default true
@@ -7002,7 +7002,7 @@ export interface SankeyData {
      */
     arrangement?: 'snap' | 'perpendicular' | 'freeform' | 'fixed';
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     domain?: Domain;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired. Note that this attribute is superseded by `node.hoverinfo` and `node.hoverinfo` for nodes and links respectively.
@@ -7011,7 +7011,7 @@ export interface SankeyData {
     hoverinfo?: 'all' | 'none' | 'skip' | (string & {});
     hoverlabel?: HoverLabel;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -7063,7 +7063,7 @@ export interface SankeyData {
             templateitemname?: string;
         }>;
         /** Assigns extra data to each link. */
-        customdata?: Datum[] | TypedArray;
+        customdata?: Datum[] | Datum[][] | TypedArray;
         /** Sets the `link` hover color. It can be a single value, or an array for specifying hover colors for each `link`. If `link.hovercolor` is omitted, then by default, links will become slightly more opaque when hovered over. */
         hovercolor?: Color | Color[];
         /**
@@ -7083,23 +7083,23 @@ export interface SankeyData {
          * The shown name of the link.
          * @default []
          */
-        label?: Datum[] | TypedArray;
+        label?: Datum[] | Datum[][] | TypedArray;
         line?: _internal.Line;
         /**
          * An integer number `[0..nodes.length - 1]` that represents the source node.
          * @default []
          */
-        source?: Datum[] | TypedArray;
+        source?: Datum[] | Datum[][] | TypedArray;
         /**
          * An integer number `[0..nodes.length - 1]` that represents the target node.
          * @default []
          */
-        target?: Datum[] | TypedArray;
+        target?: Datum[] | Datum[][] | TypedArray;
         /**
          * A numeric value representing the flow volume value.
          * @default []
          */
-        value?: Datum[] | TypedArray;
+        value?: Datum[] | Datum[][] | TypedArray;
     };
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
     meta?: any;
@@ -7115,7 +7115,7 @@ export interface SankeyData {
         /** Sets the `node` color. It can be a single value, or an array for specifying color for each `node`. If `node.color` is omitted, then the default `Plotly` color palette will be cycled through to have a variety of colors. These defaults are not fully opaque, to allow some visibility of what is beneath the node. */
         color?: Color | Color[];
         /** Assigns extra data to each node. */
-        customdata?: Datum[] | TypedArray;
+        customdata?: Datum[] | Datum[][] | TypedArray;
         /**
          * Groups of nodes. Each group is defined by an array with the indices of the nodes it contains. Multiple groups can be specified.
          * @default []
@@ -7139,7 +7139,7 @@ export interface SankeyData {
          * The shown name of the node.
          * @default []
          */
-        label?: Datum[] | TypedArray;
+        label?: Datum[] | Datum[][] | TypedArray;
         line?: _internal.Line;
         /**
          * Sets the padding (in px) between the `nodes`.
@@ -7157,12 +7157,12 @@ export interface SankeyData {
          * The normalized horizontal position of the node.
          * @default []
          */
-        x?: Datum[] | TypedArray;
+        x?: Datum[] | Datum[][] | TypedArray;
         /**
          * The normalized vertical position of the node.
          * @default []
          */
-        y?: Datum[] | TypedArray;
+        y?: Datum[] | Datum[][] | TypedArray;
     };
     /**
      * Sets the orientation of the Sankey diagram.
@@ -7207,7 +7207,7 @@ export interface ScatterData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the x coordinate step. See `x0` for more info.
      * @default 1
@@ -7220,9 +7220,9 @@ export interface ScatterData {
     dy?: number;
     error_x?: {
         /** Sets the data corresponding the length of each error bar. Values are plotted relative to the underlying data. */
-        array?: Datum[] | TypedArray;
+        array?: Datum[] | Datum[][] | TypedArray;
         /** Sets the data corresponding the length of each error bar in the bottom (left) direction for vertical (horizontal) bars Values are plotted relative to the underlying data. */
-        arrayminus?: Datum[] | TypedArray;
+        arrayminus?: Datum[] | Datum[][] | TypedArray;
         /** Sets the stroke color of the error bars. */
         color?: Color;
         copy_ystyle?: boolean;
@@ -7307,7 +7307,7 @@ export interface ScatterData {
     /** Sets hover text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -7456,7 +7456,7 @@ export interface ScatterData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the x coordinates. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `x`. Builds a linear space of x coordinates. Use with `dx` where `x0` is the starting coordinate and `dx` the step.
      * @default 0
@@ -7487,7 +7487,7 @@ export interface ScatterData {
      */
     xperiodalignment?: 'start' | 'middle' | 'end';
     /** Sets the y coordinates. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `y`. Builds a linear space of y coordinates. Use with `dy` where `y0` is the starting coordinate and `dy` the step.
      * @default 0
@@ -7531,12 +7531,12 @@ export interface Scatter3dData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     error_x?: {
         /** Sets the data corresponding the length of each error bar. Values are plotted relative to the underlying data. */
-        array?: Datum[] | TypedArray;
+        array?: Datum[] | Datum[][] | TypedArray;
         /** Sets the data corresponding the length of each error bar in the bottom (left) direction for vertical (horizontal) bars Values are plotted relative to the underlying data. */
-        arrayminus?: Datum[] | TypedArray;
+        arrayminus?: Datum[] | Datum[][] | TypedArray;
         /** Sets the stroke color of the error bars. */
         color?: Color;
         copy_zstyle?: boolean;
@@ -7582,9 +7582,9 @@ export interface Scatter3dData {
     };
     error_y?: {
         /** Sets the data corresponding the length of each error bar. Values are plotted relative to the underlying data. */
-        array?: Datum[] | TypedArray;
+        array?: Datum[] | Datum[][] | TypedArray;
         /** Sets the data corresponding the length of each error bar in the bottom (left) direction for vertical (horizontal) bars Values are plotted relative to the underlying data. */
-        arrayminus?: Datum[] | TypedArray;
+        arrayminus?: Datum[] | Datum[][] | TypedArray;
         /** Sets the stroke color of the error bars. */
         color?: Color;
         copy_zstyle?: boolean;
@@ -7645,7 +7645,7 @@ export interface Scatter3dData {
     /** Sets text elements associated with each (x,y,z) triplet. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y,z) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -7981,7 +7981,7 @@ export interface Scatter3dData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the x coordinates. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the calendar system to use with `x` date data.
      * @default 'gregorian'
@@ -7990,7 +7990,7 @@ export interface Scatter3dData {
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the y coordinates. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the calendar system to use with `y` date data.
      * @default 'gregorian'
@@ -7999,7 +7999,7 @@ export interface Scatter3dData {
     /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
     yhoverformat?: string;
     /** Sets the z coordinates. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the calendar system to use with `z` date data.
      * @default 'gregorian'
@@ -8011,9 +8011,9 @@ export interface Scatter3dData {
 
 export interface ScattercarpetData {
     /** Sets the a-axis coordinates. */
-    a?: Datum[] | TypedArray;
+    a?: Datum[] | Datum[][] | TypedArray;
     /** Sets the b-axis coordinates. */
-    b?: Datum[] | TypedArray;
+    b?: Datum[] | Datum[][] | TypedArray;
     /** An identifier for this carpet, so that `scattercarpet` and `contourcarpet` traces can specify a carpet plot on which they lie */
     carpet?: string;
     /**
@@ -8022,7 +8022,7 @@ export interface ScattercarpetData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the area to fill with a solid color. Use with `fillcolor` if not *none*. scatterternary has a subset of the options available to scatter. *toself* connects the endpoints of the trace (or each segment of the trace if it has gaps) into a closed shape. *tonext* fills the space between two traces if one completely encloses the other (eg consecutive contour lines), and behaves like *toself* if there is no trace before it. *tonext* should not be used if one trace does not enclose the other.
      * @default 'none'
@@ -8048,7 +8048,7 @@ export interface ScattercarpetData {
     /** Sets hover text elements associated with each (a,b) point. If a single string, the same string appears over all the data points. If an array of strings, the items are mapped in order to the data points in (a,b). To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -8207,7 +8207,7 @@ export interface ScattergeoData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the key in GeoJSON features which is used as id to match the items included in the `locations` array. Only has an effect when `geojson` is set. Support nested property, for example *properties.name*.
      * @default 'id'
@@ -8243,9 +8243,9 @@ export interface ScattergeoData {
     /** Sets hover text elements associated with each (lon,lat) pair or item in `locations`. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) or `locations` coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the latitude coordinates (in degrees North). */
-    lat?: Datum[] | TypedArray;
+    lat?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -8285,9 +8285,9 @@ export interface ScattergeoData {
      */
     locationmode?: 'ISO-3' | 'USA-states' | 'country names' | 'geojson-id';
     /** Sets the coordinates via location IDs or names. Coordinates correspond to the centroid of each location given. See `locationmode` for more info. */
-    locations?: Datum[] | TypedArray;
+    locations?: Datum[] | Datum[][] | TypedArray;
     /** Sets the longitude coordinates (in degrees East). */
-    lon?: Datum[] | TypedArray;
+    lon?: Datum[] | Datum[][] | TypedArray;
     marker?: {
         /**
          * Sets the marker angle in respect to `angleref`.
@@ -8482,7 +8482,7 @@ export interface ScatterglData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the x coordinate step. See `x0` for more info.
      * @default 1
@@ -8495,9 +8495,9 @@ export interface ScatterglData {
     dy?: number;
     error_x?: {
         /** Sets the data corresponding the length of each error bar. Values are plotted relative to the underlying data. */
-        array?: Datum[] | TypedArray;
+        array?: Datum[] | Datum[][] | TypedArray;
         /** Sets the data corresponding the length of each error bar in the bottom (left) direction for vertical (horizontal) bars Values are plotted relative to the underlying data. */
-        arrayminus?: Datum[] | TypedArray;
+        arrayminus?: Datum[] | Datum[][] | TypedArray;
         /** Sets the stroke color of the error bars. */
         color?: Color;
         copy_ystyle?: boolean;
@@ -8565,7 +8565,7 @@ export interface ScatterglData {
     /** Sets hover text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -8709,7 +8709,7 @@ export interface ScatterglData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the x coordinates. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `x`. Builds a linear space of x coordinates. Use with `dx` where `x0` is the starting coordinate and `dx` the step.
      * @default 0
@@ -8740,7 +8740,7 @@ export interface ScatterglData {
      */
     xperiodalignment?: 'start' | 'middle' | 'end';
     /** Sets the y coordinates. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `y`. Builds a linear space of y coordinates. Use with `dy` where `y0` is the starting coordinate and `dy` the step.
      * @default 0
@@ -8811,7 +8811,7 @@ export interface ScattermapData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the area to fill with a solid color. Use with `fillcolor` if not *none*. *toself* connects the endpoints of the trace (or each segment of the trace if it has gaps) into a closed shape.
      * @default 'none'
@@ -8835,9 +8835,9 @@ export interface ScattermapData {
     /** Sets hover text elements associated with each (lon,lat) pair If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the latitude coordinates (in degrees North). */
-    lat?: Datum[] | TypedArray;
+    lat?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -8858,7 +8858,7 @@ export interface ScattermapData {
     legendwidth?: number;
     line?: _internal.ErrorY;
     /** Sets the longitude coordinates (in degrees East). */
-    lon?: Datum[] | TypedArray;
+    lon?: Datum[] | Datum[][] | TypedArray;
     marker?: {
         /**
          * Flag to draw all symbols, even if they overlap.
@@ -9072,7 +9072,7 @@ export interface ScattermapboxData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the area to fill with a solid color. Use with `fillcolor` if not *none*. *toself* connects the endpoints of the trace (or each segment of the trace if it has gaps) into a closed shape.
      * @default 'none'
@@ -9096,9 +9096,9 @@ export interface ScattermapboxData {
     /** Sets hover text elements associated with each (lon,lat) pair If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the latitude coordinates (in degrees North). */
-    lat?: Datum[] | TypedArray;
+    lat?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -9119,7 +9119,7 @@ export interface ScattermapboxData {
     legendwidth?: number;
     line?: _internal.ErrorY;
     /** Sets the longitude coordinates (in degrees East). */
-    lon?: Datum[] | TypedArray;
+    lon?: Datum[] | Datum[][] | TypedArray;
     marker?: {
         /**
          * Flag to draw all symbols, even if they overlap.
@@ -9306,7 +9306,7 @@ export interface ScatterpolarData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the r coordinate step.
      * @default 1
@@ -9339,7 +9339,7 @@ export interface ScatterpolarData {
     /** Sets hover text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -9404,7 +9404,7 @@ export interface ScatterpolarData {
      */
     opacity?: number;
     /** Sets the radial coordinates */
-    r?: Datum[] | TypedArray;
+    r?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `r`. Builds a linear space of r coordinates. Use with `dr` where `r0` is the starting coordinate and `dr` the step.
      * @default 0
@@ -9457,7 +9457,7 @@ export interface ScatterpolarData {
      */
     texttemplatefallback?: any;
     /** Sets the angular coordinates */
-    theta?: Datum[] | TypedArray;
+    theta?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `theta`. Builds a linear space of theta coordinates. Use with `dtheta` where `theta0` is the starting coordinate and `dtheta` the step.
      * @default 0
@@ -9504,7 +9504,7 @@ export interface ScatterpolarglData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the r coordinate step.
      * @default 1
@@ -9535,7 +9535,7 @@ export interface ScatterpolarglData {
     /** Sets hover text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -9583,7 +9583,7 @@ export interface ScatterpolarglData {
      */
     opacity?: number;
     /** Sets the radial coordinates */
-    r?: Datum[] | TypedArray;
+    r?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `r`. Builds a linear space of r coordinates. Use with `dr` where `r0` is the starting coordinate and `dr` the step.
      * @default 0
@@ -9659,7 +9659,7 @@ export interface ScatterpolarglData {
      */
     texttemplatefallback?: any;
     /** Sets the angular coordinates */
-    theta?: Datum[] | TypedArray;
+    theta?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `theta`. Builds a linear space of theta coordinates. Use with `dtheta` where `theta0` is the starting coordinate and `dtheta` the step.
      * @default 0
@@ -9711,7 +9711,7 @@ export interface ScattersmithData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the area to fill with a solid color. Use with `fillcolor` if not *none*. scattersmith has a subset of the options available to scatter. *toself* connects the endpoints of the trace (or each segment of the trace if it has gaps) into a closed shape. *tonext* fills the space between two traces if one completely encloses the other (eg consecutive contour lines), and behaves like *toself* if there is no trace before it. *tonext* should not be used if one trace does not enclose the other.
      * @default 'none'
@@ -9737,9 +9737,9 @@ export interface ScattersmithData {
     /** Sets hover text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the imaginary component of the data, in units of normalized impedance such that real=1, imag=0 is the center of the chart. */
-    imag?: Datum[] | TypedArray;
+    imag?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -9804,7 +9804,7 @@ export interface ScattersmithData {
      */
     opacity?: number;
     /** Sets the real component of the data, in units of normalized impedance such that real=1, imag=0 is the center of the chart. */
-    real?: Datum[] | TypedArray;
+    real?: Datum[] | Datum[][] | TypedArray;
     selected?: {
         marker?: {
             /** Sets the marker color of selected points. */
@@ -9882,11 +9882,11 @@ export interface ScattersmithData {
 
 export interface ScatterternaryData {
     /** Sets the quantity of component `a` in each data point. If `a`, `b`, and `c` are all provided, they need not be normalized, only the relative values matter. If only two arrays are provided they must be normalized to match `ternary<i>.sum`. */
-    a?: Datum[] | TypedArray;
+    a?: Datum[] | Datum[][] | TypedArray;
     /** Sets the quantity of component `a` in each data point. If `a`, `b`, and `c` are all provided, they need not be normalized, only the relative values matter. If only two arrays are provided they must be normalized to match `ternary<i>.sum`. */
-    b?: Datum[] | TypedArray;
+    b?: Datum[] | Datum[][] | TypedArray;
     /** Sets the quantity of component `a` in each data point. If `a`, `b`, and `c` are all provided, they need not be normalized, only the relative values matter. If only two arrays are provided they must be normalized to match `ternary<i>.sum`. */
-    c?: Datum[] | TypedArray;
+    c?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not markers and text nodes are clipped about the subplot axes. To show markers and text nodes above axis lines and tick labels, make sure to set `xaxis.layer` and `yaxis.layer` to *below traces*.
      * @default true
@@ -9898,7 +9898,7 @@ export interface ScatterternaryData {
      */
     connectgaps?: boolean;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the area to fill with a solid color. Use with `fillcolor` if not *none*. scatterternary has a subset of the options available to scatter. *toself* connects the endpoints of the trace (or each segment of the trace if it has gaps) into a closed shape. *tonext* fills the space between two traces if one completely encloses the other (eg consecutive contour lines), and behaves like *toself* if there is no trace before it. *tonext* should not be used if one trace does not enclose the other.
      * @default 'none'
@@ -9924,7 +9924,7 @@ export interface ScatterternaryData {
     /** Sets hover text elements associated with each (a,b,c) point. If a single string, the same string appears over all the data points. If an array of strings, the items are mapped in order to the data points in (a,b,c). To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -10074,7 +10074,7 @@ export interface ScatterternaryData {
 
 export interface SplomData {
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     diagonal?: {
         /**
          * Determines whether or not subplots on the diagonal are displayed.
@@ -10099,7 +10099,7 @@ export interface SplomData {
         /** Used to refer to a named item in this array in the template. Named items from the template will be created even without a matching item in the input figure, but you can modify one by making an item with `templateitemname` matching its `name`, alongside your modifications (including `visible: false` or `enabled: false` to hide it). If there is no template or no matching item, this item will be hidden unless you explicitly show it with `visible: true`. */
         templateitemname?: string;
         /** Sets the dimension values to be plotted. */
-        values?: Datum[] | TypedArray;
+        values?: Datum[] | Datum[][] | TypedArray;
         /**
          * Determines whether or not this dimension is shown on the graph. Note that even visible false dimension contribute to the default grid generate by this splom trace.
          * @default true
@@ -10122,7 +10122,7 @@ export interface SplomData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -10256,7 +10256,7 @@ export interface StreamtubeData {
      */
     colorscale?: ColorScale;
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'x+y+z+norm+text+name'
@@ -10273,7 +10273,7 @@ export interface StreamtubeData {
     /** Same as `text`. */
     hovertext?: string;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -10357,18 +10357,18 @@ export interface StreamtubeData {
     sizeref?: number;
     starts?: {
         /** Sets the x components of the starting position of the streamtubes */
-        x?: Datum[] | TypedArray;
+        x?: Datum[] | Datum[][] | TypedArray;
         /** Sets the y components of the starting position of the streamtubes */
-        y?: Datum[] | TypedArray;
+        y?: Datum[] | Datum[][] | TypedArray;
         /** Sets the z components of the starting position of the streamtubes */
-        z?: Datum[] | TypedArray;
+        z?: Datum[] | Datum[][] | TypedArray;
     };
     stream?: _internal.Stream;
     /** Sets a text element associated with this trace. If trace `hoverinfo` contains a *text* flag, this text element will be seen in all hover labels. Note that streamtube traces do not support array `text` values. */
     text?: string;
     type?: 'streamtube';
     /** Sets the x components of the vector field. */
-    u?: Datum[] | TypedArray;
+    u?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `u` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
     uhoverformat?: string;
     /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
@@ -10376,7 +10376,7 @@ export interface StreamtubeData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the y components of the vector field. */
-    v?: Datum[] | TypedArray;
+    v?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `v` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
     vhoverformat?: string;
     /**
@@ -10385,19 +10385,19 @@ export interface StreamtubeData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the z components of the vector field. */
-    w?: Datum[] | TypedArray;
+    w?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `w` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
     whoverformat?: string;
     /** Sets the x coordinates of the vector field. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the y coordinates of the vector field. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
     yhoverformat?: string;
     /** Sets the z coordinates of the vector field. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `z` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `zaxis.hoverformat`. */
     zhoverformat?: string;
 }
@@ -10414,7 +10414,7 @@ export interface SunburstData {
      */
     count?: 'branches' | 'leaves' | (string & {});
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     domain?: Domain;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
@@ -10432,7 +10432,7 @@ export interface SunburstData {
     /** Sets hover text elements associated with each sector. If a single string, the same string appears for all data points. If an array of string, the items are mapped in order of this trace's sectors. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo` lying inside the sector. */
     insidetextfont?: FontArray;
     /**
@@ -10441,7 +10441,7 @@ export interface SunburstData {
      */
     insidetextorientation?: 'horizontal' | 'radial' | 'tangential' | 'auto';
     /** Sets the labels of each of the sectors. */
-    labels?: Datum[] | TypedArray;
+    labels?: Datum[] | Datum[][] | TypedArray;
     leaf?: {
         /**
          * Sets the opacity of the leaves. With colorscale it is defaulted to 1; otherwise it is defaulted to 0.7
@@ -10494,7 +10494,7 @@ export interface SunburstData {
         coloraxis?: string;
         colorbar?: ColorBar;
         /** Sets the color of each sector of this trace. If not specified, the default trace color set is used to pick the sector colors. */
-        colors?: Datum[] | TypedArray;
+        colors?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the colorscale. Has an effect only if colors is set to a numerical array. The colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsv, or named color string. At minimum, a mapping for the lowest (0) and highest (1) values are required. For example, `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`. To control the bounds of the colorscale in color space, use `marker.cmin` and `marker.cmax`. Alternatively, `colorscale` may be a palette name string of the following list: Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd.
          * Setting this also sets: autocolorscale = false
@@ -10532,7 +10532,7 @@ export interface SunburstData {
     /** Sets the font used for `textinfo` lying outside the sector. This option refers to the root of the hierarchy presented at the center of a sunburst graph. Please note that if a hierarchy has multiple root nodes, this option won't have any effect and `insidetextfont` would be used. */
     outsidetextfont?: FontArray;
     /** Sets the parent sectors for each of the sectors. Empty string items '' are understood to reference the root node in the hierarchy. If `ids` is filled, `parents` items are understood to be "ids" themselves. When `ids` is not set, plotly attempts to find matching items in `labels`, but beware they must be unique. */
-    parents?: Datum[] | TypedArray;
+    parents?: Datum[] | Datum[][] | TypedArray;
     root?: Font;
     /**
      * Rotates the whole diagram counterclockwise by some angle. By default the first slice starts at 3 o'clock.
@@ -10546,7 +10546,7 @@ export interface SunburstData {
     sort?: boolean;
     stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
-    text?: Datum[] | TypedArray;
+    text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
     /** Determines which trace information appear on the graph. */
@@ -10564,7 +10564,7 @@ export interface SunburstData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the values associated with each of the sectors. Use with `branchvalues` to determine how the values are summed. */
-    values?: Datum[] | TypedArray;
+    values?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
      * @default true
@@ -10806,7 +10806,7 @@ export interface SurfaceData {
         };
     };
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not a surface is drawn. For example, set `hidesurface` to *false* `contours.x.show` to *true* and `contours.y.show` to *true* to draw a wire frame plot.
      * @default false
@@ -10828,7 +10828,7 @@ export interface SurfaceData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -10933,7 +10933,7 @@ export interface SurfaceData {
     showscale?: boolean;
     stream?: _internal.Stream;
     /** Sets the surface color values, used for setting a color scale independent of `z`. */
-    surfacecolor?: Datum[] | TypedArray;
+    surfacecolor?: Datum[] | Datum[][] | TypedArray;
     /** Sets the text elements associated with each z value. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     type?: 'surface';
@@ -10947,7 +10947,7 @@ export interface SurfaceData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the x coordinates. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the calendar system to use with `x` date data.
      * @default 'gregorian'
@@ -10956,7 +10956,7 @@ export interface SurfaceData {
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the y coordinates. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the calendar system to use with `y` date data.
      * @default 'gregorian'
@@ -10965,7 +10965,7 @@ export interface SurfaceData {
     /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
     yhoverformat?: string;
     /** Sets the z coordinates. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the calendar system to use with `z` date data.
      * @default 'gregorian'
@@ -10988,7 +10988,7 @@ export interface TableData {
          * Sets the cell value formatting rule using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.
          * @default []
          */
-        format?: Datum[] | TypedArray;
+        format?: Datum[] | Datum[][] | TypedArray;
         /**
          * The height of cells.
          * @default 20
@@ -11003,14 +11003,14 @@ export interface TableData {
          * Cell values. `values[m][n]` represents the value of the `n`th point in column `m`, therefore the `values[m]` vector length for all columns must be the same (longer vectors will be truncated). Each value must be a finite number or a string.
          * @default []
          */
-        values?: Datum[] | TypedArray;
+        values?: Datum[] | Datum[][] | TypedArray;
     };
     /** Specifies the rendered order of the data columns; for example, a value `2` at position `0` means that column index `0` in the data will be rendered as the third column, as columns have an index base of zero. */
-    columnorder?: Datum[] | TypedArray;
+    columnorder?: Datum[] | Datum[][] | TypedArray;
     /** The width of columns expressed as a ratio. Columns fill the available width in proportion of their specified column widths. */
     columnwidth?: number | number[];
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     domain?: Domain;
     header?: {
         /**
@@ -11024,7 +11024,7 @@ export interface TableData {
          * Sets the cell value formatting rule using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.
          * @default []
          */
-        format?: Datum[] | TypedArray;
+        format?: Datum[] | Datum[][] | TypedArray;
         /**
          * The height of cells.
          * @default 28
@@ -11039,7 +11039,7 @@ export interface TableData {
          * Header cell values. `values[m][n]` represents the value of the `n`th point in column `m`, therefore the `values[m]` vector length for all columns must be the same (longer vectors will be truncated). Each value must be a finite number or a string.
          * @default []
          */
-        values?: Datum[] | TypedArray;
+        values?: Datum[] | Datum[][] | TypedArray;
     };
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
@@ -11048,7 +11048,7 @@ export interface TableData {
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
     hoverlabel?: HoverLabel;
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -11094,7 +11094,7 @@ export interface TreemapData {
      */
     count?: 'branches' | 'leaves' | (string & {});
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     domain?: Domain;
     /**
      * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
@@ -11112,11 +11112,11 @@ export interface TreemapData {
     /** Sets hover text elements associated with each sector. If a single string, the same string appears for all data points. If an array of string, the items are mapped in order of this trace's sectors. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo` lying inside the sector. */
     insidetextfont?: FontArray;
     /** Sets the labels of each of the sectors. */
-    labels?: Datum[] | TypedArray;
+    labels?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
      * @default 'legend'
@@ -11162,7 +11162,7 @@ export interface TreemapData {
         coloraxis?: string;
         colorbar?: ColorBar;
         /** Sets the color of each sector of this trace. If not specified, the default trace color set is used to pick the sector colors. */
-        colors?: Datum[] | TypedArray;
+        colors?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the colorscale. Has an effect only if colors is set to a numerical array. The colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsv, or named color string. At minimum, a mapping for the lowest (0) and highest (1) values are required. For example, `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`. To control the bounds of the colorscale in color space, use `marker.cmin` and `marker.cmax`. Alternatively, `colorscale` may be a palette name string of the following list: Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd.
          * Setting this also sets: autocolorscale = false
@@ -11230,7 +11230,7 @@ export interface TreemapData {
     /** Sets the font used for `textinfo` lying outside the sector. This option refers to the root of the hierarchy presented on top left corner of a treemap graph. Please note that if a hierarchy has multiple root nodes, this option won't have any effect and `insidetextfont` would be used. */
     outsidetextfont?: FontArray;
     /** Sets the parent sectors for each of the sectors. Empty string items '' are understood to reference the root node in the hierarchy. If `ids` is filled, `parents` items are understood to be "ids" themselves. When `ids` is not set, plotly attempts to find matching items in `labels`, but beware they must be unique. */
-    parents?: Datum[] | TypedArray;
+    parents?: Datum[] | Datum[][] | TypedArray;
     pathbar?: {
         /**
          * Determines which shape is used for edges between `barpath` labels.
@@ -11263,7 +11263,7 @@ export interface TreemapData {
     sort?: boolean;
     stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
-    text?: Datum[] | TypedArray;
+    text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
     /** Determines which trace information appear on the graph. */
@@ -11307,7 +11307,7 @@ export interface TreemapData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the values associated with each of the sectors. Use with `branchvalues` to determine how the values are summed. */
-    values?: Datum[] | TypedArray;
+    values?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
      * @default true
@@ -11340,7 +11340,7 @@ export interface ViolinData {
         width?: number;
     };
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
@@ -11364,7 +11364,7 @@ export interface ViolinData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the amount of jitter in the sample points drawn. If *0*, the sample points align along the distribution axis. If *1*, the sample points are drawn in a random jitter of width equal to the width of the violins.
      * Range: [0, 1]
@@ -11559,7 +11559,7 @@ export interface ViolinData {
      */
     width?: number;
     /** Sets the x sample data or coordinates. See overview for more info. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /** Sets the x coordinate for single-box traces or the starting coordinate for multi-box traces set using q1/median/q3. See overview for more info. */
     x0?: any;
     /**
@@ -11570,7 +11570,7 @@ export interface ViolinData {
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the y sample data or coordinates. See overview for more info. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /** Sets the y coordinate for single-box traces or the starting coordinate for multi-box traces set using q1/median/q3. See overview for more info. */
     y0?: any;
     /**
@@ -11678,7 +11678,7 @@ export interface VolumeData {
         width?: number;
     };
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     /**
      * Determines whether or not normal smoothing is applied to the meshes, creating meshes with an angular, low-poly look via flat reflections.
      * @default true
@@ -11700,7 +11700,7 @@ export interface VolumeData {
     /** Same as `text`. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     /** Sets the maximum boundary for iso-surface plot. */
     isomax?: number;
     /** Sets the minimum boundary for iso-surface plot. */
@@ -11788,7 +11788,7 @@ export interface VolumeData {
              * Specifies the location(s) of slices on the axis. When not specified slices would be created for all points of the axis x except start and end.
              * @default []
              */
-            locations?: Datum[] | TypedArray;
+            locations?: Datum[] | Datum[][] | TypedArray;
             /**
              * Determines whether or not slice planes about the x dimension are drawn.
              * @default false
@@ -11806,7 +11806,7 @@ export interface VolumeData {
              * Specifies the location(s) of slices on the axis. When not specified slices would be created for all points of the axis y except start and end.
              * @default []
              */
-            locations?: Datum[] | TypedArray;
+            locations?: Datum[] | Datum[][] | TypedArray;
             /**
              * Determines whether or not slice planes about the y dimension are drawn.
              * @default false
@@ -11824,7 +11824,7 @@ export interface VolumeData {
              * Specifies the location(s) of slices on the axis. When not specified slices would be created for all points of the axis z except start and end.
              * @default []
              */
-            locations?: Datum[] | TypedArray;
+            locations?: Datum[] | Datum[][] | TypedArray;
             /**
              * Determines whether or not slice planes about the z dimension are drawn.
              * @default false
@@ -11878,7 +11878,7 @@ export interface VolumeData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     /** Sets the 4th dimension (value) of the vertices. */
-    value?: Datum[] | TypedArray;
+    value?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `value` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
     valuehoverformat?: string;
     /**
@@ -11887,15 +11887,15 @@ export interface VolumeData {
      */
     visible?: true | false | 'legendonly';
     /** Sets the X coordinates of the vertices on X axis. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
     xhoverformat?: string;
     /** Sets the Y coordinates of the vertices on Y axis. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
     yhoverformat?: string;
     /** Sets the Z coordinates of the vertices on Z axis. */
-    z?: Datum[] | TypedArray;
+    z?: Datum[] | Datum[][] | TypedArray;
     /** Sets the hover text formatting rule for `z` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `zaxis.hoverformat`. */
     zhoverformat?: string;
 }
@@ -11946,7 +11946,7 @@ export interface WaterfallData {
      */
     constraintext?: 'inside' | 'outside' | 'both' | 'none';
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | TypedArray;
+    customdata?: Datum[] | Datum[][] | TypedArray;
     decreasing?: {
         marker?: {
             /** Sets the marker color of all decreasing values. */
@@ -11980,7 +11980,7 @@ export interface WaterfallData {
     /** Sets hover text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     hovertext?: string | string[];
     /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | TypedArray;
+    ids?: Datum[] | Datum[][] | TypedArray;
     increasing?: {
         marker?: {
             /** Sets the marker color of all increasing values. */
@@ -12017,7 +12017,7 @@ export interface WaterfallData {
      * An array containing types of values. By default the values are considered as 'relative'. However; it is possible to use 'total' to compute the sums. Also 'absolute' could be applied to reset the computed total or to declare an initial value where needed.
      * @default []
      */
-    measure?: Datum[] | TypedArray;
+    measure?: Datum[] | Datum[][] | TypedArray;
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
     meta?: any;
     /** Sets the trace name. The trace name appears as the legend item and on hover. */
@@ -12090,7 +12090,7 @@ export interface WaterfallData {
      */
     width?: number | number[];
     /** Sets the x coordinates. */
-    x?: Datum[] | TypedArray;
+    x?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `x`. Builds a linear space of x coordinates. Use with `dx` where `x0` is the starting coordinate and `dx` the step.
      * @default 0
@@ -12116,7 +12116,7 @@ export interface WaterfallData {
      */
     xperiodalignment?: 'start' | 'middle' | 'end';
     /** Sets the y coordinates. */
-    y?: Datum[] | TypedArray;
+    y?: Datum[] | Datum[][] | TypedArray;
     /**
      * Alternate to `y`. Builds a linear space of y coordinates. Use with `dy` where `y0` is the starting coordinate and `dy` the step.
      * @default 0
@@ -12458,7 +12458,7 @@ export interface LayoutAxis {
      */
     calendar?: Calendar;
     /** Sets the order in which categories on this axis appear. Only has an effect if `categoryorder` is set to *array*. Used with `categoryorder`. */
-    categoryarray?: Datum[] | TypedArray;
+    categoryarray?: Datum[] | Datum[][] | TypedArray;
     /**
      * Specifies the ordering logic for the case of categorical variables. By default, plotly uses *trace*, which specifies the order that is present in the data supplied. Set `categoryorder` to *category ascending* or *category descending* if order should be determined by the alphanumerical order of the category names. Set `categoryorder` to *array* to derive the ordering from the attribute `categoryarray`. If a category is not found in the `categoryarray` array, the sorting behavior for that attribute will be identical to the *trace* mode. The unspecified categories will follow the categories in `categoryarray`. Set `categoryorder` to *total ascending* or *total descending* if order should be determined by the numerical order of the values. Similarly, the order can be determined by the min, max, sum, mean, geometric mean or median of all the values.
      * @default 'trace'
@@ -12611,7 +12611,7 @@ export interface LayoutAxis {
         /** Determines whether ticks are drawn or not. If **, this axis' ticks are not drawn. If *outside* (*inside*), this axis' are drawn outside (inside) the axis lines. */
         ticks?: 'outside' | 'inside' | '';
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * Minimum: 0
@@ -12947,9 +12947,9 @@ export interface LayoutAxis {
     /** Sets a tick label suffix. */
     ticksuffix?: string;
     /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-    ticktext?: Datum[] | TypedArray;
+    ticktext?: Datum[] | Datum[][] | TypedArray;
     /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-    tickvals?: Datum[] | TypedArray;
+    tickvals?: Datum[] | Datum[][] | TypedArray;
     /**
      * Sets the tick width (in px).
      * @default 1
@@ -13172,7 +13172,7 @@ export interface MapLayout {
         fill?: ColorBar;
         line?: {
             /** Sets the length of dashes and gaps (map.layer.paint.line-dasharray). Has an effect only when `type` is set to *line*. */
-            dash?: Datum[] | TypedArray;
+            dash?: Datum[] | Datum[][] | TypedArray;
             /**
              * Sets the line width (map.layer.paint.line-width). Has an effect only when `type` is set to *line*.
              * @default 2
@@ -13276,7 +13276,7 @@ export interface PolarLayout {
          */
         autotypenumbers?: 'convert types' | 'strict';
         /** Sets the order in which categories on this axis appear. Only has an effect if `categoryorder` is set to *array*. Used with `categoryorder`. */
-        categoryarray?: Datum[] | TypedArray;
+        categoryarray?: Datum[] | Datum[][] | TypedArray;
         /**
          * Specifies the ordering logic for the case of categorical variables. By default, plotly uses *trace*, which specifies the order that is present in the data supplied. Set `categoryorder` to *category ascending* or *category descending* if order should be determined by the alphanumerical order of the category names. Set `categoryorder` to *array* to derive the ordering from the attribute `categoryarray`. If a category is not found in the `categoryarray` array, the sorting behavior for that attribute will be identical to the *trace* mode. The unspecified categories will follow the categories in `categoryarray`. Set `categoryorder` to *total ascending* or *total descending* if order should be determined by the numerical order of the values. Similarly, the order can be determined by the min, max, sum, mean, geometric mean or median of all the values.
          * @default 'trace'
@@ -13446,9 +13446,9 @@ export interface PolarLayout {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 1
@@ -13510,7 +13510,7 @@ export interface PolarLayout {
          */
         calendar?: Calendar;
         /** Sets the order in which categories on this axis appear. Only has an effect if `categoryorder` is set to *array*. Used with `categoryorder`. */
-        categoryarray?: Datum[] | TypedArray;
+        categoryarray?: Datum[] | Datum[][] | TypedArray;
         /**
          * Specifies the ordering logic for the case of categorical variables. By default, plotly uses *trace*, which specifies the order that is present in the data supplied. Set `categoryorder` to *category ascending* or *category descending* if order should be determined by the alphanumerical order of the category names. Set `categoryorder` to *array* to derive the ordering from the attribute `categoryarray`. If a category is not found in the `categoryarray` array, the sorting behavior for that attribute will be identical to the *trace* mode. The unspecified categories will follow the categories in `categoryarray`. Set `categoryorder` to *total ascending* or *total descending* if order should be determined by the numerical order of the values. Similarly, the order can be determined by the min, max, sum, mean, geometric mean or median of all the values.
          * @default 'trace'
@@ -13688,9 +13688,9 @@ export interface PolarLayout {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 1
@@ -14001,7 +14001,7 @@ export interface Scene {
          */
         calendar?: Calendar;
         /** Sets the order in which categories on this axis appear. Only has an effect if `categoryorder` is set to *array*. Used with `categoryorder`. */
-        categoryarray?: Datum[] | TypedArray;
+        categoryarray?: Datum[] | Datum[][] | TypedArray;
         /**
          * Specifies the ordering logic for the case of categorical variables. By default, plotly uses *trace*, which specifies the order that is present in the data supplied. Set `categoryorder` to *category ascending* or *category descending* if order should be determined by the alphanumerical order of the category names. Set `categoryorder` to *array* to derive the ordering from the attribute `categoryarray`. If a category is not found in the `categoryarray` array, the sorting behavior for that attribute will be identical to the *trace* mode. The unspecified categories will follow the categories in `categoryarray`. Set `categoryorder` to *total ascending* or *total descending* if order should be determined by the numerical order of the values. Similarly, the order can be determined by the min, max, sum, mean, geometric mean or median of all the values.
          * @default 'trace'
@@ -14186,9 +14186,9 @@ export interface Scene {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 1
@@ -14239,7 +14239,7 @@ export interface Scene {
          */
         calendar?: Calendar;
         /** Sets the order in which categories on this axis appear. Only has an effect if `categoryorder` is set to *array*. Used with `categoryorder`. */
-        categoryarray?: Datum[] | TypedArray;
+        categoryarray?: Datum[] | Datum[][] | TypedArray;
         /**
          * Specifies the ordering logic for the case of categorical variables. By default, plotly uses *trace*, which specifies the order that is present in the data supplied. Set `categoryorder` to *category ascending* or *category descending* if order should be determined by the alphanumerical order of the category names. Set `categoryorder` to *array* to derive the ordering from the attribute `categoryarray`. If a category is not found in the `categoryarray` array, the sorting behavior for that attribute will be identical to the *trace* mode. The unspecified categories will follow the categories in `categoryarray`. Set `categoryorder` to *total ascending* or *total descending* if order should be determined by the numerical order of the values. Similarly, the order can be determined by the min, max, sum, mean, geometric mean or median of all the values.
          * @default 'trace'
@@ -14424,9 +14424,9 @@ export interface Scene {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 1
@@ -14477,7 +14477,7 @@ export interface Scene {
          */
         calendar?: Calendar;
         /** Sets the order in which categories on this axis appear. Only has an effect if `categoryorder` is set to *array*. Used with `categoryorder`. */
-        categoryarray?: Datum[] | TypedArray;
+        categoryarray?: Datum[] | Datum[][] | TypedArray;
         /**
          * Specifies the ordering logic for the case of categorical variables. By default, plotly uses *trace*, which specifies the order that is present in the data supplied. Set `categoryorder` to *category ascending* or *category descending* if order should be determined by the alphanumerical order of the category names. Set `categoryorder` to *array* to derive the ordering from the attribute `categoryarray`. If a category is not found in the `categoryarray` array, the sorting behavior for that attribute will be identical to the *trace* mode. The unspecified categories will follow the categories in `categoryarray`. Set `categoryorder` to *total ascending* or *total descending* if order should be determined by the numerical order of the values. Similarly, the order can be determined by the min, max, sum, mean, geometric mean or median of all the values.
          * @default 'trace'
@@ -14662,9 +14662,9 @@ export interface Scene {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 1
@@ -14793,7 +14793,7 @@ export interface SmithLayout {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the values at which ticks on this axis appear. Defaults to `realaxis.tickvals` plus the same as negatives and zero. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 2
@@ -14911,7 +14911,7 @@ export interface SmithLayout {
          * Sets the values at which ticks on this axis appear.
          * @default [0.2,0.5,1,2,5]
          */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 2
@@ -15076,9 +15076,9 @@ export interface TernaryLayout {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 1
@@ -15238,9 +15238,9 @@ export interface TernaryLayout {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 1
@@ -15405,9 +15405,9 @@ export interface TernaryLayout {
         /** Sets a tick label suffix. */
         ticksuffix?: string;
         /** Sets the text displayed at the ticks position via `tickvals`. Only has an effect if `tickmode` is set to *array*. Used with `tickvals`. */
-        ticktext?: Datum[] | TypedArray;
+        ticktext?: Datum[] | Datum[][] | TypedArray;
         /** Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`. */
-        tickvals?: Datum[] | TypedArray;
+        tickvals?: Datum[] | Datum[][] | TypedArray;
         /**
          * Sets the tick width (in px).
          * @default 1
