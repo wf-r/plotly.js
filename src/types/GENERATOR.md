@@ -5,7 +5,7 @@ reads `plot-schema.json` and emits all the schema-derived TypeScript
 types into `src/types/generated/schema.d.ts`:
 
 - Common enum aliases (Calendar, Dash, AxisType, PatternShape, XRef, YRef,
-  TransitionEasing, PlotType)
+  TransitionEasing, TraceType — plus a deprecated `PlotType` alias)
 - Shared sub-interfaces (Font, ColorBar, HoverLabel, etc.)
 - Data interfaces for each trace type (BarData, ScatterData, IndicatorData, etc.)
 - Layout component interfaces (LayoutAxis, Legend, Scene, Annotation, etc.)
@@ -43,8 +43,9 @@ const COMMON_TYPE_ANCHORS = [
 When multiple sites match an anchor (e.g. 3D scene axes vs cartesian axes
 both have `xaxis.type` enumerations), the generator picks the largest
 value set — the superset — so the alias is always permissive enough.
-`PlotType` is special-cased: derived from `Object.keys(schema.traces)`
-rather than from an attribute.
+`TraceType` is special-cased: derived from `Object.keys(schema.traces)`
+rather than from an attribute. A deprecated `PlotType = TraceType` alias
+is also emitted for back-compat with prior versions of the type surface.
 
 Each discovered alias is emitted as `export type Name = 'a' | 'b' | ...`
 and registered in `VALUES_TO_COMMON_TYPE` so subsequent emission of any
@@ -184,7 +185,7 @@ descriptions are escaped to prevent prematurely closing the comment.
 src/types/generated/schema.d.ts
 ├── import { Color, ColorScale, Datum, MarkerSymbol, TypedArray } from '../lib/common'
 ├── Common enum types (Calendar, Dash, AxisType, PatternShape, XRef, YRef,
-│                      TransitionEasing, PlotType)
+│                      TransitionEasing, TraceType + deprecated PlotType alias)
 ├── Shared interfaces — public (Font, FontArray, ColorBar, HoverLabel, Domain,
 │                                Pattern, TickFormatStops, LegendGroupTitle, ...)
 ├── Internal shared interfaces in `namespace _internal` (Marker, Line,
@@ -242,9 +243,10 @@ you want a named alias for it:
    and rewrites matching enumerated attributes to reference the alias.
 3. Run `npm run typecheck` to verify.
 
-`PlotType` is a special case derived from `Object.keys(schema.traces)`
+`TraceType` is a special case derived from `Object.keys(schema.traces)`
 rather than from an enumerated attribute; it doesn't follow the anchor
-mechanism.
+mechanism. A deprecated `PlotType = TraceType` alias is emitted alongside it
+to keep older imports working.
 
 ### Adding a new layout container
 

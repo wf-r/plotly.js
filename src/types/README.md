@@ -46,7 +46,7 @@ The following are **auto-generated from `plot-schema.json`** by
 `tasks/generate_schema_types.mjs`:
 
 - Common enum aliases (Calendar, Dash, AxisType, PatternShape, XRef, YRef,
-  TransitionEasing, PlotType)
+  TransitionEasing, TraceType — and a deprecated `PlotType` alias)
 - Data interfaces for each trace type (BarData, ScatterData, IndicatorData, etc.)
 - Layout component interfaces (LayoutAxis, Legend, Scene, Annotation,
   Shape, Slider, UpdateMenu, etc.) and the Layout interface itself

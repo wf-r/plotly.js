@@ -81,7 +81,8 @@ function refName(name, inInternalNamespace) {
 /**
  * Walk the schema to find the canonical `values` array for each anchor in
  * `COMMON_TYPE_ANCHORS`. The first matching enumerated attribute wins.
- * Also emits a `PlotType` alias derived from the trace-names list.
+ * Also emits a `TraceType` alias derived from the trace-names list,
+ * plus a deprecated `PlotType` alias for back-compat.
  *
  * Populates `VALUES_TO_COMMON_TYPE` and returns `Map<name, {values}>` for
  * emitting type aliases.
@@ -131,8 +132,9 @@ function discoverCommonTypes(schema) {
         VALUES_TO_COMMON_TYPE.set(JSON.stringify(best.slice().sort()), anchor.name);
     }
 
-    // PlotType — derived from the list of trace names, not from an attribute.
-    found.set('PlotType', { values: Object.keys(schema.traces).sort() });
+    // TraceType — derived from the list of trace names, not from an attribute.
+    // (A deprecated `PlotType` alias is also emitted; see the emit loop.)
+    found.set('TraceType', { values: Object.keys(schema.traces).sort() });
 
     return found;
 }
@@ -1107,6 +1109,12 @@ export function generateSchemaTypes(schema, outputPath) {
         chunks.push('');
     }
 
+    // Deprecated back-compat alias — kept so existing consumers importing
+    // `PlotType` continue to work. New code should use `TraceType`.
+    chunks.push('/** @deprecated Renamed to TraceType. */');
+    chunks.push('export type PlotType = TraceType;');
+    chunks.push('');
+
     // Emit shared interfaces — public ones at the top level, "internal" ones
     // wrapped in `export namespace _internal { ... }` so consumers reach them
     // via the namespace prefix rather than directly.
@@ -1268,6 +1276,7 @@ export function generateSchemaTypes(schema, outputPath) {
     // falsely flag them as missing.
     const exportedNames = new Set();
     for (const name of commonTypes.keys()) exportedNames.add(name);
+    exportedNames.add('PlotType');
     for (const [name] of sharedList) {
         if (!INTERNAL_INTERFACES.has(name)) exportedNames.add(name);
     }

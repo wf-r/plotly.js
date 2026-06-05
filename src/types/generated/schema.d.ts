@@ -23,7 +23,10 @@ export type PatternShape = '' | '/' | '\\' | 'x' | '-' | '|' | '+' | '.';
 
 export type TransitionEasing = 'linear' | 'quad' | 'cubic' | 'sin' | 'exp' | 'circle' | 'elastic' | 'back' | 'bounce' | 'linear-in' | 'quad-in' | 'cubic-in' | 'sin-in' | 'exp-in' | 'circle-in' | 'elastic-in' | 'back-in' | 'bounce-in' | 'linear-out' | 'quad-out' | 'cubic-out' | 'sin-out' | 'exp-out' | 'circle-out' | 'elastic-out' | 'back-out' | 'bounce-out' | 'linear-in-out' | 'quad-in-out' | 'cubic-in-out' | 'sin-in-out' | 'exp-in-out' | 'circle-in-out' | 'elastic-in-out' | 'back-in-out' | 'bounce-in-out';
 
-export type PlotType = 'bar' | 'barpolar' | 'box' | 'candlestick' | 'carpet' | 'choropleth' | 'choroplethmap' | 'choroplethmapbox' | 'cone' | 'contour' | 'contourcarpet' | 'densitymap' | 'densitymapbox' | 'funnel' | 'funnelarea' | 'heatmap' | 'histogram' | 'histogram2d' | 'histogram2dcontour' | 'icicle' | 'image' | 'indicator' | 'isosurface' | 'mesh3d' | 'ohlc' | 'parcats' | 'parcoords' | 'pie' | 'sankey' | 'scatter' | 'scatter3d' | 'scattercarpet' | 'scattergeo' | 'scattergl' | 'scattermap' | 'scattermapbox' | 'scatterpolar' | 'scatterpolargl' | 'scattersmith' | 'scatterternary' | 'splom' | 'streamtube' | 'sunburst' | 'surface' | 'table' | 'treemap' | 'violin' | 'volume' | 'waterfall';
+export type TraceType = 'bar' | 'barpolar' | 'box' | 'candlestick' | 'carpet' | 'choropleth' | 'choroplethmap' | 'choroplethmapbox' | 'cone' | 'contour' | 'contourcarpet' | 'densitymap' | 'densitymapbox' | 'funnel' | 'funnelarea' | 'heatmap' | 'histogram' | 'histogram2d' | 'histogram2dcontour' | 'icicle' | 'image' | 'indicator' | 'isosurface' | 'mesh3d' | 'ohlc' | 'parcats' | 'parcoords' | 'pie' | 'sankey' | 'scatter' | 'scatter3d' | 'scattercarpet' | 'scattergeo' | 'scattergl' | 'scattermap' | 'scattermapbox' | 'scatterpolar' | 'scatterpolargl' | 'scattersmith' | 'scatterternary' | 'splom' | 'streamtube' | 'sunburst' | 'surface' | 'table' | 'treemap' | 'violin' | 'volume' | 'waterfall';
+
+/** @deprecated Renamed to TraceType. */
+export type PlotType = TraceType;
 
 // ---------------------------------------------------------------------------
 // Shared interfaces — extracted from repeated attribute subtrees

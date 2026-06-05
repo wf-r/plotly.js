@@ -58,13 +58,14 @@ import type {
     SunburstData,
     SurfaceData,
     TableData,
+    TraceType,
     TreemapData,
     ViolinData,
     VolumeData,
     WaterfallData
 } from '../generated/schema';
 
-export type { PlotType };
+export type { PlotType, TraceType };
 
 /**
  * Union of every trace shape. All fields are optional via `Partial<…>` —

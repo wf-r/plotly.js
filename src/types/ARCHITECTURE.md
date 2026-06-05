@@ -45,7 +45,8 @@ The split:
   types**.
   - **`src/types/generated/schema.d.ts`** contains:
     - **Common enum aliases** discovered from the schema (Calendar, Dash,
-      AxisType, PatternShape, XRef, YRef, TransitionEasing, PlotType).
+      AxisType, PatternShape, XRef, YRef, TransitionEasing, TraceType — plus
+      a deprecated `PlotType` alias for back-compat).
     - **Shared sub-interfaces** extracted from repeated subtrees (Font,
       FontArray, ColorBar, HoverLabel, Domain, Pattern, TickFormatStops,
       LegendGroupTitle).
@@ -138,7 +139,8 @@ test/plot-schema.json (runtime schema: traces + layout + animation + config)
     │
     │ 0. Discover common enum aliases via COMMON_TYPE_ANCHORS
     │    (Calendar/Dash/AxisType/PatternShape/XRef/YRef/TransitionEasing,
-    │    plus PlotType derived from the trace-names list)
+    │    plus TraceType derived from the trace-names list, plus a deprecated
+    │    `PlotType` alias)
     │ 1. Fingerprint every container subtree across traces and layout
     │ 2. Extract shared interfaces (Font, ColorBar, HoverLabel, etc.).
     │    Inject Transition and AnimationFrameOpts as shared types
@@ -156,7 +158,9 @@ test/plot-schema.json (runtime schema: traces + layout + animation + config)
 src/types/generated/schema.d.ts
     │ // Common enum aliases
     │ export type Calendar = 'chinese' | 'coptic' | ...;
-    │ export type PlotType = 'bar' | 'scatter' | ...;
+    │ export type TraceType = 'bar' | 'scatter' | ...;
+    │ /** @deprecated Renamed to TraceType. */
+    │ export type PlotType = TraceType;
     │ // Shared interfaces (public)
     │ export interface Font { ... }
     │ export interface ColorBar { ... }
