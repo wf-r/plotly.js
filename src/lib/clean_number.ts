@@ -7,8 +7,10 @@ import { BADNUM } from '../constants/numerical';
 const JUNK = /^['"%,$#\s']+|[, ]|['"%,$#\s']+$/g;
 
 /**
- * cleanNumber: remove common leading and trailing cruft
+ * Remove common leading and trailing cruft from a value and coerce it to a number.
  * Always returns either a number or BADNUM.
+ *
+ * @param v - value to clean; strings have leading/trailing junk characters stripped before numeric coercion
  */
 function cleanNumber(v: any): number | undefined {
     if (typeof v === 'string') v = v.replace(JUNK, '');
