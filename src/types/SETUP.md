@@ -14,7 +14,6 @@ Note: esbuild handles `.ts` files natively for bundling, so no extra plugins are
 
 `tsconfig.json` sets `noEmit: true` so that tsc never writes files. esbuild is the build system; tsc is the verifier.
 
-
 ## Configuration
 
 - [tsconfig.json](../../tsconfig.json) — type checker config
@@ -72,4 +71,3 @@ var attributes = require('./attributes').default;
 ```
 
 This shows up when converting `attributes.js` → `attributes.ts`. See [CONVERTING_ATTRIBUTES.md](CONVERTING_ATTRIBUTES.md) step 4.
-

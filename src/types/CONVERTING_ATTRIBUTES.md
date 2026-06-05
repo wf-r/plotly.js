@@ -66,7 +66,9 @@ values: ['v', 'h'],
 values: ['v', 'h'] as const,
 ```
 
-Without this, TypeScript widens to `string[]` and you lose the union.
+Without `as const`, `values` widens to `string[]` and `dflt` is no longer
+constrained to be one of `values`. `as const` is what lets `AttributeMap`
+catch `dflt`-not-in-`values` typos at compile time.
 
 ### 4. Update consumers' `require()` calls
 
@@ -139,7 +141,6 @@ are generated from `plot-schema.json` by `tasks/generate_schema_types.mjs`,
 not from the individual `attributes.ts` files. The `attributes.ts` conversion
 still adds value by type-checking the source attribute definitions against
 `AttributeMap`.
-
 
 ## What if I need a type the schema doesn't describe well?
 

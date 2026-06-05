@@ -220,6 +220,24 @@ The `[key: string]: any` index signature is intentional — it absorbs
 unknown internal properties so JS code can be migrated piecewise without
 type errors.
 
+## Coding conventions
+
+### JSDoc on TypeScript functions
+
+For exported functions in `.ts` source files, use a top-level JSDoc block
+with `@param name - description` lines. Omit the type from `@param`
+(the TS signature already has it) and use a hyphen separator:
+
+```ts
+/**
+ * make a regex for matching counter ids/names ie xaxis, xaxis2, xaxis10...
+ *
+ * @param head - the head of the pattern, eg 'x' matches 'x', 'x2', 'x10' etc.
+ * @param tail - a fixed piece after the id
+ */
+export function counter(head: string, tail: string = '') { ... }
+```
+
 ## See also
 
 - [SETUP.md](SETUP.md) — toolchain and npm scripts

@@ -320,7 +320,6 @@ re-exported to consumers. Types inside the `_internal` namespace are still
 reachable via `_internal.X` (the namespace itself is exported by the
 wildcard) but their bare names are not.
 
-
 ## CI integration
 
 `npm run schema-typegen-diff-check` runs the generator and then verifies that

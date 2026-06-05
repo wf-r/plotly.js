@@ -18,7 +18,15 @@ This directory documents the TypeScript conversion in progress.
 - Consumer entry point (`lib/index.d.ts`, wired via `package.json#types`): ✅ done
 - CI gates (`typecheck` + `schema-typegen-diff-check`): ✅ done
 - First attribute file converted (modebar): ✅ done
-- Conversion of remaining component attribute files: 🚧 in progress
+- Conversion of remaining files: 🚧 in progress
+
+## Open conversion TODOs
+
+- **`src/fonts/ploticon.js`** — convert so `DefaultIcons` and `IconsMap` in
+  [`src/types/core/api.d.ts`](core/api.d.ts) can be derived from the module
+  (`type DefaultIcons = keyof typeof Ploticon`) instead of maintained as a
+  hand-written union that can drift. Consumers need `.default` appended per the established
+  [conversion pattern](CONVERTING_ATTRIBUTES.md#L72-L86).
 
 The published consumer surface lives at [`lib/index.d.ts`](../../lib/index.d.ts).
 This `src/types/` directory is the authoring location — internal types live
