@@ -20,10 +20,6 @@
     },
 
     // Emit
-    "declaration": false,
-    "declarationMap": false,
-    "sourceMap": true,
-    "outDir": "./dist",
     "noEmit": true,
 
     "strict": true,
