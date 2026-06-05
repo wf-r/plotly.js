@@ -72,14 +72,8 @@ await build(localDevConfig);
 // output plot-schema JSON
 makeSchema(pathToPlotly, pathToSchema);
 
-// generate TypeScript types from the schema — traces, layout, common enum
-// aliases, animation/frame/config interfaces, and an `_internal` namespace.
-//
-// New schema-derived types automatically reach `plotly.js` consumers because
-// `lib/index.d.ts` uses `export type * from '../src/types/generated/schema'`.
-// If you ever swap that wildcard for an explicit allowlist, restore the
-// per-name re-export verifier that lived here (see git history) — otherwise
-// new types will silently fail to surface in the public API.
+// generate TypeScript types from the schema
+// and write to `src/types/generated/schema.d.ts`
 const schema = JSON.parse(fs.readFileSync(pathToSchema, 'utf-8'));
 const pathToGeneratedTypes = path.join(constants.pathToSrc, 'types/generated/schema.d.ts');
 generateSchemaTypes(schema, pathToGeneratedTypes);

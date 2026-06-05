@@ -135,25 +135,11 @@ for the canonical example. The full conversion changed:
 - `.default` added to `require('./attributes')` in `index.js` and `defaults.js`
 
 Note: Consumer-facing types for modebar (and all other layout components)
-are now generated from `plot-schema.json` by `tasks/generate_schema_types.mjs`,
+are generated from `plot-schema.json` by `tasks/generate_schema_types.mjs`,
 not from the individual `attributes.ts` files. The `attributes.ts` conversion
 still adds value by type-checking the source attribute definitions against
 `AttributeMap`.
 
-Schema output verified byte-identical (2547 bytes) before and after the
-conversion.
-
-## What stays hand-written
-
-The schema does not describe these — they remain in `src/types/`:
-
-- **Events** (`PlotMouseEvent`, `LegendClickEvent`, etc.)
-- **Public API function signatures** (`Plotly.newPlot`, `relayout`, ...)
-- **Internal types** (`FullLayout._modules`, `GraphDiv._fullData`, ...)
-- **Utility types** (`Color`, `Datum`, `TypedArray`, `MarkerSymbol`, etc.) —
-  these are the primitives the generator's emitted types reference.
-
-If you find yourself converting one of these, stop and ask.
 
 ## What if I need a type the schema doesn't describe well?
 
@@ -177,16 +163,12 @@ The schema-generated types are authoritative for everything in
 
 ## Schema-generated types
 
-All 49 trace data interfaces, layout component interfaces, and the Layout
+All trace data interfaces, layout component interfaces, and the Layout
 interface itself are generated from `plot-schema.json` by
 `tasks/generate_schema_types.mjs` (run via `npm run schema`). Individual
 trace and layout `attributes.js` files do **not** need to be converted
 for their types to appear in the public API — the schema generator
 covers them automatically.
-
-Converting an `attributes.js` file to TypeScript is still valuable because
-it type-checks the source definitions against `AttributeMap`, catching
-typos and structural errors at compile time.
 
 ## Order of conversion (for parallel work)
 

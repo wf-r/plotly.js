@@ -26,7 +26,6 @@
     "outDir": "./dist",
     "noEmit": true,
 
-    // Type checking - start strict, loosen if necessary
     "strict": true,
 
     // Linting

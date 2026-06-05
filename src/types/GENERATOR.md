@@ -7,7 +7,7 @@ types into `src/types/generated/schema.d.ts`:
 - Common enum aliases (Calendar, Dash, AxisType, PatternShape, XRef, YRef,
   TransitionEasing, PlotType)
 - Shared sub-interfaces (Font, ColorBar, HoverLabel, etc.)
-- 49 per-trace data interfaces (BarData, ScatterData, IndicatorData, ...)
+- Data interfaces for each trace type (BarData, ScatterData, IndicatorData, etc.)
 - Layout component interfaces (LayoutAxis, Legend, Scene, Annotation, etc.)
   and the Layout interface itself
 - Animation / frame / edits interfaces (AnimationOpts, Frame, Edits)
@@ -59,8 +59,8 @@ and leaf `valType`s produce the same fingerprint string.
 
 ### Phase 2: Shared interface extraction
 
-Containers that appear at least `MIN_OCCURRENCES` (= 5) times AND have at
-least `MIN_PROPERTIES` (= 4) properties become shared interfaces (Font,
+Containers that appear at least `MIN_OCCURRENCES` times AND have at
+least `MIN_PROPERTIES` properties become shared interfaces (Font,
 ColorBar, HoverLabel, etc.). PascalCase naming is controlled by
 `SHARED_NAME_OVERRIDES` so e.g. `colorbar` becomes `ColorBar` rather than
 `Colorbar`:
@@ -196,8 +196,6 @@ src/types/generated/schema.d.ts
 └── Animation / frames / config (AnimationOpts, Frame, Edits, ConfigBase)
 ```
 
-Regenerate with `npm run schema`.
-
 ## valType → TypeScript mapping
 
 Summary:
@@ -322,20 +320,13 @@ re-exported to consumers. Types inside the `_internal` namespace are still
 reachable via `_internal.X` (the namespace itself is exported by the
 wildcard) but their bare names are not.
 
-The wildcard is load-bearing: it removes the maintenance burden of keeping
-`lib/index.d.ts` in sync with new schema additions. If anyone ever swaps
-it for an explicit allowlist, restore the per-name re-export verifier
-that previously lived in `tasks/schema.mjs` (see git history) — otherwise
-new generated types will silently fail to surface in the public API.
 
 ## CI integration
 
 `npm run schema-typegen-diff-check` runs the generator and then verifies that
 both `test/plot-schema.json` and `src/types/generated/` are unchanged via
-`git diff --exit-code`. If either differs, exit code 1 — meaning either a
-developer changed the source schema but didn't commit the regenerated
-artifacts, or an attribute-file conversion silently altered the runtime
-schema and the change wasn't intentionally committed.
+`git diff --exit-code`. If either differs, the command fails with exit code 1
+and outputs the diff to the console.
 
 This is what makes the JS-to-TS conversion workflow safe: a correct
 conversion produces a byte-identical schema, so the check passes; an

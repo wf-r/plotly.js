@@ -15,10 +15,6 @@ for (const name of cm) {
     zmaxDesc.push(`For the \`${name}\` colormodel, it is [${(cr.zmaxDflt || cr.max).join(', ')}].`);
 }
 
-/**
- * Image trace attributes.
- * Consumer-facing types are generated from the schema by generate_schema_types.mjs.
- */
 const attributes = {
     source: {
         valType: 'string',

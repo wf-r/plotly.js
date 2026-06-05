@@ -4,19 +4,16 @@ Quick reference for the TypeScript toolchain in plotly.js.
 
 ## What's installed
 
-- **TypeScript** (`typescript ^5.9.3`) — type checker only, never emits JS
-- **ts-node** (`^10.9.2`) — runs TS scripts directly (build helpers)
-- **@types/node**, **@types/d3** — third-party type definitions
-- esbuild handles `.ts` natively for bundling — no plugins needed
+The following dev dependencies are used for maintaining plotly.js types:
 
-## Two tools, two jobs
+- `typescript` — used for type-checking only
+- `ts-node` — used for running TS scripts (build helpers)
+- `@types/node`, `@types/d3` — provide third-party type definitions
 
-| Tool | Job |
-|---|---|
-| **esbuild** | Bundle for production. Strips types, transpiles to ES2016, emits `dist/plotly.js`. Fast (~450ms full build). Does **not** check types. |
-| **tsc** | Type-check only. Reads `.ts` and `.js` (with `allowJs: true`), reports errors, no output. Slower (~2-5s) but catches bugs. |
+Note: esbuild handles `.ts` files natively for bundling, so no extra plugins are needed for the bundling process.
 
-`tsconfig.json` sets `noEmit: true` so tsc never writes files. esbuild is the build system; tsc is the verifier.
+`tsconfig.json` sets `noEmit: true` so that tsc never writes files. esbuild is the build system; tsc is the verifier.
+
 
 ## Configuration
 
@@ -31,10 +28,9 @@ Both target ES2016. `strict: true` is on in `tsconfig.json` — the type system 
 npm run typecheck         # tsc --noEmit, errors reported, no output
 npm run typecheck-watch   # incremental rechecking on change
 
-npm run schema            # rebuild test/plot-schema.json + regenerate types
-npm run schema-typegen-diff-check      # regenerate + verify no uncommitted drift in test/plot-schema.json or schema.d.ts
-npm run bundle            # esbuild → dist/plotly.js
-npm run build             # full production build
+npm run schema            # rebuild test/plot-schema.json + regenerate types under src/types/generated/
+npm run schema-typegen-diff-check      # regenerate + verify no changes to test/plot-schema.json or src/types/generated/schema.d.ts
+npm run build             # full production build (regenerate all files under `dist/`)
 ```
 
 ## Workflows
@@ -77,12 +73,3 @@ var attributes = require('./attributes').default;
 
 This shows up when converting `attributes.js` → `attributes.ts`. See [CONVERTING_ATTRIBUTES.md](CONVERTING_ATTRIBUTES.md) step 4.
 
-## Performance
-
-For a codebase of ~750 source files:
-
-| Operation | Time |
-|---|---|
-| `tsc --noEmit` cold | ~2-5s |
-| `tsc --noEmit --watch` incremental | ~100ms |
-| esbuild full bundle | ~450ms |

@@ -14,7 +14,7 @@ This directory documents the TypeScript conversion in progress.
 - TypeScript build infrastructure: ✅ done
 - Public type surface in `src/types/`: ✅ done
 - `AttributeMap` validation machinery: ✅ done
-- **Schema-based type generator**: ✅ done — all 49 trace types + layout + shared interfaces
+- **Schema-based type generator**: ✅ done — all trace types + layout + shared interfaces
 - Consumer entry point (`lib/index.d.ts`, wired via `package.json#types`): ✅ done
 - CI gates (`typecheck` + `schema-typegen-diff-check`): ✅ done
 - First attribute file converted (modebar): ✅ done
@@ -31,7 +31,7 @@ The following are **auto-generated from `plot-schema.json`** by
 
 - Common enum aliases (Calendar, Dash, AxisType, PatternShape, XRef, YRef,
   TransitionEasing, PlotType)
-- All 49 per-trace data interfaces (BarData, ScatterData, IndicatorData, ...)
+- Data interfaces for each trace type (BarData, ScatterData, IndicatorData, etc.)
 - Layout component interfaces (LayoutAxis, Legend, Scene, Annotation,
   Shape, Slider, UpdateMenu, etc.) and the Layout interface itself
 - Shared sub-interfaces (Font, ColorBar, HoverLabel, LegendGroupTitle, etc.)

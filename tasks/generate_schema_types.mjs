@@ -28,8 +28,9 @@ let META_KEYS = new Set();
 // ---------------------------------------------------------------------------
 // Common enum types — discovered from the schema at generation time and
 // emitted as named type aliases in the output. Each anchor specifies a
-// PascalCase type name and a `match(key, path, values)` predicate. The first
-// enumerated attribute whose match returns true defines the alias's values.
+// PascalCase type name and a `match(key, path, values)` predicate. If multiple
+// enumerated attributes match the predicate, the one with the largest set of values
+//  is chosen.
 // ---------------------------------------------------------------------------
 
 const COMMON_TYPE_ANCHORS = [

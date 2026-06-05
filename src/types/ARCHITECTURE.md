@@ -38,7 +38,7 @@ re-exports.
 
 The split:
 
-- **Generated types** are the authoritative TypeScript representation of
+- **Generated types** (`src/types/generated`) are the authoritative TypeScript representation of
   the runtime schema. The schema itself is produced from Plotly's JS
   attribute files (`src/.../attributes.js`), which remain the source of
   truth: chain is **attribute files → `plot-schema.json` → generated
@@ -49,7 +49,7 @@ The split:
     - **Shared sub-interfaces** extracted from repeated subtrees (Font,
       FontArray, ColorBar, HoverLabel, Domain, Pattern, TickFormatStops,
       LegendGroupTitle).
-    - **Per-trace data interfaces** — all 49 (BarData, ScatterData,
+    - **Per-trace data interfaces** for all trace types (BarData, ScatterData,
       IndicatorData, etc.).
     - **Layout component interfaces** (LayoutAxis, Legend, Scene,
       Annotation, Shape, Slider, UpdateMenu, etc.) and the Layout
@@ -65,7 +65,8 @@ The split:
 
     Generated from `plot-schema.json` by `tasks/generate_schema_types.mjs`.
     Run `npm run schema` to regenerate.
-- **Hand-written types** cover everything the schema doesn't describe:
+- **Hand-written types** (everything in `src/types/` besides the `generated/` directory)
+  cover everything the schema doesn't describe:
   events, internal runtime state, public API function signatures,
   utility types (Color, Datum, MarkerSymbol, ErrorBar), behavioral types
   (ModeBarButton, Icon, etc.).
