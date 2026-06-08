@@ -271,6 +271,16 @@ proto.updateProjection = function (geoCalcData, fullLayout) {
     var s = (this.fitScale = projection.scale());
     var t = projection.translate();
 
+    // scaleExtent uses fitScale so min/maxscale are relative to the
+    // user-facing projection.scale (where 1 == fits lon/lat ranges).
+    // https://d3js.org/d3-zoom#zoom_scaleExtent
+    projection.scaleExtent = () => {
+        const { minscale } = projLayout;
+        const maxscale = projLayout.maxscale ?? Infinity;
+        // swap if user supplied min > max so d3 receives a valid range
+        return [s * Math.min(minscale, maxscale), s * Math.max(minscale, maxscale)];
+    };
+
     if (geoLayout.fitbounds) {
         var b2 = projection.getBounds(makeRangeBox(axLon.range, axLat.range));
         var k2 = Math.min((b[1][0] - b[0][0]) / (b2[1][0] - b2[0][0]), (b[1][1] - b[0][1]) / (b2[1][1] - b2[0][1]));
@@ -458,10 +468,16 @@ proto.updateFx = function (fullLayout, geoLayout) {
 
     if (dragMode === 'pan') {
         bgRect.node().onmousedown = null;
-        var zoom = createGeoZoom(_this, geoLayout);
+        const zoom = createGeoZoom(_this, geoLayout);
         bgRect.call(zoom);
-        // Trigger zoom transition to account for initial min/max scale values
-        if (geoLayout.projection.minscale > 0 && !d3.event) zoom.event(bgRect);
+        // If the initial projection.scale lies outside [minscale, maxscale],
+        // dispatch a synthetic zoom event to clamp it. Skip when re-entered
+        // from inside a real zoom handler to avoid recursion.
+        if (!d3.event) {
+            const currScale = _this.projection.scale();
+            const [minExtent, maxExtent] = _this.projection.scaleExtent();
+            if (currScale < minExtent || currScale > maxExtent) zoom.event(bgRect);
+        }
         bgRect.on('dblclick.zoom', zoomReset);
         if (!gd._context._scrollZoom.geo) {
             bgRect.on('wheel.zoom', null);
@@ -693,15 +709,6 @@ function getProjection(geoLayout) {
     };
 
     projection.precision(constants.precision);
-
-    // https://d3js.org/d3-zoom#zoom_scaleExtent
-    projection.scaleExtent = () => {
-        var minscale = projLayout.minscale;
-        var maxscale = projLayout.maxscale === -1 ? Infinity : projLayout.maxscale;
-        var max = Math.max(minscale, maxscale);
-        var min = Math.min(minscale, maxscale);
-        return [100 * min, 100 * max];
-    };
 
     if (geoLayout._isSatellite) {
         projection.tilt(projLayout.tilt).distance(projLayout.distance);
