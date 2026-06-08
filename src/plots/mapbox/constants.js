@@ -213,7 +213,7 @@ module.exports = {
 
     multipleTokensErrorMsg: [
         'Set multiple mapbox access token across different mapbox subplot,',
-        'using first token found as mapbox-gl does not allow multiple' + 'access tokens on the same page.'
+        'using first token found as mapbox-gl does not allow multiple access tokens on the same page.'
     ].join('\n'),
 
     mapOnErrorMsg: 'Mapbox error.',
