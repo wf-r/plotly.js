@@ -127,8 +127,11 @@ function zoomNonClipped(geo, projection) {
     function handleZoomstart() {
         d3.select(this).style(zoomstartStyle);
 
-        var rect = this.getBBox();
-        mouse0 = d3.event.sourceEvent ? d3.mouse(this) : [rect.x + rect.width / 2, rect.y + rect.height / 2];
+        // Fallback to bbox center when there's no source event
+        // (e.g. synthetic zoom.event dispatched on initial render
+        // to enforce minscale/maxscale).
+        const { x, y, width, height } = this.getBBox();
+        mouse0 = d3.event.sourceEvent ? d3.mouse(this) : [x + width / 2, y + height / 2];
         rotate0 = projection.rotate();
         translate0 = projection.translate();
         lastRotate = rotate0;
@@ -136,8 +139,8 @@ function zoomNonClipped(geo, projection) {
     }
 
     function handleZoom() {
-        var rect = this.getBBox();
-        mouse1 = d3.event.sourceEvent ? d3.mouse(this) : [rect.x + rect.width / 2, rect.y + rect.height / 2];
+        const { x, y, width, height } = this.getBBox();
+        mouse1 = d3.event.sourceEvent ? d3.mouse(this) : [x + width / 2, y + height / 2];
         if (outside(mouse0)) {
             zoom.scale(projection.scale());
             zoom.translate(projection.translate());
@@ -203,18 +206,21 @@ function zoomClipped(geo, projection) {
     zoom.on('zoomstart', function () {
         d3.select(this).style(zoomstartStyle);
 
-        var rect = this.getBBox();
-        var mouse0 = d3.event.sourceEvent ? d3.mouse(this) : [rect.x + rect.width / 2, rect.y + rect.height / 2];
-        var rotate0 = projection.rotate();
-        var lastRotate = rotate0;
-        var translate0 = projection.translate();
-        var q = quaternionFromEuler(rotate0);
+        // Fallback to bbox center when there's no source event
+        // (e.g. synthetic zoom.event dispatched on initial render
+        // to enforce minscale/maxscale).
+        const { x, y, width, height } = this.getBBox();
+        let mouse0 = d3.event.sourceEvent ? d3.mouse(this) : [x + width / 2, y + height / 2];
+        const rotate0 = projection.rotate();
+        let lastRotate = rotate0;
+        const translate0 = projection.translate();
+        const q = quaternionFromEuler(rotate0);
 
         zoomPoint = position(projection, mouse0);
 
         zoomOn.call(zoom, 'zoom', function () {
-            var rect = this.getBBox();
-            var mouse1 = d3.event.sourceEvent ? d3.mouse(this) : [rect.x + rect.width / 2, rect.y + rect.height / 2];
+            const { x, y, width, height } = this.getBBox();
+            const mouse1 = d3.event.sourceEvent ? d3.mouse(this) : [x + width / 2, y + height / 2];
 
             projection.scale((view.k = d3.event.scale));
 
