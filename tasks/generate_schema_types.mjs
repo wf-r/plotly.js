@@ -456,16 +456,6 @@ function valTypeToTS(attr, attrPath) {
 // ---------------------------------------------------------------------------
 
 /**
- * Returns true if key looks like an auto-generated *src attribute.
- * These are created for Chart Studio Cloud and shouldn't appear in types.
- */
-function isSrcAttr(key, siblings) {
-    if (!key.endsWith('src')) return false;
-    const base = key.slice(0, -3);
-    return base in siblings;
-}
-
-/**
  * Detect a linked-to-array container in the serialized schema.
  *
  * In the source, these are marked with `_isLinkedToArray`, but that flag
@@ -508,7 +498,6 @@ function containerFingerprint(attrs) {
     for (const key of Object.keys(attrs).sort()) {
         if (META_KEYS.has(key)) continue;
         const val = attrs[key];
-        if (isSrcAttr(key, attrs)) continue;
         if (val == null) continue;
 
         if (typeof val === 'string') {
@@ -546,7 +535,6 @@ function collectFingerprints(attrs, collector) {
     for (const key of Object.keys(attrs).sort()) {
         if (META_KEYS.has(key)) continue;
         const val = attrs[key];
-        if (isSrcAttr(key, attrs)) continue;
         if (val == null || typeof val !== 'object' || val.valType) continue;
 
         let containerAttrs;
@@ -586,7 +574,6 @@ function countProperties(attrs) {
     let count = 0;
     for (const key of Object.keys(attrs)) {
         if (META_KEYS.has(key)) continue;
-        if (isSrcAttr(key, attrs)) continue;
         const val = attrs[key];
         if (val == null) continue;
         if (typeof val === 'string' || typeof val !== 'object') {
@@ -759,9 +746,6 @@ function attrsToProperties(attrs, indent, pathPrefix, sharedTypes, fieldOverride
 
         const val = attrs[key];
 
-        // Skip src attributes
-        if (isSrcAttr(key, attrs)) continue;
-
         // Skip null/undefined
         if (val == null) continue;
 
@@ -928,7 +912,6 @@ function generateLayoutProperties(layoutAttrs, sharedTypes, subplotGroups, array
     for (const key of Object.keys(layoutAttrs).sort()) {
         if (META_KEYS.has(key)) continue;
         const val = layoutAttrs[key];
-        if (isSrcAttr(key, layoutAttrs)) continue;
         if (val == null) continue;
 
         // String literal
