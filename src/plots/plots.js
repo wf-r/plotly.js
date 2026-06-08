@@ -139,7 +139,7 @@ plots.sendDataToCloud = function(gd) {
             name: 'data'
         });
 
-    hiddenformInput.node().value = plots.graphJson(gd, false, 'keepdata');
+    hiddenformInput.node().value = plots.graphJson(gd, false);
     hiddenform.node().submit();
     hiddenformDiv.remove();
 
@@ -1964,7 +1964,7 @@ plots.didMarginChange = function(margin0, margin1) {
 /**
  * JSONify the graph data and layout
  *
- * This function needs to recurse because some src can be inside
+ * This function needs to recurse because some objects can be inside
  * sub-objects.
  *
  * It also strips out functions and private (starts with _) elements.
@@ -1973,18 +1973,12 @@ plots.didMarginChange = function(margin0, margin1) {
  *
  * @param gd The graphDiv
  * @param {Boolean} dataonly If true, don't return layout.
- * @param {'keepref'|'keepdata'|'keepall'} [mode='keepref'] Filter what's kept
- *      keepref: remove data for which there's a src present
- *          eg if there's xsrc present (and xsrc is well-formed,
- *          ie has : and some chars before it), strip out x
- *      keepdata: remove all src tags, don't remove the data itself
- *      keepall: keep data and src
  * @param {String} output If you specify 'object', the result will not be stringified
  * @param {Boolean} useDefaults If truthy, use _fullLayout and _fullData
  * @param {Boolean} includeConfig If truthy, include _context
  * @returns {Object|String}
  */
-plots.graphJson = function(gd, dataonly, mode, output, useDefaults, includeConfig) {
+plots.graphJson = function(gd, dataonly, output, useDefaults, includeConfig) {
     // if the defaults aren't supplied yet, we need to do that...
     if((useDefaults && dataonly && !gd._fullData) ||
             (useDefaults && !dataonly && !gd._fullLayout)) {
@@ -2001,7 +1995,6 @@ plots.graphJson = function(gd, dataonly, mode, output, useDefaults, includeConfi
         }
         if(Lib.isPlainObject(d)) {
             var o = {};
-            var src;
             Object.keys(d).sort().forEach(function(v) {
                 // remove private elements and functions
                 // _ is for private, [ is a mistake ie [object Object]
@@ -2011,21 +2004,6 @@ plots.graphJson = function(gd, dataonly, mode, output, useDefaults, includeConfi
                 if(typeof d[v] === 'function') {
                     if(keepFunction) o[v] = '_function';
                     return;
-                }
-
-                // look for src/data matches and remove the appropriate one
-                if(mode === 'keepdata') {
-                    // keepdata: remove all ...src tags
-                    if(v.slice(-3) === 'src') {
-                        return;
-                    }
-                } else if(mode !== 'keepall') {
-                    // keepref: remove sourced data but only
-                    // if the source tag is well-formed
-                    src = d[v + 'src'];
-                    if(typeof src === 'string' && src.indexOf(':') > 0) {
-                        return;
-                    }
                 }
 
                 // OK, we're including this... recurse into it

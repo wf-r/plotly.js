@@ -354,7 +354,7 @@ function emptyContainer(outer, innerStr) {
 // swap all the data and data attributes associated with x and y
 exports.swapXYData = function (trace) {
     var i;
-    Lib.swapAttrs(trace, ['?', '?0', 'd?', '?bins', 'nbins?', 'autobin?', '?src', 'error_?']);
+    Lib.swapAttrs(trace, ['?', '?0', 'd?', '?bins', 'nbins?', 'autobin?', 'error_?']);
     if (Array.isArray(trace.z) && Array.isArray(trace.z[0])) {
         if (trace.transpose) delete trace.transpose;
         else trace.transpose = true;
