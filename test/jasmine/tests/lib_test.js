@@ -1941,6 +1941,53 @@ describe('Test lib.js:', function () {
         });
     });
 
+    describe('slugify', function () {
+        it('lowercases, trims, and hyphenates whitespace', function () {
+            expect(Lib.slugify('  Hello World  ')).toBe('hello-world');
+            expect(Lib.slugify('Multiple   Spaces\tand\ntabs')).toBe('multiple-spaces-and-tabs');
+        });
+
+        it('strips html/pseudo-html tags', function () {
+            expect(Lib.slugify('<b>Revenue</b> by <i>year</i>')).toBe('revenue-by-year');
+        });
+
+        it('removes illegal filename characters', function () {
+            expect(Lib.slugify('a/b\\c:d*e?f"g|h$i')).toBe('abcdefghi');
+        });
+
+        it('preserves unicode letters (accents, CJK, emoji)', function () {
+            expect(Lib.slugify('Café 北京')).toBe('café-北京');
+            expect(Lib.slugify('pair😀')).toBe('pair😀');
+        });
+
+        it('drops unpaired surrogates so the result is valid UTF-8', function () {
+            expect(Lib.slugify('lone\uD800surrogate')).toBe('lonesurrogate');
+            expect(Lib.slugify('trail\uDC00ing')).toBe('trailing');
+        });
+
+        it('handles null/undefined/empty input', function () {
+            expect(Lib.slugify(undefined)).toBe('');
+            expect(Lib.slugify(null)).toBe('');
+            expect(Lib.slugify('')).toBe('');
+        });
+
+        it('caps length at 60 code points by default', function () {
+            expect(Lib.slugify('a'.repeat(100))).toBe('a'.repeat(60));
+            expect(Lib.slugify('a'.repeat(60)).length).toBe(60);
+            expect(Lib.slugify('short')).toBe('short');
+        });
+
+        it('respects an explicit maxLen and strips a dangling hyphen from the cut', function () {
+            expect(Lib.slugify('hello world foo bar', 11)).toBe('hello-world');
+            expect(Lib.slugify('hello world', 6)).toBe('hello');
+        });
+
+        it('never splits a surrogate pair when capping length', function () {
+            // each emoji is one code point (a surrogate pair); the cap counts code points
+            expect(Lib.slugify('😀😀😀😀😀', 3)).toBe('😀😀😀');
+        });
+    });
+
     describe('isPlotDiv', function () {
         it('should work on plain objects', function () {
             expect(Lib.isPlotDiv({})).toBe(false);
