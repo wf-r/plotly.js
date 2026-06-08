@@ -5,6 +5,7 @@ var colorAttrs = require('../../components/color/attributes');
 var dash = require('../../components/drawing/attributes').dash;
 var extendFlat = require('../../lib/extend').extendFlat;
 var templatedArray = require('../../plot_api/plot_template').templatedArray;
+var templateFormatStringDescription = require('../../plots/template_attributes').templateFormatStringDescription;
 var descriptionWithDates = require('../../plots/cartesian/axis_format_attributes').descriptionWithDates;
 
 var ONEDAY = require('../../constants/numerical').ONEDAY;
@@ -334,7 +335,7 @@ module.exports = {
         description: [
             'If *normal*, the range is computed in relation to the extrema',
             'of the input data.',
-            'If *tozero*`, the range extends to 0,',
+            'If *tozero*, the range extends to 0,',
             'regardless of the input data',
             'If *nonnegative*, the range is non-negative,',
             'regardless of the input data.',
@@ -910,7 +911,7 @@ module.exports = {
     },
     exponentformat: {
         valType: 'enumerated',
-        values: ['none', 'e', 'E', 'power', 'SI', 'B'],
+        values: ['none', 'e', 'E', 'power', 'SI', 'B', 'SI extended'],
         dflt: 'B',
         editType: 'ticks',
         description: [
@@ -921,7 +922,12 @@ module.exports = {
             'If *E*, 1E+9.',
             'If *power*, 1x10^9 (with 9 in a super script).',
             'If *SI*, 1G.',
-            'If *B*, 1B.'
+            'If *B*, 1B.',
+            
+            '*SI* uses prefixes from "femto" f (10^-15) to "tera" T (10^12).',
+            '*SI extended* covers instead the full SI range from "quecto" q (10^-30) to "quetta" Q (10^30).',
+            'If *SI* or *SI extended* is used and the exponent is beyond the above ranges, the formatting rule',
+            'will automatically be switched to the power notation.'
         ].join(' ')
     },
     minexponent: {
@@ -986,6 +992,18 @@ module.exports = {
         dflt: '',
         editType: 'none',
         description: descriptionWithDates('hover text')
+    },
+    unifiedhovertitle: {
+        text : {
+            valType: 'string',
+            dflt: '',
+            editType: 'none',
+            description: [
+                'Template string used for rendering the title that appear on x or y unified hover box.',
+                templateFormatStringDescription()
+            ].join(' ')
+        },
+        editType: 'none'
     },
     // lines and grids
     showline: {
