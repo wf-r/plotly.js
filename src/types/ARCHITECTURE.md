@@ -61,7 +61,7 @@ The split:
     - **`_internal` namespace** wrapping types whose direct names would
       mislead consumers (Marker is scatter-only, Line is the marker
       outline) or are schema-internal helpers (AutoRangeOptions,
-      Lighting, Stream, ErrorY). Reachable as `_internal.Marker` etc.
+      Lighting, ErrorY). Reachable as `_internal.Marker` etc.
       but not at the top level.
 
     Generated from `plot-schema.json` by `tasks/generate_schema_types.mjs`.

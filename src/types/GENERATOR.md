@@ -75,12 +75,11 @@ const SHARED_NAME_OVERRIDES = new Map([
     ['legendgrouptitle', 'LegendGroupTitle'],
     ['error_y', 'ErrorY'],
     ['error_x', 'ErrorX'],
-    ['stream', 'Stream'],
 ]);
 ```
 
 Names in `SHARED_NAME_OVERRIDES` bypass `MIN_PROPERTIES`, so small
-containers like `Stream` (2 properties) can be opted in as shared.
+containers like `ErrorX` / `ErrorY` (3 properties) can be opted in as shared.
 
 After fingerprinting completes, the generator **injects** the `transition`
 and `frame` subtrees from `schema.animation` as shared types (`Transition`
@@ -133,11 +132,11 @@ without overrides (all fields are concrete booleans).
 
 `ConfigBase` is emitted from `schema.config` after registering Edits'
 fingerprint in `sharedTypes`, so `edits?: Edits` references the named
-interface rather than re-inlining the subtree. Seven config fields whose
+interface rather than re-inlining the subtree. Six config fields whose
 schema `valType` is `any` (`locales`, `modeBarButtons`,
 `modeBarButtonsToAdd`, `modeBarButtonsToRemove`, `setBackground`,
-`showSources`, `toImageButtonOptions`) come through as `any`; the
-hand-written `Config` in `core/config.d.ts` overrides them via
+`toImageButtonOptions`) come through as `any`; the hand-written `Config`
+in `core/config.d.ts` overrides them via
 `Omit<ConfigBase, keyof ConfigOverrides> & ConfigOverrides`.
 
 ### Phase 6: Internal namespace
@@ -147,7 +146,7 @@ Names in `INTERNAL_INTERFACES` are wrapped in `export namespace _internal {
 
 ```js
 const INTERNAL_INTERFACES = new Set([
-    'AutoRangeOptions', 'ErrorY', 'Lighting', 'Line', 'Marker', 'Stream'
+    'AutoRangeOptions', 'ErrorY', 'Lighting', 'Line', 'Marker'
 ]);
 ```
 
@@ -190,7 +189,7 @@ src/types/generated/schema.d.ts
 │                                Pattern, TickFormatStops, LegendGroupTitle, ...)
 ├── Internal shared interfaces in `namespace _internal` (Marker, Line,
 │                                                        AutoRangeOptions,
-│                                                        Lighting, Stream, ErrorY)
+│                                                        Lighting, ErrorY)
 ├── Trace interfaces (ScatterData, BarData, ... — 49 traces)
 ├── Layout component interfaces (LayoutAxis, Legend, Scene, Annotation, etc.)
 ├── Layout interface

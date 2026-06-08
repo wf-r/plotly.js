@@ -619,17 +619,6 @@ export namespace _internal {
         width?: number | number[];
     }
 
-    export interface Stream {
-        /**
-         * Sets the maximum number of points to keep on the plots from an incoming stream. If `maxpoints` is set to *50*, only the newest 50 points will be displayed on the plot.
-         * @default 500
-         * Range: [0, 10000]
-         */
-        maxpoints?: number;
-        /** The stream id number links a data trace on a plot with a stream. See https://chart-studio.plotly.com/settings for more details. */
-        token?: string;
-    }
-
     export interface Marker {
         /**
          * Sets the marker angle in respect to `angleref`.
@@ -955,7 +944,6 @@ export interface BarData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     /**
@@ -1211,7 +1199,6 @@ export interface BarpolarData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /**
      * Sets a reference between this trace's data coordinates and a polar subplot. If *polar* (the default value), the data refer to `layout.polar`. If *polar2*, the data refer to `layout.polar2`, and so on.
      * @default 'polar'
@@ -1455,7 +1442,6 @@ export interface BoxData {
      * @default 'quartiles'
      */
     sizemode?: 'quartiles' | 'sd';
-    stream?: _internal.Stream;
     /** Sets the text elements associated with each sample value. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     text?: string | string[];
     type?: 'box';
@@ -1670,7 +1656,6 @@ export interface CandlestickData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets hover text elements associated with each sample point. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to this trace's sample points. */
     text?: string | string[];
     type?: 'candlestick';
@@ -2266,7 +2251,6 @@ export interface CarpetData {
      * Range: [0, 1]
      */
     opacity?: number;
-    stream?: _internal.Stream;
     type?: 'carpet';
     /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
     uid?: string;
@@ -2407,7 +2391,6 @@ export interface ChoroplethData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /** Sets the text elements associated with each location. */
     text?: string | string[];
     type?: 'choropleth';
@@ -2551,7 +2534,6 @@ export interface ChoroplethmapData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /**
      * Sets a reference between this trace's data coordinates and a map subplot. If *map* (the default value), the data refer to `layout.map`. If *map2*, the data refer to `layout.map2`, and so on.
      * @default 'map'
@@ -2700,7 +2682,6 @@ export interface ChoroplethmapboxData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /**
      * mapbox subplots and traces are deprecated! Please consider switching to `map` subplots and traces. Learn more at: https://plotly.com/python/maplibre-migration/ as well as https://plotly.com/javascript/maplibre-migration/ Sets a reference between this trace's data coordinates and a mapbox subplot. If *mapbox* (the default value), the data refer to `layout.mapbox`. If *mapbox2*, the data refer to `layout.mapbox2`, and so on.
      * @default 'mapbox'
@@ -2882,7 +2863,6 @@ export interface ConeData {
      * Minimum: 0
      */
     sizeref?: number;
-    stream?: _internal.Stream;
     /** Sets the text elements associated with the cones. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     type?: 'cone';
@@ -3104,7 +3084,6 @@ export interface ContourData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /** Sets the text elements associated with each z value. */
     text?: Datum[] | Datum[][] | TypedArray;
     /** For this trace it only has an effect if `coloring` is set to *heatmap*. Sets the text font. */
@@ -3428,7 +3407,6 @@ export interface ContourcarpetData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /** Sets the text elements associated with each z value. */
     text?: Datum[] | Datum[][] | TypedArray;
     /**
@@ -3570,7 +3548,6 @@ export interface DensitymapData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /**
      * Sets a reference between this trace's data coordinates and a map subplot. If *map* (the default value), the data refer to `layout.map`. If *map2*, the data refer to `layout.map2`, and so on.
      * @default 'map'
@@ -3697,7 +3674,6 @@ export interface DensitymapboxData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /**
      * mapbox subplots and traces are deprecated! Please consider switching to `map` subplots and traces. Learn more at: https://plotly.com/python/maplibre-migration/ as well as https://plotly.com/javascript/maplibre-migration/ Sets a reference between this trace's data coordinates and a mapbox subplot. If *mapbox* (the default value), the data refer to `layout.mapbox`. If *mapbox2*, the data refer to `layout.mapbox2`, and so on.
      * @default 'mapbox'
@@ -3906,7 +3882,6 @@ export interface FunnelData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     /**
@@ -4093,7 +4068,6 @@ export interface FunnelareaData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
@@ -4232,7 +4206,6 @@ export interface HeatmapData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /** Sets the text elements associated with each z value. */
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the text font. */
@@ -4626,7 +4599,6 @@ export interface HistogramData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets hover text elements associated with each bar. If a single string, the same string appears over all bars. If an array of string, the items are mapped in order to the this trace's coordinates. */
     text?: string | string[];
     /**
@@ -4824,7 +4796,6 @@ export interface Histogram2dData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /** Sets the text font. */
     textfont?: Font;
     /** Template string used for rendering the information text that appears on points. Note that this will override `textinfo`. Variables are inserted using %{variable}, for example "y: %{y}". Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. All attributes that can be specified per-point (the ones that are `arrayOk: true`) are available. Finally, the template string has access to variable `z` */
@@ -5122,7 +5093,6 @@ export interface Histogram2dcontourData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /** For this trace it only has an effect if `coloring` is set to *heatmap*. Sets the text font. */
     textfont?: Font;
     /** For this trace it only has an effect if `coloring` is set to *heatmap*. Template string used for rendering the information text that appears on points. Note that this will override `textinfo`. Variables are inserted using %{variable}, for example "y: %{y}". Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. All attributes that can be specified per-point (the ones that are `arrayOk: true`) are available. Finally, the template string has access to variables `x`, `y`, `z` and `text`. */
@@ -5369,7 +5339,6 @@ export interface IcicleData {
      * @default true
      */
     sort?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
@@ -5477,7 +5446,6 @@ export interface ImageData {
     opacity?: number;
     /** Specifies the data URI of the image to be visualized. The URI consists of "data:image/[<media subtype\\>][;base64\\],<data\\>" */
     source?: string;
-    stream?: _internal.Stream;
     /** Sets the text elements associated with each z value. */
     text?: Datum[] | Datum[][] | TypedArray;
     type?: 'image';
@@ -5798,7 +5766,6 @@ export interface IndicatorData {
         /** Sets the value formatting rule using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. */
         valueformat?: string;
     };
-    stream?: _internal.Stream;
     title?: {
         /** Sets the horizontal alignment of the title. It defaults to `center` except for bullet charts for which it defaults to right. */
         align?: 'left' | 'center' | 'right';
@@ -6077,7 +6044,6 @@ export interface IsosurfaceData {
          */
         show?: boolean;
     };
-    stream?: _internal.Stream;
     surface?: {
         /**
          * Sets the number of iso-surfaces between minimum and maximum iso-values. By default this value is 2 meaning that only minimum and maximum surfaces would be drawn.
@@ -6301,7 +6267,6 @@ export interface Mesh3dData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /** Sets the text elements associated with the vertices. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     type?: 'mesh3d';
@@ -6489,7 +6454,6 @@ export interface OhlcData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets hover text elements associated with each sample point. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to this trace's sample points. */
     text?: string | string[];
     /**
@@ -6681,7 +6645,6 @@ export interface ParcatsData {
      * @default 'forward'
      */
     sortpaths?: 'forward' | 'backward';
-    stream?: _internal.Stream;
     /** Sets the font for the `category` labels. */
     tickfont?: Font;
     type?: 'parcats';
@@ -6811,7 +6774,6 @@ export interface ParcoordsData {
     name?: string;
     /** Sets the font for the `dimension` range values. */
     rangefont?: Font;
-    stream?: _internal.Stream;
     /** Sets the font for the `dimension` tick values. */
     tickfont?: Font;
     type?: 'parcoords';
@@ -6957,7 +6919,6 @@ export interface PieData {
      * @default true
      */
     sort?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
@@ -7174,7 +7135,6 @@ export interface SankeyData {
     orientation?: 'v' | 'h';
     /** Array containing integer indices of selected points. Has an effect only for traces that support selections. Note that an empty array means an empty selection where the `unselected` are turned on for all points, whereas, any other non-array values means no selection all where the `selected` and `unselected` styles have no effect. */
     selectedpoints?: any;
-    stream?: _internal.Stream;
     /** Sets the font for node labels */
     textfont?: Font;
     type?: 'sankey';
@@ -7414,7 +7374,6 @@ export interface ScatterData {
     stackgaps?: 'infer zero' | 'interpolate';
     /** Set several scatter traces (on the same subplot) to the same stackgroup in order to add their y values (or their x values if `orientation` is *h*). If blank or omitted this trace will not be stacked. Stacking also turns `fill` on by default, using *tonexty* (*tonextx*) if `orientation` is *h* (*v*) and sets the default `mode` to *lines* irrespective of point count. You can only stack on a numeric (linear or log) axis. Traces in a `stackgroup` will only fill to (or be filled to) other traces in the same group. With multiple `stackgroup`s or some traces stacked and some not, if fill-linked traces are not already consecutive, the later ones will be pushed down in the drawing order. */
     stackgroup?: string;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     /** Sets the text font. */
@@ -7925,7 +7884,6 @@ export interface Scatter3dData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /**
      * If *-1*, the scatter points are not fill with a surface If *0*, *1*, *2*, the scatter points are filled with a Delaunay surface about the x, y, z respectively.
      * @default -1
@@ -8142,7 +8100,6 @@ export interface ScattercarpetData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each (a,b) point. If a single string, the same string appears over all the data points. If an array of strings, the items are mapped in order to the data points in (a,b). If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     /** Sets the text font. */
@@ -8432,7 +8389,6 @@ export interface ScattergeoData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each (lon,lat) pair or item in `locations`. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) or `locations` coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     /** Sets the text font. */
@@ -8644,7 +8600,6 @@ export interface ScatterglData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     /** Sets the text font. */
@@ -8986,7 +8941,6 @@ export interface ScattermapData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /**
      * Sets a reference between this trace's data coordinates and a map subplot. If *map* (the default value), the data refer to `layout.map`. If *map2*, the data refer to `layout.map2`, and so on.
      * @default 'map'
@@ -9247,7 +9201,6 @@ export interface ScattermapboxData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /**
      * mapbox subplots and traces are deprecated! Please consider switching to `map` subplots and traces. Learn more at: https://plotly.com/python/maplibre-migration/ as well as https://plotly.com/javascript/maplibre-migration/ Sets a reference between this trace's data coordinates and a mapbox subplot. If *mapbox* (the default value), the data refer to `layout.mapbox`. If *mapbox2*, the data refer to `layout.mapbox2`, and so on.
      * @default 'mapbox'
@@ -9437,7 +9390,6 @@ export interface ScatterpolarData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /**
      * Sets a reference between this trace's data coordinates and a polar subplot. If *polar* (the default value), the data refer to `layout.polar`. If *polar2*, the data refer to `layout.polar2`, and so on.
      * @default 'polar'
@@ -9616,7 +9568,6 @@ export interface ScatterpolarglData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /**
      * Sets a reference between this trace's data coordinates and a polar subplot. If *polar* (the default value), the data refer to `layout.polar`. If *polar2*, the data refer to `layout.polar2`, and so on.
      * @default 'polar'
@@ -9832,7 +9783,6 @@ export interface ScattersmithData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /**
      * Sets a reference between this trace's data coordinates and a smith subplot. If *smith* (the default value), the data refer to `layout.smith`. If *smith2*, the data refer to `layout.smith2`, and so on.
      * @default 'smith'
@@ -10018,7 +9968,6 @@ export interface ScatterternaryData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /**
      * Sets a reference between this trace's data coordinates and a ternary subplot. If *ternary* (the default value), the data refer to `layout.ternary`. If *ternary2*, the data refer to `layout.ternary2`, and so on.
      * @default 'ternary'
@@ -10188,7 +10137,6 @@ export interface SplomData {
      * @default true
      */
     showupperhalf?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each (x,y) pair to appear on hover. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. */
     text?: string | string[];
     type?: 'splom';
@@ -10366,7 +10314,6 @@ export interface StreamtubeData {
         /** Sets the z components of the starting position of the streamtubes */
         z?: Datum[] | Datum[][] | TypedArray;
     };
-    stream?: _internal.Stream;
     /** Sets a text element associated with this trace. If trace `hoverinfo` contains a *text* flag, this text element will be seen in all hover labels. Note that streamtube traces do not support array `text` values. */
     text?: string;
     type?: 'streamtube';
@@ -10547,7 +10494,6 @@ export interface SunburstData {
      * @default true
      */
     sort?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
@@ -10934,7 +10880,6 @@ export interface SurfaceData {
      * @default true
      */
     showscale?: boolean;
-    stream?: _internal.Stream;
     /** Sets the surface color values, used for setting a color scale independent of `z`. */
     surfacecolor?: Datum[] | Datum[][] | TypedArray;
     /** Sets the text elements associated with each z value. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
@@ -11072,7 +11017,6 @@ export interface TableData {
     meta?: any;
     /** Sets the trace name. The trace name appears as the legend item and on hover. */
     name?: string;
-    stream?: _internal.Stream;
     type?: 'table';
     /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
     uid?: string;
@@ -11264,7 +11208,6 @@ export interface TreemapData {
      * @default true
      */
     sort?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each sector. If trace `textinfo` contains a *text* flag, these elements will be seen on the chart. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
@@ -11526,7 +11469,6 @@ export interface ViolinData {
      * @default 'soft'
      */
     spanmode?: 'soft' | 'hard' | 'manual';
-    stream?: _internal.Stream;
     /** Sets the text elements associated with each sample value. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
     text?: string | string[];
     type?: 'violin';
@@ -11848,7 +11790,6 @@ export interface VolumeData {
          */
         show?: boolean;
     };
-    stream?: _internal.Stream;
     surface?: {
         /**
          * Sets the number of iso-surfaces between minimum and maximum iso-values. By default this value is 2 meaning that only minimum and maximum surfaces would be drawn.
@@ -12046,7 +11987,6 @@ export interface WaterfallData {
      * @default true
      */
     showlegend?: boolean;
-    stream?: _internal.Stream;
     /** Sets text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     /**
@@ -16404,7 +16344,7 @@ export interface Layout {
          * @default 'h'
          */
         orientation?: 'v' | 'h';
-        /** Determines which predefined modebar buttons to remove. Similar to `config.modeBarButtonsToRemove` option. This may include *autoScale2d*, *autoscale*, *editInChartStudio*, *editinchartstudio*, *hoverCompareCartesian*, *hovercompare*, *lasso*, *lasso2d*, *orbitRotation*, *orbitrotation*, *pan*, *pan2d*, *pan3d*, *reset*, *resetCameraDefault3d*, *resetCameraLastSave3d*, *resetGeo*, *resetSankeyGroup*, *resetScale2d*, *resetViewMap*, *resetViewMapbox*, *resetViews*, *resetcameradefault*, *resetcameralastsave*, *resetsankeygroup*, *resetscale*, *resetview*, *resetviews*, *select*, *select2d*, *sendDataToCloud*, *senddatatocloud*, *tableRotation*, *tablerotation*, *toImage*, *toggleHover*, *toggleSpikelines*, *togglehover*, *togglespikelines*, *toimage*, *zoom*, *zoom2d*, *zoom3d*, *zoomIn2d*, *zoomInGeo*, *zoomInMap*, *zoomInMapbox*, *zoomOut2d*, *zoomOutGeo*, *zoomOutMap*, *zoomOutMapbox*, *zoomin*, *zoomout*. */
+        /** Determines which predefined modebar buttons to remove. Similar to `config.modeBarButtonsToRemove` option. This may include *autoScale2d*, *autoscale*, *hoverCompareCartesian*, *hovercompare*, *lasso*, *lasso2d*, *orbitRotation*, *orbitrotation*, *pan*, *pan2d*, *pan3d*, *reset*, *resetCameraDefault3d*, *resetCameraLastSave3d*, *resetGeo*, *resetSankeyGroup*, *resetScale2d*, *resetViewMap*, *resetViewMapbox*, *resetViews*, *resetcameradefault*, *resetcameralastsave*, *resetsankeygroup*, *resetscale*, *resetview*, *resetviews*, *select*, *select2d*, *sendDataToCloud*, *senddatatocloud*, *tableRotation*, *tablerotation*, *toImage*, *toggleHover*, *toggleSpikelines*, *togglehover*, *togglespikelines*, *toimage*, *zoom*, *zoom2d*, *zoom3d*, *zoomIn2d*, *zoomInGeo*, *zoomInMap*, *zoomInMapbox*, *zoomOut2d*, *zoomOutGeo*, *zoomOutMap*, *zoomOutMapbox*, *zoomin*, *zoomout*. */
         remove?: string | string[];
         /** Controls persistence of user-driven changes related to the modebar, including `hovermode`, `dragmode`, and `showspikes` at both the root level and inside subplots. Defaults to `layout.uirevision`. */
         uirevision?: any;
@@ -16800,11 +16740,6 @@ export interface ConfigBase {
      */
     frameMargins?: number;
     /**
-     * Sets the text appearing in the `showLink` link.
-     * @default 'Edit chart'
-     */
-    linkText?: string;
-    /**
      * Which localization should we use? Should be a string like 'en' or 'en-US'.
      * @default 'en-US'
      */
@@ -16849,7 +16784,7 @@ export interface ConfigBase {
      * Range: [1, 4]
      */
     plotGlPixelRatio?: number;
-    /** When set it determines base URL for the 'Edit in Chart Studio' `showEditInChartStudio`/`showSendToCloud` mode bar button and the showLink/sendData on-graph link. To enable sending your data to Chart Studio Cloud, you need to set both `plotlyServerURL` to 'https://chart-studio.plotly.com' and also set `showSendToCloud` to true. */
+    /** When set it determines base URL for the 'Edit in Chart Studio' `showSendToCloud` mode bar button. To enable sending your data to Chart Studio Cloud, you need to set both `plotlyServerURL` to 'https://chart-studio.plotly.com' and also set `showSendToCloud` to true. */
     plotlyServerURL?: string;
     /**
      * Sets the length of the undo/redo queue.
@@ -16868,11 +16803,6 @@ export interface ConfigBase {
      */
     scrollZoom?: 'cartesian' | 'gl3d' | 'geo' | 'mapbox' | 'map' | true | false | (string & {});
     /**
-     * If *showLink* is true, does it contain data just link to a Chart Studio Cloud file?
-     * @default true
-     */
-    sendData?: boolean;
-    /**
      * Set function to add the background color (i.e. `layout.paper_color`) to a different container. This function take the graph div as first argument and the current background color as second argument. Alternatively, set to string *opaque* to ensure there is white behind it.
      * @default 'transparent'
      */
@@ -16888,25 +16818,10 @@ export interface ConfigBase {
      */
     showAxisRangeEntryBoxes?: boolean;
     /**
-     * Same as `showSendToCloud`, but use a pencil icon instead of a floppy-disk. Note that if both `showSendToCloud` and `showEditInChartStudio` are turned, only `showEditInChartStudio` will be honored.
-     * @default false
-     */
-    showEditInChartStudio?: boolean;
-    /**
-     * Determines whether a link to Chart Studio Cloud is displayed at the bottom right corner of resulting graphs. Use with `sendData` and `linkText`.
-     * @default false
-     */
-    showLink?: boolean;
-    /**
      * Should we include a ModeBar button, labeled "Edit in Chart Studio", that sends this chart to chart-studio.plotly.com (formerly plot.ly) or another plotly server as specified by `plotlyServerURL` for editing, export, etc? Prior to version 1.43.0 this button was included by default, now it is opt-in using this flag. Note that this button can (depending on `plotlyServerURL` being set) send your data to an external server. However that server does not persist your data until you arrive at the Chart Studio and explicitly click "Save".
      * @default false
      */
     showSendToCloud?: boolean;
-    /**
-     * Adds a source-displaying function to show sources on the resulting graphs.
-     * @default false
-     */
-    showSources?: any;
     /**
      * Determines whether or not tips are shown while interacting with the resulting graphs.
      * @default true

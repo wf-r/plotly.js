@@ -70,15 +70,13 @@ export interface ToImageButtonOptions {
 // ---------------------------------------------------------------------------
 
 /**
- * Hand-written overrides for the seven `schema.config` fields whose
+ * Hand-written overrides for the six `schema.config` fields whose
  * `valType` is `any`. These accept functions or arbitrary-key maps that the
  * JSON schema fundamentally cannot describe, so they stay typed by hand.
  */
 interface ConfigOverrides {
     /** Override the background color: a static color name, or a function called per-render. */
     setBackground?: 'opaque' | 'transparent' | ((gd: PlotlyHTMLElement, bgColor: string) => void);
-    /** Source attribution shown at the bottom of the graph. */
-    showSources?: false | ((gd: PlotlyHTMLElement) => void | Promise<void>);
     /** Define fully custom mode bar buttons as nested array of button groups. */
     modeBarButtons?: ModeBarButtonAny[][] | false;
     /** Add mode bar buttons using config objects or default-button names. */

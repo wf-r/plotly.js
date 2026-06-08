@@ -62,15 +62,15 @@ const ATTR_NAME_OVERRIDES = new Map([['marker.symbol', 'MarkerSymbol']]);
  * Shared interfaces wrapped inside `export namespace _internal { ... }`.
  *
  * These are publicly importable but the namespace path signals they are
- * either schema-internal helpers (AutoRangeOptions, Lighting, Stream),
- * superseded by a hand-written alternative (ErrorY → ErrorBar), or have
- * names that would mislead if surfaced directly (Marker is scatter-only,
- * Line is the marker outline rather than the trace line).
+ * either schema-internal helpers (AutoRangeOptions, Lighting), superseded
+ * by a hand-written alternative (ErrorY → ErrorBar), or have names that
+ * would mislead if surfaced directly (Marker is scatter-only, Line is
+ * the marker outline rather than the trace line).
  *
  * Inside the namespace, sibling references are bare (`line?: Line`); outside,
  * references are prefixed (`marker?: _internal.Marker`) via `refName()`.
  */
-const INTERNAL_INTERFACES = new Set(['AutoRangeOptions', 'ErrorY', 'Lighting', 'Line', 'Marker', 'Stream']);
+const INTERNAL_INTERFACES = new Set(['AutoRangeOptions', 'ErrorY', 'Lighting', 'Line', 'Marker']);
 
 function refName(name, inInternalNamespace) {
     if (inInternalNamespace) return name;
@@ -155,8 +155,7 @@ const SHARED_NAME_OVERRIDES = new Map([
     ['autorangeoptions', 'AutoRangeOptions'],
     ['legendgrouptitle', 'LegendGroupTitle'],
     ['error_y', 'ErrorY'],
-    ['error_x', 'ErrorX'],
-    ['stream', 'Stream']
+    ['error_x', 'ErrorX']
 ]);
 
 /** Interface names for layout subplot containers (_isSubplotObj). */
@@ -1238,8 +1237,8 @@ export function generateSchemaTypes(schema, outputPath) {
     if (schema.config) {
         // Generate the schema-derived Config building block. Fields whose
         // schema valType is `any` (locales, modeBarButtons, setBackground,
-        // showSources, toImageButtonOptions, ...) come through as `any` and
-        // are overridden with precise types in `core/config.d.ts`'s `Config`
+        // toImageButtonOptions, ...) come through as `any` and are
+        // overridden with precise types in `core/config.d.ts`'s `Config`
         // via Omit/intersection. The schema is fundamentally unable to
         // describe functions or arbitrary-key maps, so those overrides are
         // permanent.
