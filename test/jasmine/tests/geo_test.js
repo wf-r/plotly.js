@@ -2980,21 +2980,12 @@ describe('Test geo zoom/pan/drag interactions:', function () {
         afterEach(destroyGraphDiv);
 
         const allTests = [
-            {
-                name: 'non-clipped',
-                mock: require('../../image/mocks/geo_winkel-tripel')
-            },
-            {
-                name: 'clipped',
-                mock: require('../../image/mocks/geo_orthographic')
-            },
-            {
-                name: 'scoped',
-                mock: require('../../image/mocks/geo_europe-bubbles')
-            }
+            { name: 'non-clipped', mock: require('../../image/mocks/geo_winkel-tripel') },
+            { name: 'clipped', mock: require('../../image/mocks/geo_orthographic') },
+            { name: 'scoped', mock: require('../../image/mocks/geo_europe-bubbles') }
         ];
 
-        allTests.forEach(({ mock, name }) => {
+        allTests.forEach(({ name, mock }) => {
             it(`${name} maxscale`, (done) => {
                 const fig = Lib.extendDeep({}, mock, defaultConfig);
                 fig.layout.geo.projection.maxscale = 1.2;
@@ -3003,8 +2994,10 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                     // Zoom in far enough to hit limit
                     .then(() => scroll([200, 250], [-200, -200]))
                     .then(() => {
-                        const maxScale = gd._fullLayout.geo._subplot.projection.scaleExtent()[1];
-                        expect(gd._fullLayout.geo._subplot.projection.scale()).toEqual(maxScale);
+                        const subplot = gd._fullLayout.geo._subplot;
+                        const maxScale = subplot.projection.scaleExtent()[1];
+                        expect(subplot.projection.scale()).toEqual(maxScale);
+                        expect(maxScale).toEqual(1.2 * subplot.fitScale);
                     })
                     .then(done, done.fail);
             });
@@ -3017,21 +3010,38 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                     // Zoom out far enough to hit limit
                     .then(() => scroll([200, 250], [1000, 1000]))
                     .then(() => {
-                        const minScale = gd._fullLayout.geo._subplot.projection.scaleExtent()[0];
-                        expect(gd._fullLayout.geo._subplot.projection.scale()).toEqual(minScale);
+                        const subplot = gd._fullLayout.geo._subplot;
+                        const minScale = subplot.projection.scaleExtent()[0];
+                        expect(subplot.projection.scale()).toEqual(minScale);
+                        expect(minScale).toEqual(0.8 * subplot.fitScale);
                     })
                     .then(done, done.fail);
             });
 
-            it(`${name} minscale greater than 1`, (done) => {
+            it(`${name} minscale greater than 1 clamps at init`, (done) => {
                 const fig = Lib.extendDeep({}, mock, defaultConfig);
                 fig.layout.geo.projection.minscale = 3;
 
                 Plotly.newPlot(gd, fig)
                     // The limit should already be hit during plot creation
                     .then(() => {
-                        const minScale = gd._fullLayout.geo._subplot.projection.scaleExtent()[0];
-                        expect(gd._fullLayout.geo._subplot.projection.scale()).toEqual(minScale);
+                        const subplot = gd._fullLayout.geo._subplot;
+                        const minScale = subplot.projection.scaleExtent()[0];
+                        expect(subplot.projection.scale()).toEqual(minScale);
+                    })
+                    .then(done, done.fail);
+            });
+
+            it(`${name} maxscale less than 1 clamps at init`, (done) => {
+                const fig = Lib.extendDeep({}, mock, defaultConfig);
+                fig.layout.geo.projection.scale = 1;
+                fig.layout.geo.projection.maxscale = 0.5;
+
+                Plotly.newPlot(gd, fig)
+                    .then(() => {
+                        const subplot = gd._fullLayout.geo._subplot;
+                        const maxScale = subplot.projection.scaleExtent()[1];
+                        expect(subplot.projection.scale()).toEqual(maxScale);
                     })
                     .then(done, done.fail);
             });
