@@ -182,19 +182,21 @@ var attrs = module.exports = overrideAll({
             min: 0,
             dflt: 0,
             description: [
-                'Minimal zoom level of the map view.',
-                'A minscale of *0.5* (50%) corresponds to a zoom level',
-                'where the map has half the size of base zoom level.'
+                'Sets the minimum zoom level of the map view, relative to',
+                '`projection.scale`. A `minscale` of *0.5* (50%) prevents the',
+                'user from zooming out beyond half the base zoom level.',
+                'The default of *0* imposes no lower bound.'
             ].join(' ')
         },
         maxscale: {
             valType: 'number',
             min: 0,
-            dflt: -1,
+            dflt: null,
             description: [
-                'Maximal zoom level of the map view.',
-                'A maxscale of *2* (200%) corresponds to a zoom level',
-                'where the map is twice as big as the base layer.'
+                'Sets the maximum zoom level of the map view, relative to',
+                '`projection.scale`. A `maxscale` of *2* (200%) prevents the',
+                'user from zooming in beyond twice the base zoom level.',
+                'Defaults to *null* for no upper bound.'
             ].join(' ')
         },
     },
