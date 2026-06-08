@@ -35,7 +35,12 @@ function downloadImage(gd, opts) {
         if(_gd) _gd._snapshotInProgress = true;
         var promise = toImage(gd, opts);
 
-        var filename = opts.filename || gd.fn || 'newplot';
+        var potentialFilename = opts.filename || gd.fn;
+        if (!potentialFilename) {
+            potentialFilename = Lib.slugify(helpers.getPlotTitle(gd), 40);
+        }
+
+        var filename = potentialFilename || 'plot-image';
         filename += '.' + opts.format.replace('-', '.');
 
         promise.then(function(result) {

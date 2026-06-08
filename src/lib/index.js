@@ -208,6 +208,8 @@ lib.increment = require('./increment');
 
 lib.cleanNumber = require('./clean_number');
 
+lib.slugify = require('./slugify');
+
 lib.ensureNumber = function ensureNumber(v) {
     if (!isNumeric(v)) return BADNUM;
     v = Number(v);
