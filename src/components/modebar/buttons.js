@@ -587,30 +587,26 @@ modeBarButtons.hoverClosestGeo = {
 };
 
 function handleGeo(gd, ev) {
-    var button = ev.currentTarget;
-    var attr = button.getAttribute('data-attr');
-    var val = button.getAttribute('data-val') || true;
-    var fullLayout = gd._fullLayout;
-    var geoIds = fullLayout._subplots.geo || [];
+    const button = ev.currentTarget;
+    const attr = button.getAttribute('data-attr');
+    const val = button.getAttribute('data-val') || true;
+    const fullLayout = gd._fullLayout;
+    const geoIds = fullLayout._subplots.geo || [];
 
-    for (var i = 0; i < geoIds.length; i++) {
-        var id = geoIds[i];
-        var geoLayout = fullLayout[id];
+    for (const id of geoIds) {
+        const geoLayout = fullLayout[id];
 
         if (attr === 'zoom') {
-            var scale = geoLayout.projection.scale;
-            var minscale = geoLayout.projection.minscale;
-            var maxscale = geoLayout.projection.maxscale === -1 ? Infinity : geoLayout.projection.maxscale;
-            var max = Math.max(minscale, maxscale);
-            var min = Math.min(minscale, maxscale);
-            var newScale = val === 'in' ? 2 * scale : 0.5 * scale;
+            const { minscale, scale } = geoLayout.projection;
+            const maxscale = geoLayout.projection.maxscale ?? Infinity;
+            // swap if user supplied min > max so clamping is well-defined
+            const min = Math.min(minscale, maxscale);
+            const max = Math.max(minscale, maxscale);
+            let newScale = val === 'in' ? 2 * scale : 0.5 * scale;
 
-            // make sure the scale is within the min/max bounds
-            if (newScale > max) {
-                newScale = max;
-            } else if (newScale < min) {
-                newScale = min;
-            }
+            // clamp to [min, max]
+            if (newScale > max) newScale = max;
+            else if (newScale < min) newScale = min;
 
             if (newScale !== scale) {
                 Registry.call('_guiRelayout', gd, id + '.projection.scale', newScale);
@@ -618,9 +614,7 @@ function handleGeo(gd, ev) {
         }
     }
 
-    if (attr === 'reset') {
-        resetView(gd, 'geo');
-    }
+    if (attr === 'reset') resetView(gd, 'geo');
 }
 
 modeBarButtons.hoverClosestPie = {
