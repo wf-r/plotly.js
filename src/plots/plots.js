@@ -1318,7 +1318,6 @@ plots.supplyLayoutGlobalDefaults = function(layoutIn, layoutOut, formatObj) {
     coerce('paper_bgcolor');
 
     coerce('separators', formatObj.decimal + formatObj.thousands);
-    coerce('hidesources');
 
     coerce('colorway');
 

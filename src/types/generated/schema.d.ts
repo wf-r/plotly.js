@@ -16254,7 +16254,6 @@ export interface Layout {
         yside?: 'left' | 'left plot' | 'right plot' | 'right';
     };
     height?: number;
-    hidesources?: boolean;
     hoveranywhere?: boolean;
     hoverdistance?: number;
     hoverlabel?: {

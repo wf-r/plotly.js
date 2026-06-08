@@ -26,7 +26,6 @@ function cloneLayoutOverride(tileClass) {
         case 'thumbnail':
             override = {
                 title: {text: ''},
-                hidesources: true,
                 showlegend: false,
                 borderwidth: 0,
                 bordercolor: '',
