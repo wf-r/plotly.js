@@ -1,6 +1,7 @@
 'use strict';
 
 var Lib = require('../lib');
+var svgTextUtils = require('../lib/svg_text_utils');
 
 var toImage = require('../plot_api/to_image');
 
@@ -37,7 +38,12 @@ function downloadImage(gd, opts) {
 
         var potentialFilename = opts.filename || gd.fn;
         if (!potentialFilename) {
-            potentialFilename = Lib.slugify(helpers.getPlotTitle(gd), 40);
+            const plotTitle = helpers.getPlotTitle(gd);
+            // Trying to slugify a LaTeX string can result in weird ugly filenames,
+            // so ignore the title entirely if it contains LaTeX markup
+            if (!svgTextUtils.matchTex(plotTitle)) {
+                potentialFilename = Lib.slugify(plotTitle, 40);
+            }
         }
 
         var filename = potentialFilename || 'plot-image';

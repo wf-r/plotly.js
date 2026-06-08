@@ -146,6 +146,14 @@ describe('Plotly.downloadImage', function() {
             })
             .then(done, done.fail);
         }, LONG_TIMEOUT_INTERVAL);
+
+        it('ignores title if it contains LaTeX markup', function(done) {
+            downloadDefault({title: {text: '$\\alpha$ + $\\beta$'}})
+            .then(function(filename) {
+                expect(filename).toBe('plot-image.png');
+            })
+            .then(done, done.fail);
+        }, LONG_TIMEOUT_INTERVAL);
     });
 });
 
