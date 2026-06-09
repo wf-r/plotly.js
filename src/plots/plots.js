@@ -1971,13 +1971,13 @@ plots.didMarginChange = function(margin0, margin1) {
  * get saved.
  *
  * @param gd The graphDiv
- * @param {Boolean} dataonly If true, don't return layout.
- * @param {String} output If you specify 'object', the result will not be stringified
- * @param {Boolean} useDefaults If truthy, use _fullLayout and _fullData
- * @param {Boolean} includeConfig If truthy, include _context
+ * @param {Boolean} [dataonly=false] If true, don't return layout.
+ * @param {String} [output='json'] If set to 'object', return result as a JS Object, otherwise return as a JSON string
+ * @param {Boolean} [useDefaults=false] If truthy, use _fullLayout and _fullData (after supplyDefaults step)
+ * @param {Boolean} [includeConfig=false] If truthy, include _context
  * @returns {Object|String}
  */
-plots.graphJson = function(gd, dataonly, output, useDefaults, includeConfig) {
+plots.graphJson = function(gd, dataonly = false, output = 'json', useDefaults = false, includeConfig = false) {
     // if the defaults aren't supplied yet, we need to do that...
     if((useDefaults && dataonly && !gd._fullData) ||
             (useDefaults && !dataonly && !gd._fullLayout)) {
