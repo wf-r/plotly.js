@@ -3,7 +3,6 @@ import { build } from 'esbuild';
 import fs from 'fs';
 import http from 'http';
 import minimist from 'minimist';
-import open from 'open';
 import path from 'path';
 import { localDevReglCodegenConfig as config } from '../../esbuild-config.js';
 import constants from '../../tasks/util/constants.js';
@@ -17,7 +16,6 @@ import {
 
 var args = minimist(process.argv.slice(2), {});
 var PORT = args.port || 3000;
-var strict = args.strict;
 
 var reglTraceList = ['parcoords', 'scattergl', 'scatterpolargl', 'splom'];
 
@@ -68,7 +66,10 @@ await getMockFiles()
 server.listen(PORT);
 
 // open up browser window
-open('http://localhost:' + PORT + '/devtools/regl_codegen/index' + (strict ? '-strict' : '') + '.html');
+const serverUrl = `http://localhost:${PORT}/devtools/regl_codegen/index.html`;
+console.log('\x1b[31mOpen the following link to launch a browser window and precompile the regl shaders.');
+console.log('This can be processor and memory intensive.\x1b[0m\n');
+console.log(`  \x1b[1m\x1b[32m➜\x1b[0m  \x1b[1mLocal:\x1b[0m   \x1b[1m\x1b[36m${serverUrl}\x1b[0m\n`);
 
 await build(config);
 
@@ -84,16 +85,20 @@ function handleCodegen(data) {
     var exports = ['', '/* eslint-disable quote-props */', 'module.exports = {', ''].join('\n');
     var varId = 0;
 
-    Object.entries(generated).forEach(function (kv) {
-        var key = kv[0];
-        var value = kv[1];
-        var filePath = path.join(pathToReglCodegenSrc, key);
-        fs.writeFileSync(filePath, 'module.exports = ' + value);
+    // Sort by shader-hash key so the emitted import/export order is deterministic
+    // across machines (fs.readdir mock order varies by OS/filesystem, which would
+    // otherwise leak into regl_precompiled.js).
+    Object.keys(generated)
+        .sort()
+        .forEach((key) => {
+            var value = generated[key];
+            var filePath = path.join(pathToReglCodegenSrc, key);
+            fs.writeFileSync(filePath, 'module.exports = ' + value);
 
-        imports += 'var v' + varId + " = require('../../" + path.join(constants.reglCodegenSubdir, key) + "');\n";
-        exports += "    '" + key + "': v" + varId + ',\n';
-        varId++;
-    });
+            imports += 'var v' + varId + " = require('../../" + path.join(constants.reglCodegenSubdir, key) + "');\n";
+            exports += "    '" + key + "': v" + varId + ',\n';
+            varId++;
+        });
 
     if (varId > 0) {
         exports = exports.slice(0, -2) + '\n};\n';

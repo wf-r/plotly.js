@@ -23,6 +23,7 @@ jobs:
     outputs:
       stackgl_modules: ${{ steps.check.outputs.stackgl_modules }}
       topojson: ${{ steps.check.outputs.topojson }}
+      regl_codegen: ${{ steps.check.outputs.regl_codegen }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
@@ -41,6 +42,12 @@ jobs:
           fi
           if git diff --name-only "$BASE"...HEAD -- stackgl_modules/ | grep -q .; then
             echo "stackgl_modules=true" >> "$GITHUB_OUTPUT"
+          fi
+          # If any of the directories listed below have changed, we need to re-run the regl-codegen step
+          # stackgl_modules/ is listed here too because the regl-* shader libs live there;
+          # changes can alter shader output and require regenerating the precompiled shaders.
+          if git diff --name-only "$BASE"...HEAD -- src/traces/scattergl/ src/traces/scatterpolargl/ src/traces/splom/ src/traces/parcoords/ src/lib/prepare_regl.js stackgl_modules/ devtools/regl_codegen/ | grep -q .; then
+            echo "regl_codegen=true" >> "$GITHUB_OUTPUT"
           fi
 
   # ============================================================
@@ -572,126 +579,29 @@ jobs:
       - name: Run syntax tests on source files
         run: .github/scripts/test.sh source-syntax
 
+  typecheck:
+    needs: install-and-cibuild
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: ./.github/actions/setup-workspace
+
+      - name: Type-check TypeScript sources
+        run: npm run typecheck
+
+  generated-types-drift:
+    needs: install-and-cibuild
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: ./.github/actions/setup-workspace
+
+      - name: Verify generated types are in sync with schema
+        run: npm run schema-typegen-diff-check
+
   # ============================================================
   # Standalone jobs (no dependencies on install-and-cibuild)
   # ============================================================
-  publish-dist:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          fetch-depth: 0
-          fetch-tags: true
-
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Set up build environment
-        run: .github/scripts/env_build.sh
-
-      - name: Preview CHANGELOG for next release (only on master)
-        if: github.ref == 'refs/heads/master'
-        run: npm run use-draftlogs && git --no-pager diff --color-words CHANGELOG.md || true
-
-      - name: Set draft version in package.json
-        run: |
-          node --eval "var fs = require('fs'); var inOut = './package.json'; var data = JSON.parse(fs.readFileSync(inOut)); var a = process.argv; data.version = a[a.length - 1].replace('v', ''); fs.writeFileSync(inOut, JSON.stringify(data, null, 2) + '\n');" $(git describe)
-
-      - name: View package.json diff between previous and next releases
-        run: git --no-pager diff --color-words tags/$(git describe --tags --abbrev=0) package.json || true
-
-      - name: Build dist/
-        run: npm run build
-
-      # Upload library uncompressed to allow for testing in REPLs
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        name: Upload uncompressed plotly.js built from PR, using Node 22
-        with:
-          retention-days: 30
-          archive: false
-          path: dist/plotly.js
-      
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        name: Upload Node 18 archive of plotly.js build folder
-        with:
-          name: dist-node18
-          retention-days: 7
-          path: dist/
-
-      - name: View dist/README.md diff between previous and next releases
-        run: git --no-pager diff --color-words tags/$(git describe --tags --abbrev=0) dist/README.md || true
-
-      - name: Preview plot-schema diff (only on master)
-        if: github.ref == 'refs/heads/master'
-        run: git --no-pager diff tags/$(git describe --tags --abbrev=0) dist/plot-schema.json || true
-
-      - name: Test plot-schema.json diff
-        run: diff --unified --color dist/plot-schema.json test/plot-schema.json
-
-  publish-dist-node-v22:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          fetch-depth: 0
-          fetch-tags: true
-
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
-        with:
-          node-version: '22.14.0'
-          cache: 'npm'
-
-      - name: Set up build environment
-        run: .github/scripts/env_build.sh
-
-      - name: Preview CHANGELOG for next release (only on master)
-        if: github.ref == 'refs/heads/master'
-        run: npm run use-draftlogs && git --no-pager diff --color-words CHANGELOG.md || true
-
-      - name: Set draft version in package.json
-        run: |
-          node --eval "var fs = require('fs'); var inOut = './package.json'; var data = JSON.parse(fs.readFileSync(inOut)); var a = process.argv; data.version = a[a.length - 1].replace('v', ''); fs.writeFileSync(inOut, JSON.stringify(data, null, 2) + '\n');" $(git describe)
-
-      - name: View package.json diff between previous and next releases
-        run: git --no-pager diff --color-words tags/$(git describe --tags --abbrev=0) package.json || true
-
-      - name: Build dist/
-        run: npm run build
-      
-      # This is necessary to avoid a naming collision with the upload from the Node 18 build
-      - name: Copy library for upload
-        run: cp dist/plotly.js dist/plotly.node22.js
-
-      # Upload library uncompressed to allow for testing in REPLs
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        name: Upload uncompressed plotly.js built from PR, using Node 22
-        with:
-          retention-days: 30
-          archive: false
-          path: dist/plotly.node22.js
-
-      - name: Remove copy of library
-        run: rm dist/plotly.node22.js
-
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        name: Upload Node 22 archive of plotly.js build folder
-        with:
-          name: dist-node22
-          retention-days: 7
-          path: dist/
-
-      - name: View dist/README.md diff between previous and next releases
-        run: git --no-pager diff --color-words tags/$(git describe --tags --abbrev=0) dist/README.md || true
-
-      - name: Preview plot-schema diff (only on master)
-        if: github.ref == 'refs/heads/master'
-        run: git --no-pager diff tags/$(git describe --tags --abbrev=0) dist/plot-schema.json || true
-
-      - name: Test plot-schema.json diff
-        run: diff --unified --color dist/plot-schema.json test/plot-schema.json
-
   test-stackgl-bundle:
     needs: detect-changes
     if: >-
@@ -753,3 +663,54 @@ jobs:
           name: topojson-dist
           retention-days: 7
           path: topojson/dist/
+
+  check-regl-codegen:
+    needs: [detect-changes, install-and-cibuild]
+    if: >-
+      (github.event_name == 'push' && github.ref_name == github.event.repository.default_branch) ||
+      needs.detect-changes.outputs.regl_codegen == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: ./.github/actions/setup-workspace
+      - uses: ./.github/actions/setup-chrome
+
+      - name: Run regl codegen
+        run: |
+          # Wipe the codegen output dir so orphaned shader files surface as deletions in the diff below.
+          rm -rf src/generated/regl-codegen/*
+          node devtools/regl_codegen/server.mjs &
+          SERVER_PID=$!
+          until curl -sf -o /dev/null http://localhost:3000/build/regl_codegen-bundle.js 2>/dev/null; do
+            sleep 1
+          done
+          $CHROME_BIN --headless=new --no-sandbox --enable-unsafe-swiftshader --ignore-gpu-blocklist http://localhost:3000/devtools/regl_codegen/index.html &
+          wait $SERVER_PID
+
+      - name: Check regl precompiled shaders are up to date
+        run: |
+          # git add -N so newly-generated (untracked) shader files show up in git diff
+          git add -N src/generated/regl-codegen/
+          if ! git diff --exit-code \
+              src/generated/regl-codegen/ \
+              src/traces/scattergl/regl_precompiled.js \
+              src/traces/scatterpolargl/regl_precompiled.js \
+              src/traces/splom/regl_precompiled.js \
+              src/traces/parcoords/regl_precompiled.js; then
+            echo "::error::Regl precompiled shaders are out of date. Download the 'regl-codegen' artifact from this workflow run, extract it into src/, and commit the updated files to this pull request."
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        name: Upload updated regl codegen files
+        if: failure()
+        with:
+          name: regl-codegen
+          retention-days: 7
+          path: |
+            src/generated/regl-codegen/
+            src/traces/scattergl/regl_precompiled.js
+            src/traces/scatterpolargl/regl_precompiled.js
+            src/traces/splom/regl_precompiled.js
+            src/traces/parcoords/regl_precompiled.js
