@@ -115,7 +115,7 @@ describe('Plotly.downloadImage', function() {
         it('strips forbidden characters from the title', function(done) {
             downloadDefault({title: {text: 'Revenue, Costs & "Profit" (2024)'}})
             .then(function(filename) {
-                expect(filename).toBe('revenue-costs-&-profit-2024.png');
+                expect(filename).toBe('revenue-costs-profit-2024.png');
             })
             .then(done, done.fail);
         }, LONG_TIMEOUT_INTERVAL);

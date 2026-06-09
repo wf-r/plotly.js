@@ -2,7 +2,9 @@
 
 // precompile for speed
 var HTML_TAGS_REGEX = /<[^>]*>/g;                 // anything contained in < > tags
-var FORBIDDEN_CHARS_REGEX = /[\\/:*?"<>|$`'(){}[\],]/g; // Characters in the set: \/:*?"<>|$`'(){}[],
+var FORBIDDEN_CHARS_REGEX = /[\\/:*?"<>|$%&!@#~.^`'(){}[\],]/g; // Characters in the set: \/:*?"<>|$%&!@#~.^`'(){}[],
+var CONTROL_CHARS_REGEX = /\p{Cc}/gu; // Unicode control characters
+
 var UNICODE_REPLACEMENT_CHAR_REGEX = /�/g;        // U+FFFD, the Unicode replacement character
 var WHITESPACE_REGEX = /\s+/g;
 
@@ -37,14 +39,15 @@ function toWellFormed(str) {
  * @return {string}
  */
 module.exports = function slugify(str, maxLen = DEFAULT_MAX_LEN) {
-    var slug = toWellFormed(str ?? '')                // Guarantee well-formed Unicode text
-        .replace(UNICODE_REPLACEMENT_CHAR_REGEX, '')  // Drop Unicode replacement characters left by previous step
-        .replace(HTML_TAGS_REGEX, ' ')                // Remove anything contained in < > tags, such as <br> (replace with a space)
-        .replace(FORBIDDEN_CHARS_REGEX, '')           // Remove forbidden filename characters
-        .toLowerCase()                                // Lowercase everything
-        .trim()                                       // Strip leading/trailing whitespace
-        .replace(WHITESPACE_REGEX, WORD_SEP_CHAR)     // Replace any remaining whitespace with the word separator char
-        .replace(WORD_SEP_CHARS_REGEX, WORD_SEP_CHAR); // Replace multiple consecutive word separator chars with a single one
+    var slug = toWellFormed(str ?? '')                 // Guarantee well-formed Unicode text
+        .replace(UNICODE_REPLACEMENT_CHAR_REGEX, '')   // Drop Unicode replacement chars left by previous step
+        .replace(HTML_TAGS_REGEX, ' ')                 // Remove < > tags, such as <br> (replace with space)
+        .replace(FORBIDDEN_CHARS_REGEX, '')            // Remove forbidden filename characters
+        .toLowerCase()                                 // Lowercase everything
+        .trim()                                        // Strip leading/trailing whitespace
+        .replace(WHITESPACE_REGEX, WORD_SEP_CHAR)      // Replace any remaining whitespace with the word sep char
+        .replace(CONTROL_CHARS_REGEX, '')              // Remove control characters (after whitespace)
+        .replace(WORD_SEP_CHARS_REGEX, WORD_SEP_CHAR); // Replace multiple word sep chars with a single one
 
     if (slug.length <= maxLen) return slug;
     // Apply maxLen to the resulting string. Use Array.from().slice() instead of String.prototype.split()
