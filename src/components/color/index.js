@@ -3,9 +3,10 @@ const isNumeric = require('fast-isnumeric');
 const { isTypedArray } = require('../../lib/array');
 const { background, defaultLine, defaults, lightLine } = require('./attributes');
 
-// Safe wrapper: falls back to black instead of throwing on invalid input.
-// This matches the tinycolor2 behavior.
+// Safe wrapper: falls back to black instead of throwing on invalid input,
+// and trims surrounding whitespace from string inputs.
 const color = (cstr) => {
+    if (typeof cstr === 'string') cstr = cstr.trim();
     try {
         return _color(cstr);
     } catch (e) {
@@ -28,7 +29,8 @@ const addOpacity = (cstr, op) => {
 // combine two colors into one apparent color
 // if back has transparency or is missing,
 // background is assumed behind it
-const combine = (front, back = background) => {
+const combine = (front, back) => {
+    back ||= background;
     const fc = color(front).rgb().object();
     fc.alpha ??= 1;
     if (fc.alpha === 1) return color(front).rgb().string();
@@ -181,17 +183,17 @@ const cleanOne = (val) => {
     return 'rgb(' + rgbStr + ')';
 };
 
-const equals = (cstr1, cstr2) => cstr1 && cstr2 && color(cstr1).rgb().string() === color(cstr2).rgb().string();
+const equals = (cstr1, cstr2) => !!(cstr1 && cstr2 && color(cstr1).rgb().string() === color(cstr2).rgb().string());
 
 const isValid = (cstr) => {
+    if (typeof cstr !== 'string') return false;
     try {
-        return cstr && !!_color(cstr);
+        return !!_color(cstr.trim());
     } catch {
         return false;
     }
 };
 
-// RGB-space brightening equivalent to tinycolor's brighten().
 // Adds a fixed amount to each RGB channel (unlike lighten which works in HSL space).
 const brighten = (cstr, amount) => {
     amount = amount === 0 ? 0 : amount || 10;
