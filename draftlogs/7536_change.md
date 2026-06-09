@@ -1,0 +1,1 @@
+- Switch color processing library from [TinyColor](https://github.com/bgrins/TinyColor) to [color](https://github.com/Qix-/color) [[#7536](https://github.com/plotly/plotly.js/pull/7536)]
