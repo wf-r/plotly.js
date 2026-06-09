@@ -759,8 +759,8 @@ describe('Rangeslider handleDefaults function', function() {
         var layoutIn = { xaxis: { rangeslider: {
             visible: 'invalid',
             thickness: 'invalid',
-            bgcolor: 'invalid',
-            bordercolor: 'invalid',
+            bgcolor: 42,
+            bordercolor: 42,
             borderwidth: 'superfat'
         }}};
         var layoutOut = { xaxis: {} };
