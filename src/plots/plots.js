@@ -139,7 +139,7 @@ plots.sendDataToCloud = function(gd) {
             name: 'data'
         });
 
-    hiddenformInput.node().value = plots.graphJson(gd, false);
+    hiddenformInput.node().value = plots.graphJson(gd);
     hiddenform.node().submit();
     hiddenformDiv.remove();
 
