@@ -1,1 +1,0 @@
-- Remove all `*src` attributes, as well as `layout.hidesources` attribute, from the schema. Change signature of `plots.graphJson()` function to remove `mode` argument [[#7623](https://github.com/plotly/plotly.js/pull/7623)]
