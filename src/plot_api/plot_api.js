@@ -1564,9 +1564,9 @@ function _restyle(gd, aobj, traces) {
                     labelsTo = 'y';
                     valuesTo = 'x';
                 }
-                Lib.swapAttrs(cont, ['?', '?src'], 'labels', labelsTo);
+                Lib.swapAttrs(cont, ['?'], 'labels', labelsTo);
                 Lib.swapAttrs(cont, ['d?', '?0'], 'label', labelsTo);
-                Lib.swapAttrs(cont, ['?', '?src'], 'values', valuesTo);
+                Lib.swapAttrs(cont, ['?'], 'values', valuesTo);
 
                 if (oldVal === 'pie' || oldVal === 'funnelarea') {
                     nestedProperty(cont, 'marker.color').set(nestedProperty(cont, 'marker.colors').get());

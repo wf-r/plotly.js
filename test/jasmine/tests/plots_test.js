@@ -578,7 +578,7 @@ describe('Test Plots', function() {
             };
 
             Plotly.newPlot(gd, mock).then(function() {
-                var str = Plots.graphJson(gd, false, 'keepdata');
+                var str = Plots.graphJson(gd);
                 var obj = JSON.parse(str);
 
                 expect(obj.data).toEqual(mock.data);
@@ -612,7 +612,7 @@ describe('Test Plots', function() {
             };
 
             Plotly.newPlot(gd, [trace]).then(function() {
-                var str = Plots.graphJson(gd, false, 'keepdata');
+                var str = Plots.graphJson(gd);
                 var obj = JSON.parse(str);
 
                 expect(obj.data[0].x).toEqual([1, 2, 3]);
