@@ -618,10 +618,6 @@ lib.tagSelected = function (calcTrace, trace, ptNumber2cdIndex) {
     }
 };
 
-lib.selIndices2selPoints = function (trace) {
-    return trace.selectedpoints;
-};
-
 /** Returns target as set by 'target' transform attribute
  *
  * @param {object} trace : full trace object
