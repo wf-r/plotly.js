@@ -409,7 +409,7 @@ plots.supplyDefaults = function(gd, opts) {
     var uid;
     for(uid in tracePreGUI) uids[uid] = 'old';
     for(i = 0; i < newFullData.length; i++) {
-        uid = newFullData[i]._fullInput.uid;
+        uid = newFullData[i].uid;
         if(!uids[uid]) tracePreGUI[uid] = {};
         uids[uid] = 'new';
     }
@@ -447,14 +447,8 @@ plots.supplyDefaultsUpdateCalc = function(oldCalcdata, newFullData) {
  */
 function getTraceUids(oldFullData, newData) {
     var len = newData.length;
-    var oldFullInput = [];
-    var i, prevFullInput;
-    for(i = 0; i < oldFullData.length; i++) {
-        var thisFullInput = oldFullData[i]._fullInput;
-        if(thisFullInput !== prevFullInput) oldFullInput.push(thisFullInput);
-        prevFullInput = thisFullInput;
-    }
-    var oldLen = oldFullInput.length;
+    var i;
+    var oldLen = oldFullData.length;
     var out = new Array(len);
     var seenUids = {};
 
@@ -475,7 +469,7 @@ function getTraceUids(oldFullData, newData) {
         if(typeof newUid === 'number') newUid = String(newUid);
 
         if(tryUid(newUid, i)) continue;
-        if(i < oldLen && tryUid(oldFullInput[i].uid, i)) continue;
+        if(i < oldLen && tryUid(oldFullData[i].uid, i)) continue;
         setUid(Lib.randstr(seenUids), i);
     }
 
@@ -940,7 +934,6 @@ plots.supplyDataDefaults = function(dataIn, dataOut, layout, fullLayout) {
 
         fullTrace.index = i;
         fullTrace._input = trace;
-        fullTrace._fullInput = fullTrace;
 
         pushModule(fullTrace);
 

@@ -57,7 +57,7 @@ var exports = module.exports = function plot(gd, cdModule) {
         // because it's an array of variable dimensionality. So store the whole
         // thing at once manually.
         var aStr = 'dimensions[' + initialDimIndex + '].constraintrange';
-        var preGUI = fullLayout._tracePreGUI[gd._fullData[fullIndices[i]]._fullInput.uid];
+        var preGUI = fullLayout._tracePreGUI[gd._fullData[fullIndices[i]].uid];
         if(preGUI[aStr] === undefined) {
             var initialVal = dim.constraintrange;
             preGUI[aStr] = initialVal || null;
@@ -116,7 +116,7 @@ var exports = module.exports = function plot(gd, cdModule) {
         // case to just store the order itself.
         // Registry.call('_storeDirectGUIEdit',
         //     gd.data[inputIndices[i]],
-        //     fullLayout._tracePreGUI[gd._fullData[fullIndices[i]]._fullInput.uid],
+        //     fullLayout._tracePreGUI[gd._fullData[fullIndices[i]].uid],
         //     {dimensions: currentDims[i]}
         // );
 

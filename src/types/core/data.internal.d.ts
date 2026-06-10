@@ -37,18 +37,10 @@ export interface CalcData {
  * internal helpers should use `FullData` rather than this directly.
  */
 interface FullDataInternals {
-    /** Names of attributes whose values were arrays (used by transform machinery). */
+    /** Names of attributes whose values are data arrays (used for hover/event data). */
     _arrayAttrs?: string[];
-    /** Trace index after array attribute expansion. */
-    _expandedIndex?: number;
     /** Cached extremes (per axis) for autorange computation. */
     _extremes?: Record<string, any>;
-    /** Snapshot of the trace before transforms were applied. */
-    _fullInput?: Data;
-    /** True when the trace has a transform that affects `calcdata`. */
-    _hasCalcTransform?: boolean;
-    /** Map from `_expandedIndex` back to original point indices. */
-    _indexToPoints?: { [key: number]: number[] };
     /** Original user-supplied trace object (pre-defaults). */
     _input?: Data;
     /** Length of the trace's data arrays (after coercion). */

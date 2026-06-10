@@ -342,7 +342,7 @@ exports.validateTemplate = function(figureIn, template) {
             var fullTrace = fullData[i];
             traceType = fullTrace.type;
             typeCount[traceType] = (typeCount[traceType] || 0) + 1;
-            if(!fullTrace._fullInput._template) {
+            if(!fullTrace._template) {
                 // this takes care of the case of traceType in the data but not
                 // the template
                 errorList.push({

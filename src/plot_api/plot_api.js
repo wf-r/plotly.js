@@ -1438,7 +1438,7 @@ function _restyle(gd, aobj, traces) {
             extraparam = layoutNP(gd.layout, attr.replace('LAYOUT', ''));
         } else {
             var tracei = traces[i];
-            var preGUI = fullLayout._tracePreGUI[getFullTrace(tracei)._fullInput.uid];
+            var preGUI = fullLayout._tracePreGUI[getFullTrace(tracei).uid];
             extraparam = makeNP(preGUI, guiEditFlag)(data[tracei], attr);
         }
 
@@ -1510,7 +1510,7 @@ function _restyle(gd, aobj, traces) {
         for (i = 0; i < traces.length; i++) {
             cont = data[traces[i]];
             contFull = getFullTrace(traces[i]);
-            var preGUI = fullLayout._tracePreGUI[contFull._fullInput.uid];
+            var preGUI = fullLayout._tracePreGUI[contFull.uid];
             param = makeNP(preGUI, guiEditFlag)(cont, ai);
             oldVal = param.get();
             newVal = Array.isArray(vi) ? vi[i % vi.length] : vi;
@@ -2392,7 +2392,7 @@ function getNewRev(revAttr, container) {
 
 function getFullTraceIndexFromUid(uid, fullData) {
     for (var i = 0; i < fullData.length; i++) {
-        if (fullData[i]._fullInput.uid === uid) return i;
+        if (fullData[i].uid === uid) return i;
     }
     return -1;
 }
@@ -2499,7 +2499,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
     for (var uid in allTracePreGUI) {
         var tracePreGUI = allTracePreGUI[uid];
         var newTrace = null;
-        var fullInput;
+        var fullTrace;
         for (key in tracePreGUI) {
             // wait until we know we have preGUI values to look for traces
             // but if we don't find both, stop looking at this uid
@@ -2511,10 +2511,9 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
                     delete allTracePreGUI[uid];
                     break;
                 }
-                var fullTrace = oldFullData[fulli];
-                fullInput = fullTrace._fullInput;
+                fullTrace = oldFullData[fulli];
 
-                var newTracei = getTraceIndexFromUid(uid, data, fullInput.index);
+                var newTracei = getTraceIndexFromUid(uid, data, fullTrace.index);
                 if (newTracei < 0) {
                     // No match in new data
                     delete allTracePreGUI[uid];
@@ -2529,7 +2528,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
                     oldRev = nestedProperty(oldFullLayout, match.attr).get();
                     newRev = oldRev && getNewRev(match.attr, layout);
                 } else {
-                    oldRev = fullInput.uirevision;
+                    oldRev = fullTrace.uirevision;
                     // inheritance for trace.uirevision is simple, just layout.uirevision
                     newRev = newTrace.uirevision;
                     if (newRev === undefined) newRev = layout.uirevision;
@@ -2541,7 +2540,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
                     newNP = nestedProperty(newTrace, key);
                     newVal = newNP.get();
                     if (valsMatch(newVal, preGUIVal)) {
-                        newNP.set(undefinedToNull(nestedProperty(fullInput, key).get()));
+                        newNP.set(undefinedToNull(nestedProperty(fullTrace, key).get()));
                         continue;
                     }
                 }
@@ -2783,11 +2782,11 @@ function diffData(gd, oldFullData, newFullData, immutable, transition, newDataRe
 
     for (i = 0; i < oldFullData.length; i++) {
         if (newFullData[i]) {
-            trace = newFullData[i]._fullInput;
+            trace = newFullData[i];
             if (seenUIDs[trace.uid]) continue;
             seenUIDs[trace.uid] = 1;
 
-            getDiffFlags(oldFullData[i]._fullInput, trace, [], diffOpts);
+            getDiffFlags(oldFullData[i], trace, [], diffOpts);
         }
     }
 
