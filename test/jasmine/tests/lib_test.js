@@ -3364,12 +3364,6 @@ describe('Queue', function () {
                 expect(gd.undoQueue.queue[0].undo.args[0][1]['title.text']).toEqual(null);
                 expect(gd.undoQueue.queue[0].redo.args[0][1]['title.text']).toEqual('A title');
 
-                return Plotly.restyle(gd, 'transforms[0]', { type: 'filter' });
-            })
-            .then(function () {
-                expect(gd.undoQueue.queue[1].undo.args[0][1]).toEqual({ 'transforms[0]': null });
-                expect(gd.undoQueue.queue[1].redo.args[0][1]).toEqual({ 'transforms[0]': { type: 'filter' } });
-
                 return Plotly.relayout(gd, 'updatemenus[0]', { buttons: [] });
             })
             .then(function () {
@@ -3381,12 +3375,6 @@ describe('Queue', function () {
             .then(function () {
                 expect(gd.undoQueue.queue[1].undo.args[0][1]).toEqual({ 'updatemenus[0]': { buttons: [] } });
                 expect(gd.undoQueue.queue[1].redo.args[0][1]).toEqual({ 'updatemenus[0]': null });
-
-                return Plotly.restyle(gd, 'transforms[0]', null);
-            })
-            .then(function () {
-                expect(gd.undoQueue.queue[1].undo.args[0][1]).toEqual({ 'transforms[0]': [{ type: 'filter' }] });
-                expect(gd.undoQueue.queue[1].redo.args[0][1]).toEqual({ 'transforms[0]': null });
             })
             .then(done, done.fail);
     });
