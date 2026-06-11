@@ -1,7 +1,7 @@
 const _color = require('color').default;
 const isNumeric = require('fast-isnumeric');
-const Lib = require('../../lib');
 const { isTypedArray } = require('../../lib/array');
+const { warn } = require('../../lib/loggers');
 const { background, defaultLine, defaults, lightLine } = require('./attributes');
 
 // Safe wrapper: falls back to black instead of throwing on invalid input,
@@ -11,7 +11,7 @@ const color = (cstr) => {
     try {
         return _color(cstr);
     } catch (e) {
-        Lib.warn(`Invalid color specifier: "${cstr}". Defaulting to "#000"`);
+        warn(`Invalid color specifier: "${cstr}". Defaulting to "#000"`);
         return _color('#000');
     }
 };
