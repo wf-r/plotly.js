@@ -937,9 +937,7 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
         .style('stroke-opacity', d => salientEnough(d) ? Color.opacity(d.linkLineColor) : d.alpha)
         .style('fill', d => d.rgb)
         .style('fill-opacity', d => d.alpha)
-        .style('stroke-width', function(d) {
-            return salientEnough(d) ? d.linkLineWidth : 1;
-        })
+        .style('stroke-width', d => salientEnough(d) ? d.linkLineWidth : 1)
         .attr('d', linkPath());
 
     sankeyLink
