@@ -1,5 +1,6 @@
 const _color = require('color').default;
 const isNumeric = require('fast-isnumeric');
+const Lib = require('../../lib');
 const { isTypedArray } = require('../../lib/array');
 const { background, defaultLine, defaults, lightLine } = require('./attributes');
 
@@ -10,6 +11,7 @@ const color = (cstr) => {
     try {
         return _color(cstr);
     } catch (e) {
+        Lib.warn(`Invalid color specifier: "${cstr}". Defaulting to "#000"`);
         return _color('#000');
     }
 };
@@ -52,7 +54,7 @@ const combine = (front, back) => {
         b: bcflat.b * (1 - fc.alpha) + fc.b * fc.alpha
     };
 
-    return color(fcflat).string();
+    return color(fcflat).rgb().string();
 };
 
 /*
@@ -86,14 +88,9 @@ const contrast = (cstr, lightAmount, darkAmount) => {
     let c = color(cstr);
 
     if (c.alpha() !== 1) c = color(combine(cstr, background));
-
-    // TODO: Should the API change such that lightAmount/darkAmount are passed in as decimal instead of percent number?
-    let newColor;
-    if (c.isDark()) {
-        newColor = color(lightAmount ? c.lighten(lightAmount / 100) : background);
-    } else {
-        newColor = color(darkAmount ? c.darken(darkAmount / 100) : defaultLine);
-    }
+    const newColor = c.isDark()
+        ? color(lightAmount ? c.lighten(lightAmount / 100) : background)
+        : color(darkAmount ? c.darken(darkAmount / 100) : defaultLine);
 
     return newColor.rgb().string();
 };
