@@ -2232,7 +2232,7 @@ plots.layoutArrayContainers = Registry.layoutArrayContainers;
  * Extend a trace definition. This method:
  *
  *  1. directly transfers any array references
- *  2. manually recurses into container arrays like transforms
+ *  2. manually recurses into container arrays like dimensions
  *
  * The result is the original object reference with the new contents merged in.
  */

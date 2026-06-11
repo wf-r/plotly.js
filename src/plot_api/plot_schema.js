@@ -218,7 +218,7 @@ exports.findArrayAttributes = function(trace) {
  * @param {object} trace
  *  full trace object that contains a reference to `_module.attributes`
  * @param {object} parts
- *  an array of parts, like ['transforms', 1, 'value']
+ *  an array of parts, like ['dimensions', 1, 'values']
  *  typically from nestedProperty(...).parts
  *
  * @return {object|false}

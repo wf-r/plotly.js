@@ -910,8 +910,8 @@ lib.expandObjectPaths = function (data) {
                     data[prop] = data[prop] || [];
 
                     if (match[3] === '.') {
-                        // This is the case where theere are subsequent properties into which
-                        // we must recurse, e.g. transforms[0].value
+                        // This is the case where there are subsequent properties into which
+                        // we must recurse, e.g. annotations[0].text
                         trailingPath = match[4];
                         dest = data[prop][idx] = data[prop][idx] || {};
 

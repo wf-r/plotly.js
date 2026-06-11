@@ -49,8 +49,6 @@ exports.makeTemplate = function(figure) {
     data.forEach(function(trace) {
         // TODO: What if no style info is extracted for this trace. We may
         // not want an empty object as the null value.
-        // TODO: allow transforms to contribute to templates?
-        // as it stands they are ignored, which may be for the best...
 
         var traceTemplate = {};
         walkStyleKeys(trace, traceTemplate, getTraceInfo.bind(null, trace));

@@ -1408,16 +1408,6 @@ function _restyle(gd, aobj, traces) {
         return 'LAYOUT' + axName + '.range';
     }
 
-    function getFullTrace(traceIndex) {
-        // usually fullData maps 1:1 onto data, but with groupby transforms
-        // the fullData index can be greater. Take the *first* matching trace.
-        for (var j = traceIndex; j < fullData.length; j++) {
-            if (fullData[j]._input === data[traceIndex]) return fullData[j];
-        }
-        // should never get here - and if we *do* it should cause an error
-        // later on undefined fullTrace is passed to nestedProperty.
-    }
-
     // for attrs that interact (like scales & autoscales), save the
     // old vals before making the change
     // val=undefined will not set a value, just record what the value was.
@@ -1438,7 +1428,7 @@ function _restyle(gd, aobj, traces) {
             extraparam = layoutNP(gd.layout, attr.replace('LAYOUT', ''));
         } else {
             var tracei = traces[i];
-            var preGUI = fullLayout._tracePreGUI[getFullTrace(tracei).uid];
+            var preGUI = fullLayout._tracePreGUI[fullData[tracei].uid];
             extraparam = makeNP(preGUI, guiEditFlag)(data[tracei], attr);
         }
 
@@ -1509,7 +1499,7 @@ function _restyle(gd, aobj, traces) {
         undoit[ai] = a0();
         for (i = 0; i < traces.length; i++) {
             cont = data[traces[i]];
-            contFull = getFullTrace(traces[i]);
+            contFull = fullData[traces[i]];
             var preGUI = fullLayout._tracePreGUI[contFull.uid];
             param = makeNP(preGUI, guiEditFlag)(cont, ai);
             oldVal = param.get();
@@ -2343,8 +2333,7 @@ var layoutUIControlPatterns = [
 // or with no `attr` we use `trace.uirevision`
 var traceUIControlPatterns = [
     { pattern: /^selectedpoints$/, attr: 'selectionrevision' },
-    // "visible" includes trace.transforms[i].styles[j].value.visible
-    { pattern: /(^|value\.)visible$/, attr: 'legend.uirevision' },
+    { pattern: /^visible$/, attr: 'legend.uirevision' },
     { pattern: /^dimensions\[\d+\]\.constraintrange/ },
     { pattern: /^node\.(x|y|groups)/ }, // for Sankey nodes
     { pattern: /^level$/ }, // for Sunburst, Treemap and Icicle traces
@@ -2354,8 +2343,7 @@ var traceUIControlPatterns = [
     // reasonable or should these be `editrevision`?
     // Also applies to axis titles up in the layout section
 
-    // "name" also includes transform.styles
-    { pattern: /(^|value\.)name$/ },
+    { pattern: /^name$/ },
     // including nested colorbar attributes (ie marker.colorbar)
     { pattern: /colorbar\.title\.text$/ },
     { pattern: /colorbar\.(x|y)$/, attr: 'editrevision' }
