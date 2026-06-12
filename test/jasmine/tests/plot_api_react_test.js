@@ -626,7 +626,7 @@ describe('@noCIdep Plotly.react', function() {
 
         function fullJson() {
             var out = JSON.parse(Plotly.Plots.graphJson({
-                data: gd._fullData.map(function(trace) { return trace._fullInput; }),
+                data: gd._fullData.map(function(trace) { return trace; }),
                 layout: gd._fullLayout
             }));
 
@@ -978,7 +978,7 @@ describe('Plotly.react and uirevision attributes', function() {
                 var trace = gd.data[i];
                 var fullTrace = gd._fullData.filter(function(ft) {
                     return ft.index === i;
-                })[0]._fullInput;
+                })[0];
 
                 for(var key in traceKeys) {
                     var val = traceKeys[key];

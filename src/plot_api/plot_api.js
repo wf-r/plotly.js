@@ -1408,16 +1408,6 @@ function _restyle(gd, aobj, traces) {
         return 'LAYOUT' + axName + '.range';
     }
 
-    function getFullTrace(traceIndex) {
-        // usually fullData maps 1:1 onto data, but with groupby transforms
-        // the fullData index can be greater. Take the *first* matching trace.
-        for (var j = traceIndex; j < fullData.length; j++) {
-            if (fullData[j]._input === data[traceIndex]) return fullData[j];
-        }
-        // should never get here - and if we *do* it should cause an error
-        // later on undefined fullTrace is passed to nestedProperty.
-    }
-
     // for attrs that interact (like scales & autoscales), save the
     // old vals before making the change
     // val=undefined will not set a value, just record what the value was.
@@ -1438,7 +1428,7 @@ function _restyle(gd, aobj, traces) {
             extraparam = layoutNP(gd.layout, attr.replace('LAYOUT', ''));
         } else {
             var tracei = traces[i];
-            var preGUI = fullLayout._tracePreGUI[getFullTrace(tracei)._fullInput.uid];
+            var preGUI = fullLayout._tracePreGUI[fullData[tracei].uid];
             extraparam = makeNP(preGUI, guiEditFlag)(data[tracei], attr);
         }
 
@@ -1509,8 +1499,8 @@ function _restyle(gd, aobj, traces) {
         undoit[ai] = a0();
         for (i = 0; i < traces.length; i++) {
             cont = data[traces[i]];
-            contFull = getFullTrace(traces[i]);
-            var preGUI = fullLayout._tracePreGUI[contFull._fullInput.uid];
+            contFull = fullData[traces[i]];
+            var preGUI = fullLayout._tracePreGUI[contFull.uid];
             param = makeNP(preGUI, guiEditFlag)(cont, ai);
             oldVal = param.get();
             newVal = Array.isArray(vi) ? vi[i % vi.length] : vi;
@@ -2343,8 +2333,7 @@ var layoutUIControlPatterns = [
 // or with no `attr` we use `trace.uirevision`
 var traceUIControlPatterns = [
     { pattern: /^selectedpoints$/, attr: 'selectionrevision' },
-    // "visible" includes trace.transforms[i].styles[j].value.visible
-    { pattern: /(^|value\.)visible$/, attr: 'legend.uirevision' },
+    { pattern: /^visible$/, attr: 'legend.uirevision' },
     { pattern: /^dimensions\[\d+\]\.constraintrange/ },
     { pattern: /^node\.(x|y|groups)/ }, // for Sankey nodes
     { pattern: /^level$/ }, // for Sunburst, Treemap and Icicle traces
@@ -2354,8 +2343,7 @@ var traceUIControlPatterns = [
     // reasonable or should these be `editrevision`?
     // Also applies to axis titles up in the layout section
 
-    // "name" also includes transform.styles
-    { pattern: /(^|value\.)name$/ },
+    { pattern: /^name$/ },
     // including nested colorbar attributes (ie marker.colorbar)
     { pattern: /colorbar\.title\.text$/ },
     { pattern: /colorbar\.(x|y)$/, attr: 'editrevision' }
@@ -2392,7 +2380,7 @@ function getNewRev(revAttr, container) {
 
 function getFullTraceIndexFromUid(uid, fullData) {
     for (var i = 0; i < fullData.length; i++) {
-        if (fullData[i]._fullInput.uid === uid) return i;
+        if (fullData[i].uid === uid) return i;
     }
     return -1;
 }
@@ -2499,7 +2487,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
     for (var uid in allTracePreGUI) {
         var tracePreGUI = allTracePreGUI[uid];
         var newTrace = null;
-        var fullInput;
+        var fullTrace;
         for (key in tracePreGUI) {
             // wait until we know we have preGUI values to look for traces
             // but if we don't find both, stop looking at this uid
@@ -2511,10 +2499,9 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
                     delete allTracePreGUI[uid];
                     break;
                 }
-                var fullTrace = oldFullData[fulli];
-                fullInput = fullTrace._fullInput;
+                fullTrace = oldFullData[fulli];
 
-                var newTracei = getTraceIndexFromUid(uid, data, fullInput.index);
+                var newTracei = getTraceIndexFromUid(uid, data, fullTrace.index);
                 if (newTracei < 0) {
                     // No match in new data
                     delete allTracePreGUI[uid];
@@ -2529,7 +2516,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
                     oldRev = nestedProperty(oldFullLayout, match.attr).get();
                     newRev = oldRev && getNewRev(match.attr, layout);
                 } else {
-                    oldRev = fullInput.uirevision;
+                    oldRev = fullTrace.uirevision;
                     // inheritance for trace.uirevision is simple, just layout.uirevision
                     newRev = newTrace.uirevision;
                     if (newRev === undefined) newRev = layout.uirevision;
@@ -2541,7 +2528,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
                     newNP = nestedProperty(newTrace, key);
                     newVal = newNP.get();
                     if (valsMatch(newVal, preGUIVal)) {
-                        newNP.set(undefinedToNull(nestedProperty(fullInput, key).get()));
+                        newNP.set(undefinedToNull(nestedProperty(fullTrace, key).get()));
                         continue;
                     }
                 }
@@ -2630,9 +2617,9 @@ function react(gd, data, layout, config) {
 
             applyUIRevisions(gd.data, gd.layout, oldFullData, oldFullLayout);
 
-            // "true" skips updating calcdata and remapping arrays from calcTransforms,
-            // which supplyDefaults usually does at the end, but we may need to NOT do
-            // if the diff (which we haven't determined yet) says we'll recalc
+            // "true" skips updating calcdata, which supplyDefaults usually does at
+            // the end, but we may need to NOT do if the diff (which we haven't
+            // determined yet) says we'll recalc
             Plots.supplyDefaults(gd, { skipUpdateCalc: true });
 
             var newFullData = gd._fullData;
@@ -2667,7 +2654,7 @@ function react(gd, data, layout, config) {
                         if (emptyCategories) emptyCategories();
                     }
                 }
-                // otherwise do the calcdata updates and calcTransform array remaps that we skipped earlier
+                // otherwise do the calcdata updates that we skipped earlier
             } else {
                 Plots.supplyDefaultsUpdateCalc(gd.calcdata, newFullData);
             }
@@ -2783,11 +2770,11 @@ function diffData(gd, oldFullData, newFullData, immutable, transition, newDataRe
 
     for (i = 0; i < oldFullData.length; i++) {
         if (newFullData[i]) {
-            trace = newFullData[i]._fullInput;
+            trace = newFullData[i];
             if (seenUIDs[trace.uid]) continue;
             seenUIDs[trace.uid] = 1;
 
-            getDiffFlags(oldFullData[i]._fullInput, trace, [], diffOpts);
+            getDiffFlags(oldFullData[i], trace, [], diffOpts);
         }
     }
 

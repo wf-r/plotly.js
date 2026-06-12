@@ -108,8 +108,7 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
 
     Lib.coerceFont(coerce, 'textfont', layout.font, { autoShadowDflt: true });
 
-    // disable 1D transforms - arrays here are 1D but their lengths/meanings
-    // don't match, between nodes and links
+    // Ensure _length is defined
     traceOut._length = null;
 };
 
