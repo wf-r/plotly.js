@@ -1,11 +1,18 @@
+'use strict'
+
 const _color = require('color').default;
 const isNumeric = require('fast-isnumeric');
 const { isTypedArray } = require('../../lib/array');
 const { warn } = require('../../lib/loggers');
 const { background, defaultLine, defaults, lightLine } = require('./attributes');
 
-// Safe wrapper: falls back to black instead of throwing on invalid input,
-// and trims surrounding whitespace from string inputs.
+/**
+ * Safe wrapper around the `color` library: trims string input and falls back
+ * to black (with a warning) instead of throwing on invalid input.
+ *
+ * @param {*} cstr - color specifier
+ * @return {Color} color object
+ */
 const color = (cstr) => {
     if (typeof cstr === 'string') cstr = cstr.trim();
     try {
@@ -16,21 +23,45 @@ const color = (cstr) => {
     }
 };
 
+/**
+ * Convert any color specifier to a normalized `rgb(r, g, b)` string.
+ *
+ * @param {*} cstr - color specifier
+ * @return {String}
+ */
 const rgb = (cstr) => {
     const { r, g, b } = color(cstr).rgb().object();
     return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
 };
 
+/**
+ * Return the alpha channel of a color (0 if falsy).
+ *
+ * @param {*} cstr - color specifier
+ * @return {Number}
+ */
 const opacity = (cstr) => (cstr ? color(cstr).alpha() : 0);
 
+/**
+ * Build an `rgba(...)` string from a color and an explicit opacity value.
+ *
+ * @param {*} cstr - color specifier
+ * @param {Number} op - opacity in [0, 1]
+ * @return {String}
+ */
 const addOpacity = (cstr, op) => {
     const c = color(cstr).rgb().object();
     return `rgba(${Math.round(c.r)}, ${Math.round(c.g)}, ${Math.round(c.b)}, ${op})`;
 };
 
-// combine two colors into one apparent color
-// if back has transparency or is missing,
-// background is assumed behind it
+/**
+ * Combine two colors into one apparent color by compositing `front` over `back`.
+ * If `back` is missing or transparent, the module `background` is assumed behind it.
+ *
+ * @param {*} front - foreground color specifier
+ * @param {*} back - background color specifier
+ * @return {String} resulting `rgb(...)` string
+ */
 const combine = (front, back) => {
     back ||= background;
     const fc = color(front).rgb().object();
@@ -57,11 +88,14 @@ const combine = (front, back) => {
     return color(fcflat).rgb().string();
 };
 
-/*
- * Linearly interpolate between two colors at a normalized interpolation position (0 to 1).
+/**
+ * Linearly interpolate between two colors at a normalized position (0 to 1).
+ * Ignores alpha; result is `factor * first + (1 - factor) * second`.
  *
- * Ignores alpha channel values.
- * The resulting color is computed as: factor * first + (1 - factor) * second.
+ * @param {*} first - color specifier
+ * @param {*} second - color specifier
+ * @param {Number} factor - interpolation position in [0, 1]
+ * @return {String} resulting `rgb(...)` string
  */
 const interpolate = (first, second, factor) => {
     const fc = color(first).rgb().object();
@@ -76,13 +110,15 @@ const interpolate = (first, second, factor) => {
     return color(ic).rgb().string();
 };
 
-/*
- * Create a color that contrasts with cstr.
+/**
+ * Create a color that contrasts with `cstr`: dark colors are lightened,
+ * light colors are darkened. Without `lightAmount` / `darkAmount` the
+ * result goes all the way to the background or defaultLine.
  *
- * If cstr is a dark color, we lighten it; if it's light, we darken.
- *
- * If lightAmount / darkAmount are used, we adjust by these percentages,
- * otherwise we go all the way to white or black.
+ * @param {*} cstr - color specifier
+ * @param {Number} [lightAmount] - lighten percentage when cstr is dark
+ * @param {Number} [darkAmount] - darken percentage when cstr is light
+ * @return {String} resulting `rgb(...)` string
  */
 const contrast = (cstr, lightAmount, darkAmount) => {
     let c = color(cstr);
@@ -95,18 +131,35 @@ const contrast = (cstr, lightAmount, darkAmount) => {
     return newColor.rgb().string();
 };
 
+/**
+ * Apply `stroke` and `stroke-opacity` styles to a D3 selection.
+ *
+ * @param {Selection} s - D3 selection
+ * @param {*} cstr - color specifier
+ */
 const stroke = (s, cstr) => {
     const c = color(cstr);
     s.style({ stroke: rgb(cstr), 'stroke-opacity': c.alpha() });
 };
 
+/**
+ * Apply `fill` and `fill-opacity` styles to a D3 selection.
+ *
+ * @param {Selection} s - D3 selection
+ * @param {*} cstr - color specifier
+ */
 const fill = (s, cstr) => {
     const c = color(cstr);
     s.style({ fill: rgb(cstr), 'fill-opacity': c.alpha() });
 };
 
-// search container for colors with the deprecated rgb(fractions) format
-// and convert them to rgb(0-255 values)
+/**
+ * Recursively search a container for colors using the deprecated `rgb(fractions)`
+ * format and convert them in place to `rgb(0-255)` values. Handles `*color` keys,
+ * `*colorscale` arrays, and nested arrays/objects.
+ *
+ * @param {Object} container
+ */
 const clean = (container) => {
     if (!container || typeof container !== 'object') return;
 
@@ -140,6 +193,14 @@ const clean = (container) => {
     }
 };
 
+/**
+ * Convert a single deprecated `rgb(fractions)` / `rgba(fractions, alpha)` string
+ * into `rgb(0-255)` / `rgba(0-255, alpha)`. Returns `val` unchanged if it
+ * doesn't match that legacy form.
+ *
+ * @param {*} val
+ * @return {*}
+ */
 const cleanOne = (val) => {
     if (isNumeric(val) || typeof val !== 'string') return val;
 
@@ -180,8 +241,21 @@ const cleanOne = (val) => {
     return 'rgb(' + rgbStr + ')';
 };
 
+/**
+ * Test whether two color specifiers resolve to the same `rgb(...)` string.
+ *
+ * @param {*} cstr1 - color specifier
+ * @param {*} cstr2 - color specifier
+ * @return {Boolean}
+ */
 const equals = (cstr1, cstr2) => !!(cstr1 && cstr2 && color(cstr1).rgb().string() === color(cstr2).rgb().string());
 
+/**
+ * Test whether a string is a valid color specifier (does not throw).
+ *
+ * @param {*} cstr
+ * @return {Boolean}
+ */
 const isValid = (cstr) => {
     if (typeof cstr !== 'string') return false;
     try {
@@ -191,7 +265,14 @@ const isValid = (cstr) => {
     }
 };
 
-// Adds a fixed amount to each RGB channel (unlike lighten which works in HSL space).
+/**
+ * Brighten a color by adding a fixed amount to each RGB channel.
+ * Unlike `lighten`, this works in RGB space, not HSL.
+ *
+ * @param {*} cstr - color specifier
+ * @param {Number} [amount=10] - percent in [-100, 100]
+ * @return {String} resulting `rgb(...)` string
+ */
 const brighten = (cstr, amount) => {
     amount = amount === 0 ? 0 : amount || 10;
     const c = color(cstr).rgb().object();
@@ -205,12 +286,28 @@ const brighten = (cstr, amount) => {
         .string();
 };
 
+/**
+ * Mix two colors by `weight` percent (0 = all `cstr1`, 100 = all `cstr2`).
+ *
+ * @param {*} cstr1 - color specifier
+ * @param {*} cstr2 - color specifier
+ * @param {Number} weight - percent in [0, 100]
+ * @return {String} resulting `rgb(...)` string
+ */
 const mix = (cstr1, cstr2, weight) =>
     color(cstr1)
         .mix(color(cstr2), weight / 100)
         .rgb()
         .string();
 
+/**
+ * Pick the color from `colorList` with the highest contrast ratio against
+ * `baseColor`. Defaults to choosing between black and white.
+ *
+ * @param {*} baseColor - color specifier to contrast against
+ * @param {Array} [colorList=['#000', '#fff']] - candidate color specifiers
+ * @return {String} resulting `rgb(...)` string
+ */
 const mostReadable = (baseColor, colorList = ['#000', '#fff']) => {
     let bestColor;
     let bestContrast = -Infinity;
