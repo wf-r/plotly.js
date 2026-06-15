@@ -1,8 +1,6 @@
 'use strict'
 
 const _color = require('color').default;
-const isNumeric = require('fast-isnumeric');
-const { isTypedArray } = require('../../lib/array');
 const { warn } = require('../../lib/loggers');
 const { background, defaultLine, defaults, lightLine } = require('./attributes');
 
@@ -154,94 +152,6 @@ const fill = (s, cstr) => {
 };
 
 /**
- * Recursively search a container for colors using the deprecated `rgb(fractions)`
- * format and convert them in place to `rgb(0-255)` values. Handles `*color` keys,
- * `*colorscale` arrays, and nested arrays/objects.
- *
- * @param {Object} container
- */
-const clean = (container) => {
-    if (!container || typeof container !== 'object') return;
-
-    var keys = Object.keys(container);
-    var i, j, key, val;
-
-    for (i = 0; i < keys.length; i++) {
-        key = keys[i];
-        val = container[key];
-
-        if (key.slice(-5) === 'color') {
-            // only sanitize keys that end in "color" or "colorscale"
-
-            if (Array.isArray(val)) {
-                for (j = 0; j < val.length; j++) val[j] = cleanOne(val[j]);
-            } else container[key] = cleanOne(val);
-        } else if (key.slice(-10) === 'colorscale' && Array.isArray(val)) {
-            // colorscales have the format [[0, color1], [frac, color2], ... [1, colorN]]
-
-            for (j = 0; j < val.length; j++) {
-                if (Array.isArray(val[j])) val[j][1] = cleanOne(val[j][1]);
-            }
-        } else if (Array.isArray(val)) {
-            // recurse into arrays of objects, and plain objects
-
-            var el0 = val[0];
-            if (!Array.isArray(el0) && el0 && typeof el0 === 'object') {
-                for (j = 0; j < val.length; j++) clean(val[j]);
-            }
-        } else if (val && typeof val === 'object' && !isTypedArray(val)) clean(val);
-    }
-};
-
-/**
- * Convert a single deprecated `rgb(fractions)` / `rgba(fractions, alpha)` string
- * into `rgb(0-255)` / `rgba(0-255, alpha)`. Returns `val` unchanged if it
- * doesn't match that legacy form.
- *
- * @param {*} val
- * @return {*}
- */
-const cleanOne = (val) => {
-    if (isNumeric(val) || typeof val !== 'string') return val;
-
-    var valTrim = val.trim();
-    if (valTrim.slice(0, 3) !== 'rgb') return val;
-
-    var match = valTrim.match(/^rgba?\s*\(([^()]*)\)$/);
-    if (!match) return val;
-
-    var parts = match[1].trim().split(/\s*[\s,]\s*/);
-    var rgba = valTrim.charAt(3) === 'a' && parts.length === 4;
-    if (!rgba && parts.length !== 3) return val;
-
-    for (var i = 0; i < parts.length; i++) {
-        if (!parts[i].length) return val;
-        parts[i] = Number(parts[i]);
-
-        if (!(parts[i] >= 0)) {
-            // all parts must be non-negative numbers
-
-            return val;
-        }
-
-        if (i === 3) {
-            // alpha>1 gets clipped to 1
-
-            if (parts[i] > 1) parts[i] = 1;
-        } else if (parts[i] >= 1) {
-            // r, g, b must be < 1 (ie 1 itself is not allowed)
-
-            return val;
-        }
-    }
-
-    var rgbStr = Math.round(parts[0] * 255) + ', ' + Math.round(parts[1] * 255) + ', ' + Math.round(parts[2] * 255);
-
-    if (rgba) return 'rgba(' + rgbStr + ', ' + parts[3] + ')';
-    return 'rgb(' + rgbStr + ')';
-};
-
-/**
  * Test whether two color specifiers resolve to the same `rgb(...)` string.
  *
  * @param {*} cstr1 - color specifier
@@ -327,7 +237,6 @@ module.exports = {
     addOpacity,
     background,
     brighten,
-    clean,
     color,
     combine,
     contrast,

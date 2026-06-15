@@ -6,7 +6,6 @@ var Registry = require('../registry');
 var Lib = require('../lib');
 var Plots = require('../plots/plots');
 var AxisIds = require('../plots/cartesian/axis_ids');
-var Color = require('../components/color');
 
 var cleanId = AxisIds.cleanId;
 var getFromTrace = AxisIds.getFromTrace;
@@ -139,9 +138,6 @@ exports.cleanLayout = function (layout) {
      * Moved from rotate -> orbit for dragmode
      */
     if (layout.dragmode === 'rotate') layout.dragmode = 'orbit';
-
-    // sanitize rgb(fractions) and rgba(fractions) because they're not valid css
-    Color.clean(layout);
 
     // clean the layout container in layout.template
     if (layout.template && layout.template.layout) {
@@ -277,9 +273,6 @@ exports.cleanData = function (data) {
             if (emptyContainer(trace.marker, 'line')) delete trace.marker.line;
             if (emptyContainer(trace, 'marker')) delete trace.marker;
         }
-
-        // sanitize rgb(fractions) and rgba(fractions) because they're not valid css
-        Color.clean(trace);
 
         // remove obsolete autobin(x|y) attributes, but only if true
         // if false, this needs to happen in Histogram.calc because it
