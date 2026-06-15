@@ -30,6 +30,29 @@ describe('Test color:', function() {
         });
     });
 
+    describe('adjustLightness', () => {
+        it('lightens with a positive delta (additive in HSL L percentage points)', () => {
+            // black (L=0) + 50 → mid gray (L=50)
+            expect(Color.adjustLightness('#000', 50).hex()).toBe('#808080');
+        });
+
+        it('darkens with a negative delta', () => {
+            // white (L=100) - 50 → mid gray (L=50)
+            expect(Color.adjustLightness('#fff', -50).hex()).toBe('#808080');
+        });
+
+        it('shifts HSL lightness additively, not multiplicatively', () => {
+            // additive: L 50.2 + 20 = 70.2 → #B3B3B3
+            // multiplicative would give L 50.2 * 1.2 = 60.2 → #9A9A9A
+            expect(Color.adjustLightness('#808080', 20).hex()).toBe('#B3B3B3');
+        });
+
+        it('preserves hue and saturation on chromatic colors', () => {
+            // red (H=0, S=100, L=50) + 20 → HSL(0, 100, 70) → #FF6666
+            expect(Color.adjustLightness('#ff0000', 20).hex()).toBe('#FF6666');
+        });
+    });
+
     describe('contrast', function() {
         it('should darken light colors', function() {
             var out = Color.contrast('#eee', 10, 20);
