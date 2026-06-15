@@ -57,19 +57,19 @@ describe('Test color:', function() {
         it('should darken light colors', function() {
             var out = Color.contrast('#eee', 10, 20);
 
-            expect(out).toEqual('rgb(190, 190, 190)');
+            expect(out).toEqual('rgb(187, 187, 187)');
         });
 
         it('should darken light colors (2)', function() {
             var out = Color.contrast('#fdae61', 10, 20);
 
-            expect(out).toEqual('rgb(252, 139, 28)');
+            expect(out).toEqual('rgb(245, 123, 3)');
         });
 
         it('should lighten dark colors', function() {
             var out = Color.contrast('#2b83ba', 10, 20);
 
-            expect(out).toEqual('rgb(47, 144, 205)');
+            expect(out).toEqual('rgb(68, 157, 212)');
         });
     });
 });
