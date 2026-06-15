@@ -7,6 +7,9 @@ build/*
 dist/*.LICENSE.txt
 dist/*.css
 
+# Ignore local dev mocks/baselines
+test/image/**/dev_*.*
+
 npm-debug.log*
 *.sublime*
 *~
