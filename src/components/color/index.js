@@ -109,6 +109,20 @@ const interpolate = (first, second, factor) => {
 };
 
 /**
+ * Shift a color's HSL lightness additively by `delta` percentage points.
+ * Positive delta = lighter, negative = darker. Use this instead of the
+ * underlying library's `lighten`/`darken`, which scale L multiplicatively.
+ *
+ * @param {*} cstr - color specifier
+ * @param {Number} delta - lightness shift in HSL percentage points
+ * @return {Color} adjusted color object
+ */
+const adjustLightness = (cstr, delta) => {
+    const c = color(cstr);
+    return c.lightness(c.lightness() + delta);
+};
+
+/**
  * Create a color that contrasts with `cstr`: dark colors are lightened,
  * light colors are darkened. Without `lightAmount` / `darkAmount` the
  * result goes all the way to the background or defaultLine.
@@ -123,8 +137,8 @@ const contrast = (cstr, lightAmount, darkAmount) => {
 
     if (c.alpha() !== 1) c = color(combine(cstr, background));
     const newColor = c.isDark()
-        ? color(lightAmount ? c.lighten(lightAmount / 100) : background)
-        : color(darkAmount ? c.darken(darkAmount / 100) : defaultLine);
+        ? (lightAmount ? adjustLightness(c, lightAmount) : color(background))
+        : (darkAmount ? adjustLightness(c, -darkAmount) : color(defaultLine));
 
     return newColor.rgb().string();
 };
@@ -177,11 +191,11 @@ const isValid = (cstr) => {
 
 /**
  * Brighten a color by adding a fixed amount to each RGB channel.
- * Unlike `lighten`, this works in RGB space, not HSL.
+ * Unlike `lighten`, this works in RGB space, not HSL. Alpha is preserved.
  *
  * @param {*} cstr - color specifier
  * @param {Number} [amount=10] - percent in [-100, 100]
- * @return {String} resulting `rgb(...)` string
+ * @return {String} resulting `rgb(...)` / `rgba(...)` string
  */
 const brighten = (cstr, amount) => {
     amount = amount === 0 ? 0 : amount || 10;
@@ -192,6 +206,7 @@ const brighten = (cstr, amount) => {
         g: Math.max(0, Math.min(255, c.g + adj)),
         b: Math.max(0, Math.min(255, c.b + adj))
     })
+        .alpha(c.alpha ?? 1)
         .rgb()
         .string();
 };
@@ -235,6 +250,7 @@ const mostReadable = (baseColor, colorList = ['#000', '#fff']) => {
 
 module.exports = {
     addOpacity,
+    adjustLightness,
     background,
     brighten,
     color,

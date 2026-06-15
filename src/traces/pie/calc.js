@@ -90,7 +90,7 @@ function makePullColorFn(colorMap) {
     return function pullColor(color, id) {
         if(!color || !Color.isValid(color)) return false;
 
-        const newColor = Color.addOpacity(color, Color.opacity(color));
+        const newColor = Color.color(color).rgb().string();
         if(!colorMap[id]) colorMap[id] = newColor;
 
         return newColor;
@@ -150,11 +150,11 @@ function generateExtendedColors(colorList, extendedColorWays) {
         colors = colorList.slice();
 
         for(i = 0; i < colorList.length; i++) {
-            colors.push(Color.color(colorList[i]).lighten(0.2).hex());
+            colors.push(Color.adjustLightness(colorList[i], 20).hex());
         }
 
         for(i = 0; i < colorList.length; i++) {
-            colors.push(Color.color(colorList[i]).darken(0.2).hex());
+            colors.push(Color.adjustLightness(colorList[i], -20).hex());
         }
         extendedColorWays[colorString] = colors;
     }

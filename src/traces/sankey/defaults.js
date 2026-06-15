@@ -74,12 +74,14 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
         const c = Color.color(_linkColor);
         const alpha = c.alpha();
 
-        return alpha <= 0.8
-            ? c
-                  .alpha(alpha + 0.2)
-                  .rgb()
-                  .string()
-            : (darkBG ? c.lighten(0.1) : c.darken(0.1)).rgb().string();
+        if (alpha <= 0.8) {
+            return c
+                .alpha(alpha + 0.2)
+                .rgb()
+                .string();
+        } else {
+            return darkBG ? Color.brighten(c, 10) : Color.adjustLightness(c, -10).rgb().string();
+        }
     }
 
     coerceLink(
