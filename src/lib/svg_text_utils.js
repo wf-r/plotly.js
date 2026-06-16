@@ -24,7 +24,7 @@ var FIND_TEX = /([^$]*)([$]+[^$]*[$]+)([^$]*)/;
 function matchTex(str) {
     if (!str) return null;
     return str.match(FIND_TEX);
-};
+}
 exports.matchTex = matchTex;
 
 exports.convertToTspans = function(_context, gd, _callback) {
