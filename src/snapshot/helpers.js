@@ -68,6 +68,18 @@ exports.getPlotTitle = function(gd) {
     return gd.layout?.title?.text;
 };
 
+/**
+ * Get the resolved plot subtitle, or undefined if there is none.
+ */
+exports.getPlotSubtitle = function(gd) {
+    var fullLayout = gd._fullLayout;
+    if(fullLayout) {
+        var subtitle = fullLayout.title?.subtitle?.text;
+        return subtitle === fullLayout._dfltTitle?.subtitle ? undefined : subtitle;
+    }
+    return gd.layout?.title?.subtitle?.text;
+};
+
 // Taken from https://bl.ocks.org/nolanlawson/0eac306e4dac2114c752
 function fixBinary(b) {
     var len = b.length;

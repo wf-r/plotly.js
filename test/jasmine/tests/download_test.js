@@ -128,7 +128,28 @@ describe('Plotly.downloadImage', function() {
             .then(done, done.fail);
         }, LONG_TIMEOUT_INTERVAL);
 
-        it('falls back to plot-image as filename when there is no title', function(done) {
+        it('falls back to subtitle when title contains MathJax', function(done) {
+            downloadDefault({
+                title: {
+                    text: '$Ax^2 + bx + c$',
+                    subtitle: {text: 'Quadratic Equation'}
+                },
+            })
+            .then(function(filename) {
+                expect(filename).toBe('quadratic-equation.png');
+            })
+            .then(done, done.fail);
+        }, LONG_TIMEOUT_INTERVAL);
+
+        it('falls back to plot-image as filename when title contains MathJax and there is no subtitle', function(done) {
+            downloadDefault({title: {text: '$Ax^2 + bx + c$'}})
+            .then(function(filename) {
+                expect(filename).toBe('plot-image.png');
+            })
+            .then(done, done.fail);
+        }, LONG_TIMEOUT_INTERVAL);
+
+        it('falls back to plot-image as filename when there is no title or subtitle', function(done) {
             downloadDefault({})
             .then(function(filename) {
                 expect(filename).toBe('plot-image.png');

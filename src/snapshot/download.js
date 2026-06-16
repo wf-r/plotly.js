@@ -8,6 +8,13 @@ var toImage = require('../plot_api/to_image');
 var fileSaver = require('./filesaver');
 var helpers = require('./helpers');
 
+// Maximum length of filename (without extension) when deriving filename from plot title.
+// 40 is somewhat arbitrary, just trying to strike a balance between being informative
+// while still generating a reasonable-length filename.
+// Technically, this is actually the number of code points rather than characters, which only differs
+// from character count in the case of certain emojis or special characters containing multiple code points
+const MAX_FILENAME_LENGTH_CHARS = 40;
+
 /**
  * Plotly.downloadImage
  *
@@ -30,7 +37,7 @@ function downloadImage(gd, opts) {
 
     return new Promise(function(resolve, reject) {
         if(_gd && _gd._snapshotInProgress) {
-            reject(new Error('Snapshotting already in progress.'));
+            reject(new Error('Image capture already in progress.'));
         }
 
         if(_gd) _gd._snapshotInProgress = true;
@@ -41,8 +48,14 @@ function downloadImage(gd, opts) {
             const plotTitle = helpers.getPlotTitle(gd);
             // Trying to slugify a LaTeX string can result in weird ugly filenames,
             // so ignore the title entirely if it contains LaTeX markup
-            if (!svgTextUtils.matchTex(plotTitle)) {
-                potentialFilename = Lib.slugify(plotTitle, 40);
+            if (plotTitle && !svgTextUtils.matchTex(plotTitle)) {
+                potentialFilename = Lib.slugify(plotTitle, MAX_FILENAME_LENGTH_CHARS);
+            } else {
+                // If the title is empty or contains LaTeX, fall back to subtitle
+                const plotSubtitle = helpers.getPlotSubtitle(gd);
+                if (plotSubtitle && !svgTextUtils.matchTex(plotSubtitle)) {
+                    potentialFilename = Lib.slugify(plotSubtitle, MAX_FILENAME_LENGTH_CHARS);
+                }
             }
         }
 
