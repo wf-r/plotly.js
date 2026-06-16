@@ -1956,15 +1956,16 @@ describe('Test lib.js:', function () {
                 .toBe('abcdefghijklmnopqrst');
             expect(Lib.slugify('a>b<c)d(e]f[g}h{i')).toBe('abcdefghi');
             expect(Lib.slugify('a=b+c;d')).toBe('abcd');
+            expect(Lib.slugify('a_b😀c★d©e')).toBe('abcde');
         });
 
-        it('removes control characters', function () {
+        it('removes control characters and emoji glue', function () {
             expect(Lib.slugify('a\x00b\x07c\x1Fd')).toBe('abcd');
+            expect(Lib.slugify('a👨‍👩‍👧b❤️c')).toBe('abc');
         });
 
-        it('preserves unicode letters (accents, CJK, emoji)', function () {
+        it('preserves unicode letters (accents, CJK)', function () {
             expect(Lib.slugify('Café 北京')).toBe('café-北京');
-            expect(Lib.slugify('pair😀')).toBe('pair😀');
         });
 
         it('drops unpaired surrogates so the result is valid UTF-8', function () {
@@ -1990,8 +1991,8 @@ describe('Test lib.js:', function () {
         });
 
         it('never splits a surrogate pair when capping length', function () {
-            // each emoji is one code point (a surrogate pair); the cap counts code points
-            expect(Lib.slugify('😀😀😀😀😀', 3)).toBe('😀😀😀');
+            // each CJK char is one code point (a surrogate pair); the cap counts code points
+            expect(Lib.slugify('𠀀𠀀𠀀𠀀𠀀', 3)).toBe('𠀀𠀀𠀀');
         });
     });
 
