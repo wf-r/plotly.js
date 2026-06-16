@@ -49,7 +49,7 @@ modeBarButtons.toImage = {
         var toImageButtonOptions = gd._context.toImageButtonOptions;
         var opts = {format: toImageButtonOptions.format || 'png'};
 
-        Lib.notifier(_(gd, 'Capturing image - this may take a few seconds'), 'long', gd);
+        Lib.notifier(_(gd, 'Preparing image - this may take a few seconds'), 'long', gd);
 
         ['filename', 'width', 'height', 'scale'].forEach(function(key) {
             if(key in toImageButtonOptions) {
