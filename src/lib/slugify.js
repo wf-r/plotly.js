@@ -2,7 +2,7 @@
 
 // precompile for speed
 var HTML_TAGS_REGEX = /<[^>]*>/g;                 // anything contained in < > tags
-var FORBIDDEN_CHARS_REGEX = /[\\/:*?"<>|$%&!@#~.^`'(){}[\],]/g; // Characters in the set: \/:*?"<>|$%&!@#~.^`'(){}[],
+var FORBIDDEN_CHARS_REGEX = /[\\/:*?"<>|$%&!@#~.^`'(){}[\],=+;]/g; // Characters in the set: \/:*?"<>|$%&!@#~.^`'(){}[],=+;
 var CONTROL_CHARS_REGEX = /\p{Cc}/gu; // Unicode control characters
 
 var UNICODE_REPLACEMENT_CHAR_REGEX = /�/g;        // U+FFFD, the Unicode replacement character

@@ -1955,6 +1955,7 @@ describe('Test lib.js:', function () {
             expect(Lib.slugify('a/b\\c:d*e?f"g|h$i%j&k!l@m#n~o.p^q`r\'s,t'))
                 .toBe('abcdefghijklmnopqrst');
             expect(Lib.slugify('a>b<c)d(e]f[g}h{i')).toBe('abcdefghi');
+            expect(Lib.slugify('a=b+c;d')).toBe('abcd');
         });
 
         it('removes control characters', function () {
