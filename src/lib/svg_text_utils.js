@@ -21,10 +21,7 @@ var FIND_TEX = /([^$]*)([$]+[^$]*[$]+)([^$]*)/;
 * @return {?Array} the regex match array (truthy) if the string contains tex,
 *   otherwise null (for an empty/missing string or when no tex delimiters are found).
 */
-function matchTex(str) {
-    if (!str) return null;
-    return str.match(FIND_TEX);
-}
+const matchTex = (str) => str ? str.match(FIND_TEX) : null;
 exports.matchTex = matchTex;
 
 exports.convertToTspans = function(_context, gd, _callback) {
