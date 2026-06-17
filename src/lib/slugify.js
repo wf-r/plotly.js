@@ -11,6 +11,8 @@ var FORBIDDEN_CHARS_REGEX = /[\p{S}\p{P}]/gu;
 // Control chars, format chars (e.g. ZWJ), variation selectors, and the
 // combining enclosing keycap. Some of these may be left behind after emoji
 // symbols are removed, so we explicitly remove them here.
+// Biome doesn't like seeing variation selectors in regexes, but it's intentional here
+// biome-ignore lint/suspicious/noMisleadingCharacterClass: Intentionally matching standalone modifier and control characters
 var INVISIBLE_CHARS_REGEX = /[\p{Cc}\p{Cf}\uFE00-\uFE0F\u20E3]/gu;
 
 var UNICODE_REPLACEMENT_CHAR_REGEX = /�/g;  // U+FFFD, the Unicode replacement character
