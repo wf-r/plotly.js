@@ -49,7 +49,7 @@ modeBarButtons.toImage = {
         var toImageButtonOptions = gd._context.toImageButtonOptions;
         var opts = {format: toImageButtonOptions.format || 'png'};
 
-        Lib.notifier(_(gd, 'Taking snapshot - this may take a few seconds'), 'long', gd);
+        Lib.notifier(_(gd, 'Preparing image - this may take a few seconds'), 'long', gd);
 
         ['filename', 'width', 'height', 'scale'].forEach(function(key) {
             if(key in toImageButtonOptions) {
@@ -59,10 +59,10 @@ modeBarButtons.toImage = {
 
         Registry.call('downloadImage', gd, opts)
             .then(function(filename) {
-                Lib.notifier(_(gd, 'Snapshot succeeded') + ' - ' + filename, 'long', gd);
+                Lib.notifier(_(gd, 'Image download succeeded') + ' - ' + filename, 'long', gd);
             })
             .catch(function() {
-                Lib.notifier(_(gd, 'Sorry, there was a problem downloading your snapshot!'), 'long', gd);
+                Lib.notifier(_(gd, 'Sorry, there was a problem downloading your image!'), 'long', gd);
             });
     }
 };
