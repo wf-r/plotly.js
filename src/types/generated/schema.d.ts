@@ -12876,7 +12876,7 @@ export interface LayoutAxis {
      * Minimum: 0
      */
     ticklen?: number;
-    /** Sets the tick mode for this axis. If *auto*, the number of ticks is set via `nticks`. If *linear*, the placement of the ticks is determined by a starting position `tick0` and a tick step `dtick` (*linear* is the default value if `tick0` and `dtick` are provided). If *array*, the placement of the ticks is set via `tickvals` and the tick text is `ticktext`. (*array* is the default value if `tickvals` is provided). If *sync*, the number of ticks will sync with the overlayed axis set by `overlaying` property. */
+    /** Sets the tick mode for this axis. If *auto*, the number of ticks is set via `nticks`. If *linear*, the placement of the ticks is determined by a starting position `tick0` and a tick step `dtick` (*linear* is the default value if `tick0` and `dtick` are provided). If *array*, the placement of the ticks is set via `tickvals` and the tick text is `ticktext`. (*array* is the default value if `tickvals` is provided). If *sync*, the number of ticks will sync with the overlayed axis set by `overlaying` property. When no other tick info is provided, overlaying (non-categorical) axes default to *sync*, while other axes default to *auto*. */
     tickmode?: 'auto' | 'linear' | 'array' | 'sync';
     /** Sets a tick label prefix. */
     tickprefix?: string;
