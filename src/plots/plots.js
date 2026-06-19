@@ -121,7 +121,7 @@ plots.sendDataToCloud = function(gd, serverURL) {
 
     // Build the request body: the chart JSON plus the plotly.js version used to
     // generate it, so Cloud can host the chart with a compatible plotly.js version.
-    var chart = plots.graphJson(gd, false, 'keepdata', 'object');
+    var chart = plots.graphJson(gd, false, 'object');
     chart.version = version;
 
     // Open the Cloud login page in a new tab. We keep a reference so we can post
