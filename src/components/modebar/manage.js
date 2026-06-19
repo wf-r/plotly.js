@@ -145,7 +145,7 @@ function getButtonGroups(gd) {
 
     // buttons common to all plot types
     var commonGroup = ['toImage'];
-    if(context.showSendToCloud) commonGroup.push('sendDataToCloud');
+    if(context.showSendToCloud) commonGroup.push('sendChartToCloud');
     addGroup(commonGroup);
 
     var zoomGroup = [];

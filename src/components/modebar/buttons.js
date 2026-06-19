@@ -5,6 +5,7 @@ var Plots = require('../../plots/plots');
 var axisIds = require('../../plots/cartesian/axis_ids');
 var Icons = require('../../fonts/ploticon');
 var eraseActiveShape = require('../shapes/draw').eraseActiveShape;
+var confirmCloudDialog = require('./cloud_confirm');
 var Lib = require('../../lib');
 var _ = Lib._;
 
@@ -67,12 +68,30 @@ modeBarButtons.toImage = {
     }
 };
 
-modeBarButtons.sendDataToCloud = {
-    name: 'sendDataToCloud',
-    title: function(gd) { return _(gd, 'Edit in Chart Studio'); },
-    icon: Icons.disk,
+modeBarButtons.sendChartToCloud = {
+    name: 'sendChartToCloud',
+    title: function(gd) { return _(gd, 'Share with Plotly Cloud'); },
+    icon: Icons.cloudupload,
     click: function(gd) {
-        Plots.sendDataToCloud(gd);
+        var baseUrl = (window.PLOTLYENV || {}).BASE_URL || gd._context.plotlyServerURL;
+        if(!baseUrl) {
+            console.error('No destination URL provided (plotlyServerURL is not set)');
+            return;
+        }
+
+        // Plotly Cloud origin, used to validate incoming messages and to target outgoing ones.
+        // `baseUrl` (plotlyServerURL) is the upload page that handles login and signals
+        // back when authentication succeeds.
+        try {
+            new URL(baseUrl);
+        } catch(e) {
+            console.error('Invalid plotlyServerURL: ' + baseUrl);
+            return;
+        }
+
+        confirmCloudDialog(gd, baseUrl, function() {
+            Plots.sendDataToCloud(gd, baseUrl);
+        });
     }
 };
 

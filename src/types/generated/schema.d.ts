@@ -16343,7 +16343,7 @@ export interface Layout {
          * @default 'h'
          */
         orientation?: 'v' | 'h';
-        /** Determines which predefined modebar buttons to remove. Similar to `config.modeBarButtonsToRemove` option. This may include *autoScale2d*, *autoscale*, *hoverCompareCartesian*, *hovercompare*, *lasso*, *lasso2d*, *orbitRotation*, *orbitrotation*, *pan*, *pan2d*, *pan3d*, *reset*, *resetCameraDefault3d*, *resetCameraLastSave3d*, *resetGeo*, *resetSankeyGroup*, *resetScale2d*, *resetViewMap*, *resetViewMapbox*, *resetViews*, *resetcameradefault*, *resetcameralastsave*, *resetsankeygroup*, *resetscale*, *resetview*, *resetviews*, *select*, *select2d*, *sendDataToCloud*, *senddatatocloud*, *tableRotation*, *tablerotation*, *toImage*, *toggleHover*, *toggleSpikelines*, *togglehover*, *togglespikelines*, *toimage*, *zoom*, *zoom2d*, *zoom3d*, *zoomIn2d*, *zoomInGeo*, *zoomInMap*, *zoomInMapbox*, *zoomOut2d*, *zoomOutGeo*, *zoomOutMap*, *zoomOutMapbox*, *zoomin*, *zoomout*. */
+        /** Determines which predefined modebar buttons to remove. Similar to `config.modeBarButtonsToRemove` option. This may include *autoScale2d*, *autoscale*, *hoverCompareCartesian*, *hovercompare*, *lasso*, *lasso2d*, *orbitRotation*, *orbitrotation*, *pan*, *pan2d*, *pan3d*, *reset*, *resetCameraDefault3d*, *resetCameraLastSave3d*, *resetGeo*, *resetSankeyGroup*, *resetScale2d*, *resetViewMap*, *resetViewMapbox*, *resetViews*, *resetcameradefault*, *resetcameralastsave*, *resetsankeygroup*, *resetscale*, *resetview*, *resetviews*, *select*, *select2d*, *sendChartToCloud*, *sendcharttocloud*, *tableRotation*, *tablerotation*, *toImage*, *toggleHover*, *toggleSpikelines*, *togglehover*, *togglespikelines*, *toimage*, *zoom*, *zoom2d*, *zoom3d*, *zoomIn2d*, *zoomInGeo*, *zoomInMap*, *zoomInMapbox*, *zoomOut2d*, *zoomOutGeo*, *zoomOutMap*, *zoomOutMapbox*, *zoomin*, *zoomout*. */
         remove?: string | string[];
         /** Controls persistence of user-driven changes related to the modebar, including `hovermode`, `dragmode`, and `showspikes` at both the root level and inside subplots. Defaults to `layout.uirevision`. */
         uirevision?: any;
@@ -16783,7 +16783,7 @@ export interface ConfigBase {
      * Range: [1, 4]
      */
     plotGlPixelRatio?: number;
-    /** When set it determines base URL for the 'Edit in Chart Studio' `showSendToCloud` mode bar button. To enable sending your data to Chart Studio Cloud, you need to set both `plotlyServerURL` to 'https://chart-studio.plotly.com' and also set `showSendToCloud` to true. */
+    /** Sets the URL for the `sendChartToCloud` modebar button. When clicked, the button will send the chart data to this URL. */
     plotlyServerURL?: string;
     /**
      * Sets the length of the undo/redo queue.
@@ -16817,7 +16817,7 @@ export interface ConfigBase {
      */
     showAxisRangeEntryBoxes?: boolean;
     /**
-     * Should we include a ModeBar button, labeled "Edit in Chart Studio", that sends this chart to chart-studio.plotly.com (formerly plot.ly) or another plotly server as specified by `plotlyServerURL` for editing, export, etc? Prior to version 1.43.0 this button was included by default, now it is opt-in using this flag. Note that this button can (depending on `plotlyServerURL` being set) send your data to an external server. However that server does not persist your data until you arrive at the Chart Studio and explicitly click "Save".
+     * Should we include a modebar button that sends this chart to a URL specified by `plotlyServerURL`, for sharing the chart with others? Note that this button will (after a confirmation step) send chart data to an external server.
      * @default false
      */
     showSendToCloud?: boolean;
