@@ -74,7 +74,6 @@
     "@plotly/d3": "3.8.2",
     "@plotly/d3-sankey": "0.7.2",
     "@plotly/d3-sankey-circular": "0.33.1",
-    "@plotly/mapbox-gl": "1.13.4",
     "@plotly/regl": "^2.1.2",
     "@turf/area": "^7.1.0",
     "@turf/bbox": "^7.1.0",
