@@ -168,7 +168,6 @@ const LAYOUT_CONTAINER_NAMES = new Map([
     ['ternary', 'TernaryLayout'],
     ['geo', 'GeoLayout'],
     ['map', 'MapLayout'],
-    ['mapbox', 'MapLayout'],
     ['coloraxis', 'ColorAxis'],
     ['smith', 'SmithLayout']
 ]);
