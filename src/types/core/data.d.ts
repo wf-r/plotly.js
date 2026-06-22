@@ -18,12 +18,10 @@ import type {
     CandlestickData,
     CarpetData,
     ChoroplethData,
-    ChoroplethmapboxData,
     ChoroplethmapData,
     ConeData,
     ContourcarpetData,
     ContourData,
-    DensitymapboxData,
     DensitymapData,
     FunnelareaData,
     FunnelData,
@@ -47,7 +45,6 @@ import type {
     ScatterData,
     ScattergeoData,
     ScatterglData,
-    ScattermapboxData,
     ScattermapData,
     ScatterpolarData,
     ScatterpolarglData,
@@ -79,12 +76,10 @@ export type Data =
     | Partial<CandlestickData>
     | Partial<CarpetData>
     | Partial<ChoroplethData>
-    | Partial<ChoroplethmapboxData>
     | Partial<ChoroplethmapData>
     | Partial<ConeData>
     | Partial<ContourcarpetData>
     | Partial<ContourData>
-    | Partial<DensitymapboxData>
     | Partial<DensitymapData>
     | Partial<FunnelareaData>
     | Partial<FunnelData>
@@ -107,7 +102,6 @@ export type Data =
     | Partial<ScatterData>
     | Partial<ScattergeoData>
     | Partial<ScatterglData>
-    | Partial<ScattermapboxData>
     | Partial<ScattermapData>
     | Partial<ScatterpolarData>
     | Partial<ScatterpolarglData>
