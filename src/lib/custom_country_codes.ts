@@ -1,5 +1,11 @@
 import type { CountryRecord } from 'country-iso-search';
 
+/**
+ * Plotly-specific country records for disputed and unrecognized territories
+ * that are not part of ISO 3166-1. Each entry uses an ISO3-like code in the
+ * `X` range (reserved by ISO 3166-1 for user-assigned codes) so these regions
+ * can be looked up alongside standard countries from `country-iso-search`.
+ */
 export const COUNTRIES_X: ReadonlyArray<CountryRecord> = [
     {
         iso3: 'XAC',
