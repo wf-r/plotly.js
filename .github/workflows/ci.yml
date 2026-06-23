@@ -267,7 +267,7 @@ jobs:
           chrome-version: 'stable'
 
       - name: Run noCI tests
-        uses: coactions/setup-xvfb@b6b4fcfb9f5a895edadc3bc76318fae0ac17c8b3 # v1
+        uses: ./.github/actions/run-xvfb
         with:
           run: ./tasks/noci_test.sh jasmine
 
