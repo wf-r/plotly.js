@@ -12273,6 +12273,17 @@ export interface GeoLayout {
          * Minimum: 1.001
          */
         distance?: number;
+        /**
+         * Sets the maximum zoom level of the map view, relative to `projection.scale`. A `maxscale` of *2* (200%) prevents the user from zooming in beyond twice the base zoom level. Defaults to *null* for no upper bound.
+         * Minimum: 0
+         */
+        maxscale?: number;
+        /**
+         * Sets the minimum zoom level of the map view, relative to `projection.scale`. A `minscale` of *0.5* (50%) prevents the user from zooming out beyond half the base zoom level. The default of *0* imposes no lower bound.
+         * @default 0
+         * Minimum: 0
+         */
+        minscale?: number;
         /** For conic projection types only. Sets the parallels (tangent, secant) where the cone intersects the sphere. */
         parallels?: [number, number];
         rotation?: {
