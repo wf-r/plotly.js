@@ -1,21 +1,20 @@
-'use strict';
+import { extendFlat } from '../../lib/extend';
+import baseAttrs from '../../plots/attributes';
+import { hovertemplateAttrs, templatefallbackAttrs } from '../../plots/template_attributes';
+import type { AttributeMap } from '../../types/lib/attributes';
+import { zorder } from '../scatter/attributes';
+import { colormodel } from './constants';
 
-var baseAttrs = require('../../plots/attributes');
-var zorder = require('../scatter/attributes').zorder;
-const { hovertemplateAttrs, templatefallbackAttrs } = require('../../plots/template_attributes');
-var extendFlat = require('../../lib/extend').extendFlat;
-var colormodel = require('./constants').colormodel;
-
-var cm = ['rgb', 'rgba', 'rgba256', 'hsl', 'hsla'];
-var zminDesc = [];
-var zmaxDesc = [];
-for (var i = 0; i < cm.length; i++) {
-    var cr = colormodel[cm[i]];
-    zminDesc.push('For the `' + cm[i] + '` colormodel, it is [' + (cr.zminDflt || cr.min).join(', ') + '].');
-    zmaxDesc.push('For the `' + cm[i] + '` colormodel, it is [' + (cr.zmaxDflt || cr.max).join(', ') + '].');
+const cm = ['rgb', 'rgba', 'rgba256', 'hsl', 'hsla'] as const;
+const zminDesc: string[] = [];
+const zmaxDesc: string[] = [];
+for (const name of cm) {
+    const cr: any = colormodel[name];
+    zminDesc.push(`For the \`${name}\` colormodel, it is [${(cr.zminDflt || cr.min).join(', ')}].`);
+    zmaxDesc.push(`For the \`${name}\` colormodel, it is [${(cr.zmaxDflt || cr.max).join(', ')}].`);
 }
 
-module.exports = extendFlat({
+const attributes = {
     source: {
         valType: 'string',
         editType: 'calc',
@@ -43,7 +42,7 @@ module.exports = extendFlat({
     },
     zsmooth: {
         valType: 'enumerated',
-        values: ['fast', false],
+        values: ['fast', false] as const,
         dflt: false,
         editType: 'plot',
         description: [
@@ -133,5 +132,7 @@ module.exports = extendFlat({
     hovertemplate: hovertemplateAttrs({}, { keys: ['z', 'color', 'colormodel'] }),
     hovertemplatefallback: templatefallbackAttrs(),
 
-    zorder: zorder
-});
+    zorder: zorder as any
+} as const satisfies AttributeMap;
+
+export default attributes;

@@ -887,6 +887,18 @@ describe('geojson / topojson utils', function () {
 
             expect(out).toEqual(false);
         });
+
+        it('with *country names* locationmode and an ISO 3166-1 short-name suffix', () => {
+            const out = _locationToFeature(topojson, 'Korea, Republic of', 'country names');
+
+            expect(out.id).toEqual('KOR');
+        });
+
+        it('with *country names* locationmode and a custom country code', () => {
+            const out = _locationToFeature(topojson, 'Aksai Chin', 'country names');
+            
+            expect(out.id).toEqual('XAC');
+        });
     });
 
     describe('should distinguish between US and US Virgin Island', function () {
