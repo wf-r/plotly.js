@@ -8413,4 +8413,33 @@ describe('test tickmode calculator', function() {
             }).then(done, done.fail);
         });
     });
+
+    describe('sync', function() {
+        it('shows the exponent on a synced overlaying axis with showexponent *first*/*last*', function(done) {
+            Plotly.newPlot(gd, {
+                data: [
+                    {y: [0, 6]},
+                    {y: [0, 60000], yaxis: 'y2'}
+                ],
+                layout: {
+                    yaxis2: {
+                        overlaying: 'y',
+                        exponentformat: 'SI',
+                        showexponent: 'last'
+                    }
+                }
+            }).then(function() {
+                var ax = gd._fullLayout.yaxis2;
+                expect(ax.tickmode).toBe('sync');
+
+                var labels = ax._vals
+                    .filter(function(d) { return !d.minor; })
+                    .map(function(d) { return d.text; });
+
+                // the multiplier (e.g. 'k') must still appear on the labelled tick
+                expect(labels.some(function(t) { return /k$/.test(t); }))
+                    .toBe(true, 'expected an SI prefix in: ' + JSON.stringify(labels));
+            }).then(done, done.fail);
+        });
+    });
 });
