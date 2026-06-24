@@ -193,8 +193,9 @@ var attrs = {
     }
 };
 
-// Extend with base attributes (includes hoverinfo, etc.)
-extendFlat(attrs, baseAttrs);
+// Extend with base attributes (includes hoverinfo, etc.), keeping the
+// quiver-specific attributes layered on top of the shared base attributes.
+attrs = extendFlat({}, baseAttrs, attrs);
 
 // Add hoverinfo with proper flags for quiver
 // We need to create a new object to avoid mutating the shared base attributes
