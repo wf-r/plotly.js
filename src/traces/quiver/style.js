@@ -4,7 +4,6 @@ var d3 = require('@plotly/d3');
 var Lib = require('../../lib');
 
 var Drawing = require('../../components/drawing');
-var Color = require('../../components/color');
 var Colorscale = require('../../components/colorscale');
 var DESELECTDIM = require('../../constants/interactions').DESELECTDIM;
 
@@ -64,32 +63,25 @@ function styleOnSelect(gd, cd, sel) {
 
         sel.selectAll('path.js-line').each(function(d) {
             var path = d3.select(this);
+            var dim = !d.selected;
 
-            if(d.selected) {
-                var sw = selectedLine.width !== undefined ? selectedLine.width : markerLine.width;
-                if(selectedLine.color) {
-                    Drawing.lineGroupStyle(path, sw, selectedLine.color, markerLine.dash);
-                } else if(hasColorscale) {
-                    Drawing.lineGroupStyle(path, sw, lineColor, markerLine.dash);
-                    colorscaleStroke(path, trace);
-                    path.style('stroke-opacity', 1);
-                } else {
-                    Drawing.lineGroupStyle(path, sw, lineColor, markerLine.dash);
-                }
+            var explicitColor = dim ? unselectedLine.color : selectedLine.color;
+            var lineWidth = dim ?
+                (unselectedLine.width !== undefined ? unselectedLine.width : markerLine.width) :
+                (selectedLine.width !== undefined ? selectedLine.width : markerLine.width);
+
+            if(explicitColor) {
+                Drawing.lineGroupStyle(path, lineWidth, explicitColor, markerLine.dash);
+                path.style('stroke-opacity', 1);
             } else {
-                var uc = unselectedLine.color;
-                var uw = unselectedLine.width !== undefined ? unselectedLine.width : markerLine.width;
-                if(uc) {
-                    Drawing.lineGroupStyle(path, uw, uc, markerLine.dash);
-                } else if(hasColorscale) {
-                    // keep colorscale color but dim via opacity
-                    Drawing.lineGroupStyle(path, uw, lineColor, markerLine.dash);
-                    colorscaleStroke(path, trace);
-                    path.style('stroke-opacity', DESELECTDIM);
-                } else {
-                    var dimColor = lineColor ? Color.addOpacity(lineColor, DESELECTDIM) : undefined;
-                    Drawing.lineGroupStyle(path, uw, dimColor, markerLine.dash);
-                }
+                // Fall back to the arrow's own color (scalar marker.color, a
+                // marker.color array, or the colorscale). When marker.color is an
+                // array, lineColor is undefined and we cannot bake opacity into a
+                // color, so we keep each arrow's color and dim unselected arrows
+                // via stroke-opacity instead.
+                Drawing.lineGroupStyle(path, lineWidth, lineColor, markerLine.dash);
+                if(hasColorscale) colorscaleStroke(path, trace);
+                path.style('stroke-opacity', dim ? DESELECTDIM : 1);
             }
         });
 
@@ -98,6 +90,7 @@ function styleOnSelect(gd, cd, sel) {
         var paths = sel.selectAll('path.js-line');
         paths.call(Drawing.lineGroupStyle, markerLine.width, lineColor, markerLine.dash);
         if(hasColorscale) colorscaleStroke(paths, trace);
+        paths.style('stroke-opacity', 1);
         Drawing.textPointStyle(sel.selectAll('text'), trace, gd);
     }
 }
