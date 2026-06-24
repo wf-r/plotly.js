@@ -13,6 +13,17 @@ var LINE_SPACING = require('../constants/alignment').LINE_SPACING;
 
 var FIND_TEX = /([^$]*)([$]+[^$]*[$]+)([^$]*)/;
 
+/**
+* Checks whether the given string contains LaTeX markup
+* (delimited by a pair of $ signs) and returns the match array if so.
+*
+* @param {string} str: the string to check for tex
+* @return {?Array} the regex match array (truthy) if the string contains tex,
+*   otherwise null (for an empty/missing string or when no tex delimiters are found).
+*/
+const matchTex = (str) => str ? str.match(FIND_TEX) : null;
+exports.matchTex = matchTex;
+
 exports.convertToTspans = function(_context, gd, _callback) {
     var str = _context.text();
 
@@ -21,7 +32,7 @@ exports.convertToTspans = function(_context, gd, _callback) {
     var tex = (!_context.attr('data-notex')) &&
         gd && gd._context.typesetMath &&
         (typeof MathJax !== 'undefined') &&
-        str.match(FIND_TEX);
+        matchTex(str);
 
     var parent = d3.select(_context.node().parentNode);
     if(parent.empty()) return;

@@ -207,13 +207,16 @@ module.exports = function style(s, gd, legend) {
 
             if (showMarker) {
                 dEdit.mc = boundVal('marker.color', pickFirst);
-                dEdit.mx = boundVal('marker.symbol', pickFirst);
+                // Scattermap traces use marker.symbol to specify the Maki icon used in
+                // the map itself, which usually doesn't correspond to a valid
+                // Plotly symbol. Always draw a circle so the swatch is consistent
+                // across symbols rather than silently mismatched.
+                var isScattermapTrace = trace.type === 'scattermap' || trace.type === 'scattermapbox';
+                dEdit.mx = isScattermapTrace ? 'circle' : boundVal('marker.symbol', pickFirst);
                 dEdit.mo = boundVal('marker.opacity', Lib.mean, [0.2, 1]);
                 dEdit.mlc = boundVal('marker.line.color', pickFirst);
                 dEdit.mlw = boundVal('marker.line.width', Lib.mean, [0, 5], CST_MARKER_LINE_WIDTH);
-                // TODO: Remove this check in next major version
-                // Use 'solid' for shapes to match existing behavior
-                dEdit.mld = trace._isShape ? 'solid' : boundVal('marker.line.dash', pickFirst);
+                dEdit.mld = boundVal('marker.line.dash', pickFirst);
                 tEdit.marker = {
                     sizeref: 1,
                     sizemin: 1,

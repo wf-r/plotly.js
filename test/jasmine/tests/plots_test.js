@@ -65,7 +65,6 @@ describe('Test Plots', function() {
                 type: 'contour',
                 _empties: [1, 2, 3]
             }];
-            oldFullData.forEach(function(trace) { trace._fullInput = trace; });
 
             var oldFullLayout = {
                 _plots: { xy: { plot: {} } },
@@ -133,9 +132,6 @@ describe('Test Plots', function() {
 
             expect(gd._fullData[0]._input).toBe(trace0);
             expect(gd._fullData[1]._input).toBe(trace1);
-
-            expect(gd._fullData[0]._fullInput).toBe(gd._fullData[0]);
-            expect(gd._fullData[1]._fullInput).toBe(gd._fullData[1]);
         });
 
         function testSanitizeMarginsHasBeenCalledOnlyOnce(gd) {
@@ -578,7 +574,7 @@ describe('Test Plots', function() {
             };
 
             Plotly.newPlot(gd, mock).then(function() {
-                var str = Plots.graphJson(gd, false, 'keepdata');
+                var str = Plots.graphJson(gd);
                 var obj = JSON.parse(str);
 
                 expect(obj.data).toEqual(mock.data);
@@ -612,7 +608,7 @@ describe('Test Plots', function() {
             };
 
             Plotly.newPlot(gd, [trace]).then(function() {
-                var str = Plots.graphJson(gd, false, 'keepdata');
+                var str = Plots.graphJson(gd);
                 var obj = JSON.parse(str);
 
                 expect(obj.data[0].x).toEqual([1, 2, 3]);
