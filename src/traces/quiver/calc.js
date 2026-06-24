@@ -85,7 +85,7 @@ module.exports = function calc(gd, trace) {
     var sizeref = (trace.sizeref !== undefined) ? trace.sizeref : (sizemode === 'raw' ? 1 : 0.5);
     var anchor = trace.anchor || 'tail';
     var isTip = anchor === 'tip';
-    var isCenter = anchor === 'cm' || anchor === 'center' || anchor === 'middle';
+    var isCenter = anchor === 'center';
 
     var baseX = new Array(len);
     var tipsY = new Array(len * 2);

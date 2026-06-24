@@ -142,7 +142,7 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
             y1 = cdi.y;
             x0 = x1 - dx;
             y0 = y1 - dy;
-        } else if(anchor === 'cm' || anchor === 'center' || anchor === 'middle') {
+        } else if(anchor === 'center') {
             x0 = cdi.x - dx / 2;
             y0 = cdi.y - dy / 2;
             x1 = cdi.x + dx / 2;

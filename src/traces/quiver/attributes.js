@@ -63,13 +63,13 @@ var attrs = {
     },
     anchor: {
         valType: 'enumerated',
-        values: ['tip', 'tail', 'cm', 'center', 'middle'],
+        values: ['tip', 'tail', 'center'],
         dflt: 'tail',
         editType: 'calc',
         description: [
             'Sets the arrows\' anchor with respect to their (x,y) positions.',
             'Use *tail* to place (x,y) at the base, *tip* to place (x,y) at the head,',
-            'or *cm*/*center*/*middle* to center the arrow on (x,y).'
+            'or *center* to center the arrow on (x,y).'
         ].join(' ')
     },
     hoverdistance: {
