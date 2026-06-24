@@ -52471,11 +52471,6 @@
           "editType": "calc",
           "valType": "data_array"
         },
-        "customdatasrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `customdata`.",
-          "editType": "none",
-          "valType": "string"
-        },
         "dx": {
           "anim": true,
           "description": "Sets the x coordinate step. See `x0` for more info.",
@@ -52517,11 +52512,6 @@
           ],
           "valType": "flaglist"
         },
-        "hoverinfosrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `hoverinfo`.",
-          "editType": "none",
-          "valType": "string"
-        },
         "hoverlabel": {
           "align": {
             "arrayOk": true,
@@ -52535,21 +52525,11 @@
               "auto"
             ]
           },
-          "alignsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `align`.",
-            "editType": "none",
-            "valType": "string"
-          },
           "bgcolor": {
             "arrayOk": true,
             "description": "Sets the background color of the hover labels for this trace",
             "editType": "none",
             "valType": "color"
-          },
-          "bgcolorsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `bgcolor`.",
-            "editType": "none",
-            "valType": "string"
           },
           "bordercolor": {
             "arrayOk": true,
@@ -52557,22 +52537,12 @@
             "editType": "none",
             "valType": "color"
           },
-          "bordercolorsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `bordercolor`.",
-            "editType": "none",
-            "valType": "string"
-          },
           "editType": "none",
           "font": {
             "color": {
               "arrayOk": true,
               "editType": "none",
               "valType": "color"
-            },
-            "colorsrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `color`.",
-              "editType": "none",
-              "valType": "string"
             },
             "description": "Sets the font used in hover labels.",
             "editType": "none",
@@ -52582,11 +52552,6 @@
               "editType": "none",
               "noBlank": true,
               "strict": true,
-              "valType": "string"
-            },
-            "familysrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `family`.",
-              "editType": "none",
               "valType": "string"
             },
             "lineposition": {
@@ -52604,11 +52569,6 @@
               ],
               "valType": "flaglist"
             },
-            "linepositionsrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `lineposition`.",
-              "editType": "none",
-              "valType": "string"
-            },
             "role": "object",
             "shadow": {
               "arrayOk": true,
@@ -52617,21 +52577,11 @@
               "editType": "none",
               "valType": "string"
             },
-            "shadowsrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `shadow`.",
-              "editType": "none",
-              "valType": "string"
-            },
             "size": {
               "arrayOk": true,
               "editType": "none",
               "min": 1,
               "valType": "number"
-            },
-            "sizesrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `size`.",
-              "editType": "none",
-              "valType": "string"
             },
             "style": {
               "arrayOk": true,
@@ -52643,11 +52593,6 @@
                 "normal",
                 "italic"
               ]
-            },
-            "stylesrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `style`.",
-              "editType": "none",
-              "valType": "string"
             },
             "textcase": {
               "arrayOk": true,
@@ -52661,11 +52606,6 @@
                 "upper",
                 "lower"
               ]
-            },
-            "textcasesrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `textcase`.",
-              "editType": "none",
-              "valType": "string"
             },
             "variant": {
               "arrayOk": true,
@@ -52682,11 +52622,6 @@
                 "unicase"
               ]
             },
-            "variantsrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `variant`.",
-              "editType": "none",
-              "valType": "string"
-            },
             "weight": {
               "arrayOk": true,
               "description": "Sets the weight (or boldness) of the font.",
@@ -52699,11 +52634,6 @@
               "max": 1000,
               "min": 1,
               "valType": "integer"
-            },
-            "weightsrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `weight`.",
-              "editType": "none",
-              "valType": "string"
             }
           },
           "namelength": {
@@ -52713,11 +52643,6 @@
             "editType": "none",
             "min": -1,
             "valType": "integer"
-          },
-          "namelengthsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `namelength`.",
-            "editType": "none",
-            "valType": "string"
           },
           "role": "object",
           "showarrow": {
@@ -52734,21 +52659,11 @@
           "editType": "none",
           "valType": "string"
         },
-        "hovertemplatesrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `hovertemplate`.",
-          "editType": "none",
-          "valType": "string"
-        },
         "ids": {
           "anim": true,
           "description": "Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type.",
           "editType": "calc",
           "valType": "data_array"
-        },
-        "idssrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `ids`.",
-          "editType": "none",
-          "valType": "string"
         },
         "legend": {
           "description": "Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.",
@@ -53345,20 +53260,10 @@
               "editType": "colorbars",
               "valType": "data_array"
             },
-            "ticktextsrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `ticktext`.",
-              "editType": "none",
-              "valType": "string"
-            },
             "tickvals": {
               "description": "Sets the values at which ticks on this axis appear. Only has an effect if `tickmode` is set to *array*. Used with `ticktext`.",
               "editType": "colorbars",
               "valType": "data_array"
-            },
-            "tickvalssrc": {
-              "description": "Sets the source reference on Chart Studio Cloud for `tickvals`.",
-              "editType": "none",
-              "valType": "string"
             },
             "tickwidth": {
               "description": "Sets the tick width (in px).",
@@ -53460,7 +53365,7 @@
               },
               "role": "object",
               "side": {
-                "description": "Determines the location of color bar's title with respect to the color bar. Defaults to *top* when `orientation` if *v* and  defaults to *right* when `orientation` if *h*.",
+                "description": "Determines the location of color bar's title with respect to the color bar. Defaults to *top* when `orientation` is *v* and defaults to *right* when `orientation` is *h*.",
                 "editType": "colorbars",
                 "valType": "enumerated",
                 "values": [
@@ -53541,18 +53446,13 @@
             }
           },
           "colorscale": {
-            "description": "Sets the colorscale. Has an effect only if in `marker.color` is set to a numerical array. The colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsv, or named color string. At minimum, a mapping for the lowest (0) and highest (1) values are required. For example, `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`. To control the bounds of the colorscale in color space, use `marker.cmin` and `marker.cmax`. Alternatively, `colorscale` may be a palette name string of the following list: Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd.",
+            "description": "Sets the colorscale. Has an effect only if in `marker.color` is set to a numerical array. The colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsla, hwb, or named color string. At minimum, a mapping for the lowest (0) and highest (1) values are required. For example, `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`. To control the bounds of the colorscale in color space, use `marker.cmin` and `marker.cmax`. Alternatively, `colorscale` may be a palette name string of the following list: Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd.",
             "dflt": null,
             "editType": "calc",
             "impliedEdits": {
               "autocolorscale": false
             },
             "valType": "colorscale"
-          },
-          "colorsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `color`.",
-            "editType": "none",
-            "valType": "string"
           },
           "editType": "calc",
           "line": {
@@ -53599,11 +53499,6 @@
           "description": "Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index.",
           "editType": "plot",
           "valType": "any"
-        },
-        "metasrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `meta`.",
-          "editType": "none",
-          "valType": "string"
         },
         "name": {
           "description": "Sets the trace name. The trace name appears as the legend item and on hover.",
@@ -53674,25 +53569,6 @@
           "min": 0,
           "valType": "number"
         },
-        "stream": {
-          "editType": "calc",
-          "maxpoints": {
-            "description": "Sets the maximum number of points to keep on the plots from an incoming stream. If `maxpoints` is set to *50*, only the newest 50 points will be displayed on the plot.",
-            "dflt": 500,
-            "editType": "calc",
-            "max": 10000,
-            "min": 0,
-            "valType": "number"
-          },
-          "role": "object",
-          "token": {
-            "description": "The stream id number links a data trace on a plot with a stream. See https://chart-studio.plotly.com/settings for more details.",
-            "editType": "calc",
-            "noBlank": true,
-            "strict": true,
-            "valType": "string"
-          }
-        },
         "text": {
           "anim": true,
           "description": "Sets text elements associated with each (x,y) pair.",
@@ -53705,11 +53581,6 @@
             "editType": "style",
             "valType": "color"
           },
-          "colorsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `color`.",
-            "editType": "none",
-            "valType": "string"
-          },
           "description": "Sets the text font.",
           "editType": "calc",
           "family": {
@@ -53718,11 +53589,6 @@
             "editType": "calc",
             "noBlank": true,
             "strict": true,
-            "valType": "string"
-          },
-          "familysrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `family`.",
-            "editType": "none",
             "valType": "string"
           },
           "lineposition": {
@@ -53740,11 +53606,6 @@
             ],
             "valType": "flaglist"
           },
-          "linepositionsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `lineposition`.",
-            "editType": "none",
-            "valType": "string"
-          },
           "role": "object",
           "shadow": {
             "arrayOk": true,
@@ -53753,21 +53614,11 @@
             "editType": "calc",
             "valType": "string"
           },
-          "shadowsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `shadow`.",
-            "editType": "none",
-            "valType": "string"
-          },
           "size": {
             "arrayOk": true,
             "editType": "calc",
             "min": 1,
             "valType": "number"
-          },
-          "sizesrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `size`.",
-            "editType": "none",
-            "valType": "string"
           },
           "style": {
             "arrayOk": true,
@@ -53779,11 +53630,6 @@
               "normal",
               "italic"
             ]
-          },
-          "stylesrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `style`.",
-            "editType": "none",
-            "valType": "string"
           },
           "textcase": {
             "arrayOk": true,
@@ -53797,11 +53643,6 @@
               "upper",
               "lower"
             ]
-          },
-          "textcasesrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `textcase`.",
-            "editType": "none",
-            "valType": "string"
           },
           "variant": {
             "arrayOk": true,
@@ -53818,11 +53659,6 @@
               "unicase"
             ]
           },
-          "variantsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `variant`.",
-            "editType": "none",
-            "valType": "string"
-          },
           "weight": {
             "arrayOk": true,
             "description": "Sets the weight (or boldness) of the font.",
@@ -53835,11 +53671,6 @@
             "max": 1000,
             "min": 1,
             "valType": "integer"
-          },
-          "weightsrc": {
-            "description": "Sets the source reference on Chart Studio Cloud for `weight`.",
-            "editType": "none",
-            "valType": "string"
           }
         },
         "textposition": {
@@ -53859,11 +53690,6 @@
             "bottom right"
           ]
         },
-        "textsrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `text`.",
-          "editType": "none",
-          "valType": "string"
-        },
         "type": "quiver",
         "u": {
           "anim": true,
@@ -53872,7 +53698,7 @@
           "valType": "data_array"
         },
         "uhoverformat": {
-          "description": "Sets the hover text formatting rulefor `u`  using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format.",
+          "description": "Sets the hover text formatting rule for `u` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format.",
           "dflt": "",
           "editType": "none",
           "valType": "string"
@@ -53916,11 +53742,6 @@
             "role": "object"
           }
         },
-        "usrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `u`.",
-          "editType": "none",
-          "valType": "string"
-        },
         "v": {
           "anim": true,
           "description": "Sets the y components of the arrow vectors.",
@@ -53928,7 +53749,7 @@
           "valType": "data_array"
         },
         "vhoverformat": {
-          "description": "Sets the hover text formatting rulefor `v`  using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format.",
+          "description": "Sets the hover text formatting rule for `v` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format.",
           "dflt": "",
           "editType": "none",
           "valType": "string"
@@ -53943,11 +53764,6 @@
             false,
             "legendonly"
           ]
-        },
-        "vsrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `v`.",
-          "editType": "none",
-          "valType": "string"
         },
         "x": {
           "anim": true,
@@ -53969,13 +53785,8 @@
           "valType": "subplotid"
         },
         "xhoverformat": {
-          "description": "Sets the hover text formatting rulefor `x`  using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`.",
+          "description": "Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`.",
           "dflt": "",
-          "editType": "none",
-          "valType": "string"
-        },
-        "xsrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `x`.",
           "editType": "none",
           "valType": "string"
         },
@@ -53999,13 +53810,8 @@
           "valType": "subplotid"
         },
         "yhoverformat": {
-          "description": "Sets the hover text formatting rulefor `y`  using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`.",
+          "description": "Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`.",
           "dflt": "",
-          "editType": "none",
-          "valType": "string"
-        },
-        "ysrc": {
-          "description": "Sets the source reference on Chart Studio Cloud for `y`.",
           "editType": "none",
           "valType": "string"
         }

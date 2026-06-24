@@ -41,6 +41,7 @@ import type {
     ParcoordsData,
     PieData,
     PlotType,
+    QuiverData,
     SankeyData,
     Scatter3dData,
     ScattercarpetData,
@@ -101,6 +102,7 @@ export type Data =
     | Partial<ParcatsData>
     | Partial<ParcoordsData>
     | Partial<PieData>
+    | Partial<QuiverData>
     | Partial<SankeyData>
     | Partial<Scatter3dData>
     | Partial<ScattercarpetData>

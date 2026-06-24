@@ -23,7 +23,7 @@ export type PatternShape = '' | '/' | '\\' | 'x' | '-' | '|' | '+' | '.';
 
 export type TransitionEasing = 'linear' | 'quad' | 'cubic' | 'sin' | 'exp' | 'circle' | 'elastic' | 'back' | 'bounce' | 'linear-in' | 'quad-in' | 'cubic-in' | 'sin-in' | 'exp-in' | 'circle-in' | 'elastic-in' | 'back-in' | 'bounce-in' | 'linear-out' | 'quad-out' | 'cubic-out' | 'sin-out' | 'exp-out' | 'circle-out' | 'elastic-out' | 'back-out' | 'bounce-out' | 'linear-in-out' | 'quad-in-out' | 'cubic-in-out' | 'sin-in-out' | 'exp-in-out' | 'circle-in-out' | 'elastic-in-out' | 'back-in-out' | 'bounce-in-out';
 
-export type TraceType = 'bar' | 'barpolar' | 'box' | 'candlestick' | 'carpet' | 'choropleth' | 'choroplethmap' | 'choroplethmapbox' | 'cone' | 'contour' | 'contourcarpet' | 'densitymap' | 'densitymapbox' | 'funnel' | 'funnelarea' | 'heatmap' | 'histogram' | 'histogram2d' | 'histogram2dcontour' | 'icicle' | 'image' | 'indicator' | 'isosurface' | 'mesh3d' | 'ohlc' | 'parcats' | 'parcoords' | 'pie' | 'sankey' | 'scatter' | 'scatter3d' | 'scattercarpet' | 'scattergeo' | 'scattergl' | 'scattermap' | 'scattermapbox' | 'scatterpolar' | 'scatterpolargl' | 'scattersmith' | 'scatterternary' | 'splom' | 'streamtube' | 'sunburst' | 'surface' | 'table' | 'treemap' | 'violin' | 'volume' | 'waterfall';
+export type TraceType = 'bar' | 'barpolar' | 'box' | 'candlestick' | 'carpet' | 'choropleth' | 'choroplethmap' | 'choroplethmapbox' | 'cone' | 'contour' | 'contourcarpet' | 'densitymap' | 'densitymapbox' | 'funnel' | 'funnelarea' | 'heatmap' | 'histogram' | 'histogram2d' | 'histogram2dcontour' | 'icicle' | 'image' | 'indicator' | 'isosurface' | 'mesh3d' | 'ohlc' | 'parcats' | 'parcoords' | 'pie' | 'quiver' | 'sankey' | 'scatter' | 'scatter3d' | 'scattercarpet' | 'scattergeo' | 'scattergl' | 'scattermap' | 'scattermapbox' | 'scatterpolar' | 'scatterpolargl' | 'scattersmith' | 'scatterternary' | 'splom' | 'streamtube' | 'sunburst' | 'surface' | 'table' | 'treemap' | 'violin' | 'volume' | 'waterfall';
 
 /** @deprecated Renamed to TraceType. */
 export type PlotType = TraceType;
@@ -6957,6 +6957,213 @@ export interface PieData {
      * @default true
      */
     visible?: true | false | 'legendonly';
+}
+
+export interface QuiverData {
+    /**
+     * Sets the arrows' anchor with respect to their (x,y) positions. Use *tail* to place (x,y) at the base, *tip* to place (x,y) at the head, or *center* to center the arrow on (x,y).
+     * @default 'tail'
+     */
+    anchor?: 'tip' | 'tail' | 'center';
+    /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
+    customdata?: Datum[] | Datum[][] | TypedArray;
+    /**
+     * Sets the x coordinate step. See `x0` for more info.
+     * @default 1
+     */
+    dx?: number;
+    /**
+     * Sets the y coordinate step. See `y0` for more info.
+     * @default 1
+     */
+    dy?: number;
+    /**
+     * Maximum distance (in pixels) to look for nearby arrows on hover.
+     * @default 20
+     * Minimum: -1
+     */
+    hoverdistance?: number;
+    /**
+     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * @default 'all'
+     */
+    hoverinfo?: 'x' | 'y' | 'u' | 'v' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'u' | 'v' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
+    hoverlabel?: HoverLabel;
+    /** Template string used for rendering the information that appear on hover box. Note that this will override `hoverinfo`. Variables are inserted using %{variable}, for example "y: %{y}" as well as %{xother}, {%_xother}, {%_xother_}, {%xother_}. When showing info for several points, *xother* will be added to those with different x positions from the first point. An underscore before or after *(x|y)other* will add a space on that side, only when this field is shown. Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. The variables available in `hovertemplate` are the ones emitted as event data described at this link https://plotly.com/javascript/plotlyjs-events/#event-data. Additionally, all attributes that can be specified per-point (the ones that are `arrayOk: true`) are available. Finally, the template string has access to variables `x`, `y`, `u`, `v`, `text` and `name`. Anything contained in tag `<extra>` is displayed in the secondary box, for example `<extra>%{fullData.name}</extra>`. To hide the secondary box completely, use an empty tag `<extra></extra>`. */
+    hovertemplate?: string | string[];
+    /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
+    ids?: Datum[] | Datum[][] | TypedArray;
+    /**
+     * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
+     * @default 'legend'
+     */
+    legend?: string;
+    /** Sets the legend group for this trace. Traces and shapes part of the same legend group hide/show at the same time when toggling legend items. */
+    legendgroup?: string;
+    legendgrouptitle?: LegendGroupTitle;
+    /**
+     * Sets the legend rank for this trace. Items and groups with smaller ranks are presented on top/left side while with *reversed* `legend.traceorder` they are on bottom/right side. The default legendrank is 1000, so that you can use ranks less than 1000 to place certain items before all unranked items, and ranks greater than 1000 to go after all unranked items. When having unranked or equal rank items shapes would be displayed after traces i.e. according to their order in data and layout.
+     * @default 1000
+     */
+    legendrank?: number;
+    /**
+     * Sets the width (in px or fraction) of the legend for this trace.
+     * Minimum: 0
+     */
+    legendwidth?: number;
+    marker?: {
+        /**
+         * Sets the size of the arrow head relative to `marker.line.width`. A value of 1 (default) gives a head about 3x as wide as the line.
+         * @default 1
+         * Minimum: 0.3
+         */
+        arrowsize?: number;
+        /**
+         * Determines whether the colorscale is a default palette (`autocolorscale: true`) or the palette determined by `marker.colorscale`. Has an effect only if in `marker.color` is set to a numerical array. In case `colorscale` is unspecified or `autocolorscale` is true, the default palette will be chosen according to whether numbers in the `color` array are all positive, all negative or mixed.
+         * @default true
+         */
+        autocolorscale?: boolean;
+        /**
+         * Determines whether or not the color domain is computed with respect to the input data (here in `marker.color`) or the bounds set in `marker.cmin` and `marker.cmax` Has an effect only if in `marker.color` is set to a numerical array. Defaults to `false` when `marker.cmin` and `marker.cmax` are set by the user.
+         * @default true
+         */
+        cauto?: boolean;
+        /**
+         * Sets the upper bound of the color domain. Has an effect only if in `marker.color` is set to a numerical array. Value should have the same units as in `marker.color` and if set, `marker.cmin` must be set as well.
+         * Setting this also sets: cauto = false
+         */
+        cmax?: number;
+        /** Sets the mid-point of the color domain by scaling `marker.cmin` and/or `marker.cmax` to be equidistant to this point. Has an effect only if in `marker.color` is set to a numerical array. Value should have the same units as in `marker.color`. Has no effect when `marker.cauto` is `false`. */
+        cmid?: number;
+        /**
+         * Sets the lower bound of the color domain. Has an effect only if in `marker.color` is set to a numerical array. Value should have the same units as in `marker.color` and if set, `marker.cmax` must be set as well.
+         * Setting this also sets: cauto = false
+         */
+        cmin?: number;
+        /** Sets the marker color. It accepts either a specific color or an array of numbers that are mapped to the colorscale relative to the max and min values of the array or relative to `marker.cmin` and `marker.cmax` if set. */
+        color?: Color | Color[];
+        /** Sets a reference to a shared color axis. References to these shared color axes are *coloraxis*, *coloraxis2*, *coloraxis3*, etc. Settings for these shared color axes are set in the layout, under `layout.coloraxis`, `layout.coloraxis2`, etc. Note that multiple color scales can be linked to the same color axis. */
+        coloraxis?: string;
+        colorbar?: ColorBar;
+        /**
+         * Sets the colorscale. Has an effect only if in `marker.color` is set to a numerical array. The colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsla, hwb, or named color string. At minimum, a mapping for the lowest (0) and highest (1) values are required. For example, `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`. To control the bounds of the colorscale in color space, use `marker.cmin` and `marker.cmax`. Alternatively, `colorscale` may be a palette name string of the following list: Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd.
+         * Setting this also sets: autocolorscale = false
+         */
+        colorscale?: ColorScale;
+        line?: {
+            /**
+             * Sets the dash style of lines. Set to a dash type string (*solid*, *dot*, *dash*, *longdash*, *dashdot*, or *longdashdot*) or a dash length list in px (eg *5px,10px,2px,2px*).
+             * @default 'solid'
+             */
+            dash?: Dash;
+            /**
+             * Sets the width (in px) of the arrow lines.
+             * @default 1
+             * Minimum: 0
+             */
+            width?: number;
+        };
+        /**
+         * Reverses the color mapping if true. Has an effect only if in `marker.color` is set to a numerical array. If true, `marker.cmin` will correspond to the last color in the array and `marker.cmax` will correspond to the first color.
+         * @default false
+         */
+        reversescale?: boolean;
+        /**
+         * Determines whether or not a colorbar is displayed for this trace. Has an effect only if in `marker.color` is set to a numerical array.
+         * @default true
+         */
+        showscale?: boolean;
+    };
+    /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
+    meta?: any;
+    /** Sets the trace name. The trace name appears as the legend item and on hover. */
+    name?: string;
+    /**
+     * Sets the opacity of the trace.
+     * @default 1
+     * Range: [0, 1]
+     */
+    opacity?: number;
+    selected?: {
+        line?: _internal.ErrorY;
+        textfont?: Font;
+    };
+    /** Array containing integer indices of selected points. Has an effect only for traces that support selections. Note that an empty array means an empty selection where the `unselected` are turned on for all points, whereas, any other non-array values means no selection all where the `selected` and `unselected` styles have no effect. */
+    selectedpoints?: any;
+    /**
+     * Determines whether or not an item corresponding to this trace is shown in the legend.
+     * @default true
+     */
+    showlegend?: boolean;
+    /**
+     * Determines whether `sizeref` is set as a *scaled* (unitless) scalar (normalized by the max u/v norm in the vector field), as an *absolute* value (in the same units as the vector field), or *raw* to use the raw vector lengths.
+     * @default 'scaled'
+     */
+    sizemode?: 'scaled' | 'absolute' | 'raw';
+    /**
+     * Adjusts the arrow size scaling. The arrow length is determined by the vector norm multiplied by `sizeref`, optionally normalized when `sizemode` is *scaled*.
+     * Minimum: 0
+     */
+    sizeref?: number;
+    /** Sets text elements associated with each (x,y) pair. */
+    text?: Datum[] | Datum[][] | TypedArray;
+    /** Sets the text font. */
+    textfont?: FontArray;
+    /**
+     * Sets the positions of the `text` elements with respects to the (x,y) coordinates.
+     * @default 'middle center'
+     */
+    textposition?: 'top left' | 'top center' | 'top right' | 'middle left' | 'middle center' | 'middle right' | 'bottom left' | 'bottom center' | 'bottom right';
+    type?: 'quiver';
+    /** Sets the x components of the arrow vectors. */
+    u?: Datum[] | Datum[][] | TypedArray;
+    /** Sets the hover text formatting rule for `u` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
+    uhoverformat?: string;
+    /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
+    uid?: string;
+    /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
+    uirevision?: any;
+    unselected?: {
+        line?: _internal.ErrorY;
+        textfont?: Font;
+    };
+    /** Sets the y components of the arrow vectors. */
+    v?: Datum[] | Datum[][] | TypedArray;
+    /** Sets the hover text formatting rule for `v` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format.By default the values are formatted using generic number format. */
+    vhoverformat?: string;
+    /**
+     * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
+     * @default true
+     */
+    visible?: true | false | 'legendonly';
+    /** Sets the x coordinates of the arrow locations. */
+    x?: Datum[] | Datum[][] | TypedArray;
+    /**
+     * Alternate to `x`. Builds a linear space of x coordinates. Use with `dx` where `x0` is the starting coordinate and `dx` the step.
+     * @default 0
+     */
+    x0?: any;
+    /**
+     * Sets a reference between this trace's x coordinates and a 2D cartesian x axis. If *x* (the default value), the x coordinates refer to `layout.xaxis`. If *x2*, the x coordinates refer to `layout.xaxis2`, and so on.
+     * @default 'x'
+     */
+    xaxis?: string;
+    /** Sets the hover text formatting rule for `x` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `xaxis.hoverformat`. */
+    xhoverformat?: string;
+    /** Sets the y coordinates of the arrow locations. */
+    y?: Datum[] | Datum[][] | TypedArray;
+    /**
+     * Alternate to `y`. Builds a linear space of y coordinates. Use with `dy` where `y0` is the starting coordinate and `dy` the step.
+     * @default 0
+     */
+    y0?: any;
+    /**
+     * Sets a reference between this trace's y coordinates and a 2D cartesian y axis. If *y* (the default value), the y coordinates refer to `layout.yaxis`. If *y2*, the y coordinates refer to `layout.yaxis2`, and so on.
+     * @default 'y'
+     */
+    yaxis?: string;
+    /** Sets the hover text formatting rule for `y` using d3 formatting mini-languages which are very similar to those in Python. For numbers, see: https://github.com/d3/d3-format/tree/v1.4.5#d3-format. And for dates see: https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format. We add two items to d3's date formatter: *%h* for half of the year as a decimal number as well as *%{n}f* for fractional seconds with n digits. For example, *2016-10-13 09:15:23.456* with tickformat *%H~%M~%S.%2f* would display *09~15~23.46*By default the values are formatted using `yaxis.hoverformat`. */
+    yhoverformat?: string;
 }
 
 export interface SankeyData {
