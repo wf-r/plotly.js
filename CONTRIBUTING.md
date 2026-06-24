@@ -78,7 +78,7 @@ We use the following [labels](https://github.com/plotly/plotly.js/labels) to tra
 #### Prerequisites
 
 - git
-- [node.js](https://nodejs.org/en/). We recommend using node.js v18.x.
+- [node.js](https://nodejs.org/en/). We recommend using node.js v22.x.
   Upgrading and managing node versions can be easily done using
   [`nvm`](https://github.com/nvm-sh/nvm) or its Windows alternatives.
 - [`npm`](https://www.npmjs.com/) v10.x and up to ensure that the

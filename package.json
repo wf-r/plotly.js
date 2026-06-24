@@ -22,7 +22,7 @@
     "plotly"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "custom-bundle": "node tasks/custom_bundle.mjs",
@@ -59,7 +59,7 @@
     "strict": "node devtools/test_dashboard/server.mjs --strict",
     "start": "node devtools/test_dashboard/server.mjs",
     "baseline": "node test/image/make_baseline.mjs",
-    "preversion": "check-node-version --node 18 --npm 10 && npm-link-check && npm ls --prod --all",
+    "preversion": "check-node-version --node 22 --npm 10 && npm-link-check && npm ls --prod --all",
     "version": "npm run build && git add -A lib dist build src/version.js",
     "postversion": "node -e \"console.log('Version bumped and committed. If ok, run: git push && git push --tags')\"",
     "postpublish": "node tasks/sync_packages.js"
@@ -81,7 +81,7 @@
     "color": "^5.0.0",
     "color-normalize": "1.5.0",
     "color-rgba": "3.0.0",
-    "country-regex": "^1.1.0",
+    "country-iso-search": "^0.1.1",
     "d3-force": "^1.2.1",
     "d3-format": "^1.4.5",
     "d3-geo": "^1.12.1",

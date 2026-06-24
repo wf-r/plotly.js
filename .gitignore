@@ -19,3 +19,4 @@ tags
 !.github/
 !.gitignore
 !.npmignore
+!.nvmrc
