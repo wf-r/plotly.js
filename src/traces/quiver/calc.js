@@ -178,6 +178,10 @@ module.exports = function calc(gd, trace) {
     // Colorscale cmin/cmax computation: prefer provided marker.color, else magnitude
     if(trace._hasColorscale) {
         var vals = hasMarkerColorArray ? [cMin, cMax] : [normMin, normMax];
+        // Guard against all-invalid input (no finite values found), which would
+        // otherwise leave the seeds at +/-Infinity and feed them into the
+        // colorscale calc. Fall back to a neutral [0, 1] range.
+        if(!isFinite(vals[0]) || !isFinite(vals[1])) vals = [0, 1];
         colorscaleCalc(gd, trace, {
             vals: vals,
             containerStr: 'marker',
