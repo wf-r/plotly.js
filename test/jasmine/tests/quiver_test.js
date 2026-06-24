@@ -1,6 +1,4 @@
 var Plotly = require('../../../lib/index');
-var Lib = require('../../../src/lib');
-var d3Select = require('../../strict-d3').select;
 
 var supplyAllDefaults = require('../assets/supply_defaults');
 var createGraphDiv = require('../assets/create_graph_div');
