@@ -11,6 +11,7 @@ module.exports = {
     attributes: require('./attributes'),
     supplyDefaults: require('./defaults'),
     calc: require('./calc'),
+    crossTraceCalc: require('./cross_trace_calc'),
     plot: require('./plot'),
     style: require('./style').style,
     styleOnSelect: require('./style').styleOnSelect,

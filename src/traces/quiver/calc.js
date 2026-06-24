@@ -67,15 +67,33 @@ module.exports = function calc(gd, trace) {
     // Store maxNorm for use by plot.js
     trace._maxNorm = normMax;
 
-    // Compute arrow endpoints for axis expansion.
-    // We approximate with scaleRatio=1 (exact for square plots,
-    // close enough for autorange padding in non-square plots).
+    // Compute arrow geometry for axis autorange.
+    //
+    // The v-component is drawn directly in data space, so each arrow's y-tip is
+    // exact and we expand the y-axis here with the tip coordinates. The
+    // u-component is stretched by scaleRatio = pxPerY / pxPerX in plot.js so
+    // that arrows keep their on-screen angle, which makes an arrow's *horizontal
+    // pixel extent* depend on the y-scale rather than the x-scale:
+    //     |dx_px| = pxPerY * baseLen * |unitx|
+    // We therefore expand the x-axis with pixel padding (ppad) rather than
+    // data-space tips (whose data width would depend on the very x-range we are
+    // trying to compute). Since that ppad depends on the y-scale - which depends
+    // on the combined y-extent of every quiver trace sharing the axis - the
+    // x-axis expansion is finished in crossTraceCalc; here we stash the per-point
+    // geometry and y-bounds it needs.
     var sizemode = trace.sizemode || 'scaled';
     var sizeref = (trace.sizeref !== undefined) ? trace.sizeref : (sizemode === 'raw' ? 1 : 0.5);
     var anchor = trace.anchor || 'tail';
+    var isTip = anchor === 'tip';
+    var isCenter = anchor === 'cm' || anchor === 'center' || anchor === 'middle';
 
-    var allX = new Array(len * 2);
-    var allY = new Array(len * 2);
+    var baseX = new Array(len);
+    var tipsY = new Array(len * 2);
+    var geomLen = new Array(len);
+    var geomUx = new Array(len);
+
+    var yMin = Infinity;
+    var yMax = -Infinity;
 
     for(var k = 0; k < len; k++) {
         var xk = xVals[k];
@@ -93,33 +111,57 @@ module.exports = function calc(gd, trace) {
 
         var unitxk = nk ? (uk / nk) : 0;
         var unityk = nk ? (vk / nk) : 0;
-        var dxk = unitxk * baseLen;
         var dyk = unityk * baseLen;
 
-        if(anchor === 'tip') {
-            allX[k * 2] = xk;
-            allY[k * 2] = yk;
-            allX[k * 2 + 1] = xk - dxk;
-            allY[k * 2 + 1] = yk - dyk;
-        } else if(anchor === 'cm' || anchor === 'center' || anchor === 'middle') {
-            allX[k * 2] = xk - dxk / 2;
-            allY[k * 2] = yk - dyk / 2;
-            allX[k * 2 + 1] = xk + dxk / 2;
-            allY[k * 2 + 1] = yk + dyk / 2;
+        geomLen[k] = baseLen;
+        geomUx[k] = unitxk;
+        baseX[k] = xk;
+
+        var y0, y1;
+        if(isTip) {
+            y1 = yk;
+            y0 = yk - dyk;
+        } else if(isCenter) {
+            y0 = yk - dyk / 2;
+            y1 = yk + dyk / 2;
         } else { // tail (default)
-            allX[k * 2] = xk;
-            allY[k * 2] = yk;
-            allX[k * 2 + 1] = xk + dxk;
-            allY[k * 2 + 1] = yk + dyk;
+            y0 = yk;
+            y1 = yk + dyk;
+        }
+        tipsY[k * 2] = y0;
+        tipsY[k * 2 + 1] = y1;
+
+        if(isNumeric(y0)) {
+            if(y0 < yMin) yMin = y0;
+            if(y0 > yMax) yMax = y0;
+        }
+        if(isNumeric(y1)) {
+            if(y1 < yMin) yMin = y1;
+            if(y1 > yMax) yMax = y1;
         }
     }
 
-    // Expand axes to include both base positions and arrow tips
     xa._minDtick = 0;
     ya._minDtick = 0;
 
-    trace._extremes[xa._id] = Axes.findExtremes(xa, allX, {padded: true});
-    trace._extremes[ya._id] = Axes.findExtremes(ya, allY, {padded: true});
+    // y-axis: arrow tips are exact in data space.
+    trace._extremes[ya._id] = Axes.findExtremes(ya, tipsY, {padded: true});
+
+    // x-axis: provisional bound from the base positions only; crossTraceCalc
+    // replaces this with a ppad-based expansion once the combined y-scale across
+    // all quiver traces on this axis is known.
+    trace._extremes[xa._id] = Axes.findExtremes(xa, baseX, {padded: true});
+
+    // Geometry needed to finish the x-axis expansion in crossTraceCalc.
+    trace._quiver = {
+        baseX: baseX,
+        geomLen: geomLen,
+        geomUx: geomUx,
+        isTip: isTip,
+        isCenter: isCenter,
+        yMin: yMin,
+        yMax: yMax
+    };
 
     // Merge text arrays into calcdata for Drawing.textPointStyle
     Lib.mergeArray(trace.text, cd, 'tx');
