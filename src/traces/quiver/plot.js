@@ -4,7 +4,7 @@ var d3 = require('@plotly/d3');
 
 var Lib = require('../../lib');
 var Drawing = require('../../components/drawing');
-var Colorscale = require('../../components/colorscale');
+var colorscaleStroke = require('./style').colorscaleStroke;
 
 module.exports = function plot(gd, plotinfo, cdscatter, scatterLayer, transitionOpts, makeOnCompleteCallback) {
     var join, onComplete;
@@ -179,22 +179,9 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
     var lineColor = Lib.isArrayOrTypedArray(marker.color) ? undefined : marker.color;
     Drawing.lineGroupStyle(lineSegments, markerLine.width, lineColor, markerLine.dash);
 
-    // If colorscale present, color arrows by marker.color or magnitude |(u,v)|
-    if(trace._hasColorscale) {
-        var colorFunc = Colorscale.makeColorScaleFuncFromTrace(marker);
-        lineSegments.style('stroke', function(cdi) {
-            var markerColor = marker.color;
-            var value;
-            if(Lib.isArrayOrTypedArray(markerColor) && markerColor.length > cdi.i && isFinite(markerColor[cdi.i])) {
-                value = markerColor[cdi.i];
-            } else {
-                var uVal = (trace.u && trace.u[cdi.i]) || 0;
-                var vVal = (trace.v && trace.v[cdi.i]) || 0;
-                value = Math.sqrt(uVal * uVal + vVal * vVal);
-            }
-            return colorFunc(value);
-        });
-    }
+    // If colorscale present, color arrows by marker.color or magnitude |(u,v)|.
+    // Shared with style.js so the static render and restyle stay in sync.
+    if(trace._hasColorscale) colorscaleStroke(lineSegments, trace);
 
     // Render text labels at data points
     var textGroup = d3.select(element).selectAll('g.text')
