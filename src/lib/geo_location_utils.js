@@ -1,7 +1,7 @@
 'use strict';
 
 var d3 = require('@plotly/d3');
-var countryRegex = require('country-regex');
+const { COUNTRIES, createLookup } = require('country-iso-search');
 var { area: turfArea } = require('@turf/area');
 var { centroid: turfCentroid } = require('@turf/centroid');
 var { bbox: turfBbox } = require('@turf/bbox');
@@ -12,9 +12,9 @@ var isPlainObject = require('./is_plain_object');
 var nestedProperty = require('./nested_property');
 var polygon = require('./polygon');
 const { usaLocationAbbreviations, usaLocationList } = require('./usa_location_names');
+const { COUNTRIES_X } = require('./custom_country_codes');
 
-// make list of all country iso3 ids from at runtime
-var countryIds = Object.keys(countryRegex);
+const { lookupAlpha3 } = createLookup([...COUNTRIES, ...COUNTRIES_X]);
 
 var locationmodeToIdFinder = {
     'ISO-3': identity,
@@ -23,13 +23,8 @@ var locationmodeToIdFinder = {
 };
 
 function countryNameToISO3(countryName) {
-    for (var i = 0; i < countryIds.length; i++) {
-        var iso3 = countryIds[i];
-        var regex = new RegExp(countryRegex[iso3]);
-
-        if (regex.test(countryName.trim().toLowerCase())) return iso3;
-    }
-
+    const iso3 = lookupAlpha3(countryName);
+    if (iso3) return iso3;
     loggers.log('Unrecognized country name: ' + countryName + '.');
 
     return false;

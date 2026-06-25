@@ -71,13 +71,14 @@ We use the following [labels](https://github.com/plotly/plotly.js/labels) to tra
 | `status: in progress` | PRs that required some initial feedback but not ready to merge |
 | `status: reviewable` | PRs that are completed from the author's perspective |
 | `status: on hold` | PRs that are put on hold |
+| `no-draftlog` | PR opted out of the [draftlog](./draftlogs/README.md) check |
 
 ## Development
 
 #### Prerequisites
 
 - git
-- [node.js](https://nodejs.org/en/). We recommend using node.js v18.x.
+- [node.js](https://nodejs.org/en/). We recommend using node.js v22.x.
   Upgrading and managing node versions can be easily done using
   [`nvm`](https://github.com/nvm-sh/nvm) or its Windows alternatives.
 - [`npm`](https://www.npmjs.com/) v10.x and up to ensure that the

@@ -1,13 +1,16 @@
-'use strict';
+import type { AttributeMap } from '../../types/lib/attributes';
+import constants from './constants';
 
-var constants = require('./constants');
-
-module.exports = {
+/**
+ * Modebar layout attributes.
+ * Consumer-facing types are generated from the schema by generate_schema_types.mjs.
+ */
+const attributes = {
     editType: 'modebar',
 
     orientation: {
         valType: 'enumerated',
-        values: ['v', 'h'],
+        values: ['v', 'h'] as const,
         dflt: 'h',
         editType: 'modebar',
         description: 'Sets the orientation of the modebar.'
@@ -46,7 +49,7 @@ module.exports = {
             'Please note that these buttons will only be shown if they are',
             'compatible with all trace types used in a graph.',
             'Similar to `config.modeBarButtonsToAdd` option.',
-            'This may include *' + constants.backButtons.join('*, *') + '*.'
+            `This may include *${constants.backButtons.join('*, *')}*.`
         ].join(' ')
     },
     remove: {
@@ -57,7 +60,9 @@ module.exports = {
         description: [
             'Determines which predefined modebar buttons to remove.',
             'Similar to `config.modeBarButtonsToRemove` option.',
-            'This may include *' + constants.foreButtons.join('*, *') + '*.'
+            `This may include *${constants.foreButtons.join('*, *')}*.`
         ].join(' ')
     }
-};
+} as const satisfies AttributeMap;
+
+export default attributes;
