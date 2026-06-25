@@ -2,9 +2,8 @@
  * Public API function types for Plotly.js
  */
 
-import type { AnimationOpts, Frame, Layout } from '../generated/schema';
+import type { AnimationOpts, Data, Frame, Layout } from '../generated/schema';
 import type { Config, DownloadImgopts, ToImgopts } from './config';
-import type { Data } from './data';
 import type { PlotlyHTMLElement } from './events';
 import type { Icon, Template } from './layout';
 

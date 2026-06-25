@@ -11,7 +11,6 @@ export * from './lib/common';
 // Core types (public)
 export * from './core/api';
 export * from './core/config';
-export * from './core/data';
 export * from './core/events';
 export * from './core/layout';
 

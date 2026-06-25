@@ -8,6 +8,7 @@ types into `src/types/generated/schema.d.ts`:
   TransitionEasing, TraceType — plus a deprecated `PlotType` alias)
 - Shared sub-interfaces (Font, ColorBar, HoverLabel, etc.)
 - Data interfaces for each trace type (BarData, ScatterData, IndicatorData, etc.)
+  and the `Data` discriminated union over all of them
 - Layout component interfaces (LayoutAxis, Legend, Scene, Annotation, etc.)
   and the Layout interface itself
 - Animation / frame / edits interfaces (AnimationOpts, Frame, Edits)
@@ -90,7 +91,11 @@ so the automatic extractor skips them, but they need to be named for
 ### Phase 3: Trace interfaces
 
 Each trace gets an interface (`ScatterData`, `BarData`, etc.) whose
-properties reference shared types where fingerprints match.
+properties reference shared types where fingerprints match. After all
+trace interfaces are emitted, the generator also emits the discriminated
+union `Data = Partial<BarData> | Partial<BarpolarData> | …` covering every
+trace — narrowed via the `type` field. Adding or removing a trace in the
+schema flows through automatically.
 
 ### Phase 4: Layout types
 
@@ -191,6 +196,7 @@ src/types/generated/schema.d.ts
 │                                                        AutoRangeOptions,
 │                                                        Lighting, ErrorY)
 ├── Trace interfaces (ScatterData, BarData, ... — 49 traces)
+├── Data union (`Partial<*Data>` over every trace, discriminated by `type`)
 ├── Layout component interfaces (LayoutAxis, Legend, Scene, Annotation, etc.)
 ├── Layout interface
 └── Animation / frames / config (AnimationOpts, Frame, Edits, ConfigBase)

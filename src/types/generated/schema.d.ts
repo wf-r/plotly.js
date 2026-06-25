@@ -12298,6 +12298,65 @@ export interface WaterfallData {
     zorder?: number;
 }
 
+/**
+ * Union of every trace shape. All fields are optional via `Partial<…>` —
+ * narrow with the `type` discriminator before accessing trace-specific
+ * attributes:
+ *
+ *     if (trace.type === 'bar') { trace.marker?.cornerradius }
+ *     if (trace.type === 'pie') { trace.marker?.colors }
+ */
+export type Data =
+    | Partial<BarData>
+    | Partial<BarpolarData>
+    | Partial<BoxData>
+    | Partial<CandlestickData>
+    | Partial<CarpetData>
+    | Partial<ChoroplethData>
+    | Partial<ChoroplethmapData>
+    | Partial<ChoroplethmapboxData>
+    | Partial<ConeData>
+    | Partial<ContourData>
+    | Partial<ContourcarpetData>
+    | Partial<DensitymapData>
+    | Partial<DensitymapboxData>
+    | Partial<FunnelData>
+    | Partial<FunnelareaData>
+    | Partial<HeatmapData>
+    | Partial<HistogramData>
+    | Partial<Histogram2dData>
+    | Partial<Histogram2dcontourData>
+    | Partial<IcicleData>
+    | Partial<ImageData>
+    | Partial<IndicatorData>
+    | Partial<IsosurfaceData>
+    | Partial<Mesh3dData>
+    | Partial<OhlcData>
+    | Partial<ParcatsData>
+    | Partial<ParcoordsData>
+    | Partial<PieData>
+    | Partial<SankeyData>
+    | Partial<ScatterData>
+    | Partial<Scatter3dData>
+    | Partial<ScattercarpetData>
+    | Partial<ScattergeoData>
+    | Partial<ScatterglData>
+    | Partial<ScattermapData>
+    | Partial<ScattermapboxData>
+    | Partial<ScatterpolarData>
+    | Partial<ScatterpolarglData>
+    | Partial<ScattersmithData>
+    | Partial<ScatterternaryData>
+    | Partial<SplomData>
+    | Partial<StreamtubeData>
+    | Partial<SunburstData>
+    | Partial<SurfaceData>
+    | Partial<TableData>
+    | Partial<TreemapData>
+    | Partial<ViolinData>
+    | Partial<VolumeData>
+    | Partial<WaterfallData>;
+
 // ---------------------------------------------------------------------------
 // Layout component interfaces
 // ---------------------------------------------------------------------------
