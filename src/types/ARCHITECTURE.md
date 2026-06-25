@@ -51,7 +51,9 @@ The split:
       FontArray, ColorBar, HoverLabel, Domain, Pattern, TickFormatStops,
       LegendGroupTitle).
     - **Per-trace data interfaces** for all trace types (BarData, ScatterData,
-      IndicatorData, etc.).
+      IndicatorData, etc.), plus the **`Data` discriminated union** over all
+      of them (`Partial<BarData> | Partial<ScatterData> | …`) — narrowed via
+      the `type` field.
     - **Layout component interfaces** (LayoutAxis, Legend, Scene,
       Annotation, Shape, Slider, UpdateMenu, etc.) and the Layout
       interface itself.
@@ -85,7 +87,7 @@ This split is reflected in the types:
 | User-facing | Internal | Where defined |
 |---|---|---|
 | `Layout` | `FullLayout` | `Layout` in `generated/schema.d.ts`; `FullLayout` in `core/layout.internal.d.ts` |
-| `Data` (union over `type`) | `FullData` | `Data` in `core/data.d.ts` (union of schema `*Data` interfaces); `FullData = Data & FullDataInternals` in `core/data.internal.d.ts` |
+| `Data` (union over `type`) | `FullData` | `Data` in `generated/schema.d.ts` (union of schema `*Data` interfaces); `FullData = Data & FullDataInternals` in `core/data.internal.d.ts` |
 | (n/a) | `GraphDiv` (the `gd` param) | `core/graph-div.internal.d.ts` — DOM element with `_fullLayout`, `_fullData`, `calcdata`, etc. |
 
 `FullData` is the discriminated union of schema trace types intersected with
@@ -106,7 +108,6 @@ src/types/
 ├── core/                         # hand-written types for the core API
 │   ├── api.d.ts                  # public API function signatures (newPlot, etc.)
 │   ├── config.d.ts               # Config, ToImgopts (Edits re-exported from generated)
-│   ├── data.d.ts                 # Data union (over all schema `*Data` interfaces)
 │   ├── data.internal.d.ts        # CalcData, FullData
 │   ├── events.d.ts               # PlotMouseEvent, PlotlyHTMLElement, etc.
 │   ├── graph-div.internal.d.ts   # GraphDiv, GraphContext
@@ -173,6 +174,8 @@ src/types/generated/schema.d.ts
     │ // Trace interfaces
     │ export interface ScatterData { marker?: _internal.Marker; ... }
     │ export interface BarData { ... }
+    │ // Discriminated union over all traces
+    │ export type Data = Partial<BarData> | Partial<ScatterData> | ...;
     │ // Layout
     │ export interface LayoutAxis { autorangeoptions?: _internal.AutoRangeOptions; ... }
     │ export interface Layout { ... }
