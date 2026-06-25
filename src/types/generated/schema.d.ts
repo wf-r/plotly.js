@@ -12335,6 +12335,7 @@ export type Data =
     | Partial<ParcatsData>
     | Partial<ParcoordsData>
     | Partial<PieData>
+    | Partial<QuiverData>
     | Partial<SankeyData>
     | Partial<ScatterData>
     | Partial<Scatter3dData>
