@@ -6,9 +6,8 @@
  * Commonly referred to as `gd` in the codebase.
  */
 
-import type { Layout } from '../generated/schema';
+import type { Data, Layout } from '../generated/schema';
 import type { Config } from './config';
-import type { Data } from './data';
 import type { CalcData, FullData } from './data.internal';
 import type { FullLayout } from './layout.internal';
 

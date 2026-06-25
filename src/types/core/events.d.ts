@@ -8,6 +8,7 @@
 import type {
     AnimationFrameOpts,
     Annotation,
+    Data,
     Frame,
     Layout,
     LayoutAxis,
@@ -16,7 +17,6 @@ import type {
 } from '../generated/schema';
 import type { Datum } from '../lib/common';
 import type { Config } from './config';
-import type { Data } from './data';
 
 // ---------------------------------------------------------------------------
 // Point / datum types in events
