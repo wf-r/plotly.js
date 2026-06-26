@@ -53,7 +53,6 @@ export type {
     AxisName,
     ButtonClickEvent,
     Icon,
-    Mapbox,
     ModeBarButton,
     ModeBarButtonAny,
     ModeBarDefaultButtons,

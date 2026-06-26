@@ -794,17 +794,12 @@ function getStyleObj(val) {
         }
     } else {
         styleObj.id = constants.styleValueDflt;
-        styleObj.style = convertStyleVal(constants.styleValueDflt);
+        styleObj.style = constants.stylesMap[constants.styleValueDflt];
     }
 
     styleObj.transition = {duration: 0, delay: 0};
 
     return styleObj;
-}
-
-// if style is part of the 'official' map values, add URL prefix and suffix
-function convertStyleVal(val) {
-    return constants.styleUrlPrefix + val + '-' + constants.styleUrlSuffix;
 }
 
 function convertCenter(center) {

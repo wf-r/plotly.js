@@ -216,8 +216,6 @@ export interface FullLayout extends Layout {
     _invScaleY?: number;
     /** Most recent bounding box of the graph div. */
     _lastBBox?: DOMRect;
-    /** Mapbox access token captured from config. */
-    _mapboxAccessToken?: string;
     /** Push-margin ids keyed by component path. */
     _pushmarginIds?: Record<string, number>;
     /** Counter to prevent infinite auto-margin redraw loops. */
@@ -313,8 +311,6 @@ export interface SubplotInfo {
     gl2d?: string[];
     /** Map subplot ids. */
     map?: string[];
-    /** Mapbox subplot ids (deprecated alias of `map`). */
-    mapbox?: string[];
     /** Pie subplot ids. */
     pie?: string[];
     /** Polar subplot ids. */

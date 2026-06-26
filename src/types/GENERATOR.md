@@ -195,7 +195,7 @@ src/types/generated/schema.d.ts
 ├── Internal shared interfaces in `namespace _internal` (Marker, Line,
 │                                                        AutoRangeOptions,
 │                                                        Lighting, ErrorY)
-├── Trace interfaces (ScatterData, BarData, ... — 49 traces)
+├── Trace interfaces (ScatterData, BarData, ... — 46 traces)
 ├── Data union (`Partial<*Data>` over every trace, discriminated by `type`)
 ├── Layout component interfaces (LayoutAxis, Legend, Scene, Annotation, etc.)
 ├── Layout interface

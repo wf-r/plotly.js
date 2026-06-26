@@ -23,7 +23,7 @@ export type PatternShape = '' | '/' | '\\' | 'x' | '-' | '|' | '+' | '.';
 
 export type TransitionEasing = 'linear' | 'quad' | 'cubic' | 'sin' | 'exp' | 'circle' | 'elastic' | 'back' | 'bounce' | 'linear-in' | 'quad-in' | 'cubic-in' | 'sin-in' | 'exp-in' | 'circle-in' | 'elastic-in' | 'back-in' | 'bounce-in' | 'linear-out' | 'quad-out' | 'cubic-out' | 'sin-out' | 'exp-out' | 'circle-out' | 'elastic-out' | 'back-out' | 'bounce-out' | 'linear-in-out' | 'quad-in-out' | 'cubic-in-out' | 'sin-in-out' | 'exp-in-out' | 'circle-in-out' | 'elastic-in-out' | 'back-in-out' | 'bounce-in-out';
 
-export type TraceType = 'bar' | 'barpolar' | 'box' | 'candlestick' | 'carpet' | 'choropleth' | 'choroplethmap' | 'choroplethmapbox' | 'cone' | 'contour' | 'contourcarpet' | 'densitymap' | 'densitymapbox' | 'funnel' | 'funnelarea' | 'heatmap' | 'histogram' | 'histogram2d' | 'histogram2dcontour' | 'icicle' | 'image' | 'indicator' | 'isosurface' | 'mesh3d' | 'ohlc' | 'parcats' | 'parcoords' | 'pie' | 'sankey' | 'scatter' | 'scatter3d' | 'scattercarpet' | 'scattergeo' | 'scattergl' | 'scattermap' | 'scattermapbox' | 'scatterpolar' | 'scatterpolargl' | 'scattersmith' | 'scatterternary' | 'splom' | 'streamtube' | 'sunburst' | 'surface' | 'table' | 'treemap' | 'violin' | 'volume' | 'waterfall';
+export type TraceType = 'bar' | 'barpolar' | 'box' | 'candlestick' | 'carpet' | 'choropleth' | 'choroplethmap' | 'cone' | 'contour' | 'contourcarpet' | 'densitymap' | 'funnel' | 'funnelarea' | 'heatmap' | 'histogram' | 'histogram2d' | 'histogram2dcontour' | 'icicle' | 'image' | 'indicator' | 'isosurface' | 'mesh3d' | 'ohlc' | 'parcats' | 'parcoords' | 'pie' | 'sankey' | 'scatter' | 'scatter3d' | 'scattercarpet' | 'scattergeo' | 'scattergl' | 'scattermap' | 'scatterpolar' | 'scatterpolargl' | 'scattersmith' | 'scatterternary' | 'splom' | 'streamtube' | 'sunburst' | 'surface' | 'table' | 'treemap' | 'violin' | 'volume' | 'waterfall';
 
 /** @deprecated Renamed to TraceType. */
 export type PlotType = TraceType;
@@ -2581,154 +2581,6 @@ export interface ChoroplethmapData {
     zmin?: number;
 }
 
-export interface ChoroplethmapboxData {
-    /**
-     * Determines whether the colorscale is a default palette (`autocolorscale: true`) or the palette determined by `colorscale`. In case `colorscale` is unspecified or `autocolorscale` is true, the default palette will be chosen according to whether numbers in the `color` array are all positive, all negative or mixed.
-     * @default true
-     */
-    autocolorscale?: boolean;
-    /** Determines if the choropleth polygons will be inserted before the layer with the specified ID. By default, choroplethmapbox traces are placed above the water layers. If set to '', the layer will be inserted above every existing layer. */
-    below?: string;
-    /** Sets a reference to a shared color axis. References to these shared color axes are *coloraxis*, *coloraxis2*, *coloraxis3*, etc. Settings for these shared color axes are set in the layout, under `layout.coloraxis`, `layout.coloraxis2`, etc. Note that multiple color scales can be linked to the same color axis. */
-    coloraxis?: string;
-    colorbar?: ColorBar;
-    /**
-     * Sets the colorscale. The colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsla, hwb, or named color string. At minimum, a mapping for the lowest (0) and highest (1) values are required. For example, `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`. To control the bounds of the colorscale in color space, use `zmin` and `zmax`. Alternatively, `colorscale` may be a palette name string of the following list: Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd.
-     * Setting this also sets: autocolorscale = false
-     */
-    colorscale?: ColorScale;
-    /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | Datum[][] | TypedArray;
-    /**
-     * Sets the key in GeoJSON features which is used as id to match the items included in the `locations` array. Support nested property, for example *properties.name*.
-     * @default 'id'
-     */
-    featureidkey?: string;
-    /** Sets the GeoJSON data associated with this trace. It can be set as a valid GeoJSON object or as a URL string. Note that we only accept GeoJSONs of type *FeatureCollection* or *Feature* with geometries of type *Polygon* or *MultiPolygon*. */
-    geojson?: any;
-    /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
-     * @default 'all'
-     */
-    hoverinfo?: 'location' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('location' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
-    hoverlabel?: HoverLabel;
-    /** Template string used for rendering the information that appear on hover box. Note that this will override `hoverinfo`. Variables are inserted using %{variable}, for example "y: %{y}" as well as %{xother}, {%_xother}, {%_xother_}, {%xother_}. When showing info for several points, *xother* will be added to those with different x positions from the first point. An underscore before or after *(x|y)other* will add a space on that side, only when this field is shown. Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. The variables available in `hovertemplate` are the ones emitted as event data described at this link https://plotly.com/javascript/plotlyjs-events/#event-data. Additionally, all attributes that can be specified per-point (the ones that are `arrayOk: true`) are available. Finally, the template string has access to variable `properties` Anything contained in tag `<extra>` is displayed in the secondary box, for example `<extra>%{fullData.name}</extra>`. To hide the secondary box completely, use an empty tag `<extra></extra>`. */
-    hovertemplate?: string | string[];
-    /**
-     * Fallback string that's displayed when a variable referenced in a template is missing. If the boolean value 'false' is passed in, the specifier with the missing variable will be displayed.
-     * @default '-'
-     */
-    hovertemplatefallback?: any;
-    /** Same as `text`. */
-    hovertext?: string | string[];
-    /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | Datum[][] | TypedArray;
-    /**
-     * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
-     * @default 'legend'
-     */
-    legend?: string;
-    /** Sets the legend group for this trace. Traces and shapes part of the same legend group hide/show at the same time when toggling legend items. */
-    legendgroup?: string;
-    legendgrouptitle?: LegendGroupTitle;
-    /**
-     * Sets the legend rank for this trace. Items and groups with smaller ranks are presented on top/left side while with *reversed* `legend.traceorder` they are on bottom/right side. The default legendrank is 1000, so that you can use ranks less than 1000 to place certain items before all unranked items, and ranks greater than 1000 to go after all unranked items. When having unranked or equal rank items shapes would be displayed after traces i.e. according to their order in data and layout.
-     * @default 1000
-     */
-    legendrank?: number;
-    /**
-     * Sets the width (in px or fraction) of the legend for this trace.
-     * Minimum: 0
-     */
-    legendwidth?: number;
-    /** Sets which features found in *geojson* to plot using their feature `id` field. */
-    locations?: Datum[] | Datum[][] | TypedArray;
-    marker?: {
-        line?: _internal.Line;
-        /**
-         * Sets the opacity of the locations.
-         * @default 1
-         * Range: [0, 1]
-         */
-        opacity?: number | number[];
-    };
-    /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
-    meta?: any;
-    /** Sets the trace name. The trace name appears as the legend item and on hover. */
-    name?: string;
-    /**
-     * Reverses the color mapping if true. If true, `zmin` will correspond to the last color in the array and `zmax` will correspond to the first color.
-     * @default false
-     */
-    reversescale?: boolean;
-    selected?: {
-        marker?: {
-            /**
-             * Sets the marker opacity of selected points.
-             * Range: [0, 1]
-             */
-            opacity?: number;
-        };
-    };
-    /** Array containing integer indices of selected points. Has an effect only for traces that support selections. Note that an empty array means an empty selection where the `unselected` are turned on for all points, whereas, any other non-array values means no selection all where the `selected` and `unselected` styles have no effect. */
-    selectedpoints?: any;
-    /**
-     * Determines whether or not an item corresponding to this trace is shown in the legend.
-     * @default false
-     */
-    showlegend?: boolean;
-    /**
-     * Determines whether or not a colorbar is displayed for this trace.
-     * @default true
-     */
-    showscale?: boolean;
-    /**
-     * mapbox subplots and traces are deprecated! Please consider switching to `map` subplots and traces. Learn more at: https://plotly.com/python/maplibre-migration/ as well as https://plotly.com/javascript/maplibre-migration/ Sets a reference between this trace's data coordinates and a mapbox subplot. If *mapbox* (the default value), the data refer to `layout.mapbox`. If *mapbox2*, the data refer to `layout.mapbox2`, and so on.
-     * @default 'mapbox'
-     */
-    subplot?: string;
-    /** Sets the text elements associated with each location. */
-    text?: string | string[];
-    type?: 'choroplethmapbox';
-    /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
-    uid?: string;
-    /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
-    uirevision?: any;
-    unselected?: {
-        marker?: {
-            /**
-             * Sets the marker opacity of unselected points, applied only when a selection exists.
-             * Range: [0, 1]
-             */
-            opacity?: number;
-        };
-    };
-    /**
-     * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
-     * @default true
-     */
-    visible?: true | false | 'legendonly';
-    /** Sets the color values. */
-    z?: Datum[] | Datum[][] | TypedArray;
-    /**
-     * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
-     * @default true
-     */
-    zauto?: boolean;
-    /**
-     * Sets the upper bound of the color domain. Value should have the same units as in `z` and if set, `zmin` must be set as well.
-     * Setting this also sets: zauto = false
-     */
-    zmax?: number;
-    /** Sets the mid-point of the color domain by scaling `zmin` and/or `zmax` to be equidistant to this point. Value should have the same units as in `z`. Has no effect when `zauto` is `false`. */
-    zmid?: number;
-    /**
-     * Sets the lower bound of the color domain. Value should have the same units as in `z` and if set, `zmax` must be set as well.
-     * Setting this also sets: zauto = false
-     */
-    zmin?: number;
-}
-
 export interface ConeData {
     /**
      * Sets the cones' anchor with respect to their x/y/z positions. Note that *cm* denote the cone's center of mass which corresponds to 1/4 from the tail to tip.
@@ -3556,132 +3408,6 @@ export interface DensitymapData {
     /** Sets text elements associated with each (lon,lat) pair If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
     text?: string | string[];
     type?: 'densitymap';
-    /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
-    uid?: string;
-    /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
-    uirevision?: any;
-    /**
-     * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
-     * @default true
-     */
-    visible?: true | false | 'legendonly';
-    /** Sets the points' weight. For example, a value of 10 would be equivalent to having 10 points of weight 1 in the same spot */
-    z?: Datum[] | Datum[][] | TypedArray;
-    /**
-     * Determines whether or not the color domain is computed with respect to the input data (here in `z`) or the bounds set in `zmin` and `zmax` Defaults to `false` when `zmin` and `zmax` are set by the user.
-     * @default true
-     */
-    zauto?: boolean;
-    /**
-     * Sets the upper bound of the color domain. Value should have the same units as in `z` and if set, `zmin` must be set as well.
-     * Setting this also sets: zauto = false
-     */
-    zmax?: number;
-    /** Sets the mid-point of the color domain by scaling `zmin` and/or `zmax` to be equidistant to this point. Value should have the same units as in `z`. Has no effect when `zauto` is `false`. */
-    zmid?: number;
-    /**
-     * Sets the lower bound of the color domain. Value should have the same units as in `z` and if set, `zmax` must be set as well.
-     * Setting this also sets: zauto = false
-     */
-    zmin?: number;
-}
-
-export interface DensitymapboxData {
-    /**
-     * Determines whether the colorscale is a default palette (`autocolorscale: true`) or the palette determined by `colorscale`. In case `colorscale` is unspecified or `autocolorscale` is true, the default palette will be chosen according to whether numbers in the `color` array are all positive, all negative or mixed.
-     * @default true
-     */
-    autocolorscale?: boolean;
-    /** Determines if the densitymapbox trace will be inserted before the layer with the specified ID. By default, densitymapbox traces are placed below the first layer of type symbol If set to '', the layer will be inserted above every existing layer. */
-    below?: string;
-    /** Sets a reference to a shared color axis. References to these shared color axes are *coloraxis*, *coloraxis2*, *coloraxis3*, etc. Settings for these shared color axes are set in the layout, under `layout.coloraxis`, `layout.coloraxis2`, etc. Note that multiple color scales can be linked to the same color axis. */
-    coloraxis?: string;
-    colorbar?: ColorBar;
-    /**
-     * Sets the colorscale. The colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsla, hwb, or named color string. At minimum, a mapping for the lowest (0) and highest (1) values are required. For example, `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`. To control the bounds of the colorscale in color space, use `zmin` and `zmax`. Alternatively, `colorscale` may be a palette name string of the following list: Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd.
-     * Setting this also sets: autocolorscale = false
-     */
-    colorscale?: ColorScale;
-    /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | Datum[][] | TypedArray;
-    /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
-     * @default 'all'
-     */
-    hoverinfo?: 'lon' | 'lat' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('lon' | 'lat' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
-    hoverlabel?: HoverLabel;
-    /** Template string used for rendering the information that appear on hover box. Note that this will override `hoverinfo`. Variables are inserted using %{variable}, for example "y: %{y}" as well as %{xother}, {%_xother}, {%_xother_}, {%xother_}. When showing info for several points, *xother* will be added to those with different x positions from the first point. An underscore before or after *(x|y)other* will add a space on that side, only when this field is shown. Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. The variables available in `hovertemplate` are the ones emitted as event data described at this link https://plotly.com/javascript/plotlyjs-events/#event-data. Additionally, all attributes that can be specified per-point (the ones that are `arrayOk: true`) are available.  Anything contained in tag `<extra>` is displayed in the secondary box, for example `<extra>%{fullData.name}</extra>`. To hide the secondary box completely, use an empty tag `<extra></extra>`. */
-    hovertemplate?: string | string[];
-    /**
-     * Fallback string that's displayed when a variable referenced in a template is missing. If the boolean value 'false' is passed in, the specifier with the missing variable will be displayed.
-     * @default '-'
-     */
-    hovertemplatefallback?: any;
-    /** Sets hover text elements associated with each (lon,lat) pair If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
-    hovertext?: string | string[];
-    /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | Datum[][] | TypedArray;
-    /** Sets the latitude coordinates (in degrees North). */
-    lat?: Datum[] | Datum[][] | TypedArray;
-    /**
-     * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
-     * @default 'legend'
-     */
-    legend?: string;
-    /** Sets the legend group for this trace. Traces and shapes part of the same legend group hide/show at the same time when toggling legend items. */
-    legendgroup?: string;
-    legendgrouptitle?: LegendGroupTitle;
-    /**
-     * Sets the legend rank for this trace. Items and groups with smaller ranks are presented on top/left side while with *reversed* `legend.traceorder` they are on bottom/right side. The default legendrank is 1000, so that you can use ranks less than 1000 to place certain items before all unranked items, and ranks greater than 1000 to go after all unranked items. When having unranked or equal rank items shapes would be displayed after traces i.e. according to their order in data and layout.
-     * @default 1000
-     */
-    legendrank?: number;
-    /**
-     * Sets the width (in px or fraction) of the legend for this trace.
-     * Minimum: 0
-     */
-    legendwidth?: number;
-    /** Sets the longitude coordinates (in degrees East). */
-    lon?: Datum[] | Datum[][] | TypedArray;
-    /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
-    meta?: any;
-    /** Sets the trace name. The trace name appears as the legend item and on hover. */
-    name?: string;
-    /**
-     * Sets the opacity of the trace.
-     * @default 1
-     * Range: [0, 1]
-     */
-    opacity?: number;
-    /**
-     * Sets the radius of influence of one `lon` / `lat` point in pixels. Increasing the value makes the densitymapbox trace smoother, but less detailed.
-     * @default 30
-     * Minimum: 1
-     */
-    radius?: number | number[];
-    /**
-     * Reverses the color mapping if true. If true, `zmin` will correspond to the last color in the array and `zmax` will correspond to the first color.
-     * @default false
-     */
-    reversescale?: boolean;
-    /**
-     * Determines whether or not an item corresponding to this trace is shown in the legend.
-     * @default false
-     */
-    showlegend?: boolean;
-    /**
-     * Determines whether or not a colorbar is displayed for this trace.
-     * @default true
-     */
-    showscale?: boolean;
-    /**
-     * mapbox subplots and traces are deprecated! Please consider switching to `map` subplots and traces. Learn more at: https://plotly.com/python/maplibre-migration/ as well as https://plotly.com/javascript/maplibre-migration/ Sets a reference between this trace's data coordinates and a mapbox subplot. If *mapbox* (the default value), the data refer to `layout.mapbox`. If *mapbox2*, the data refer to `layout.mapbox2`, and so on.
-     * @default 'mapbox'
-     */
-    subplot?: string;
-    /** Sets text elements associated with each (lon,lat) pair If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
-    text?: string | string[];
-    type?: 'densitymapbox';
     /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
     uid?: string;
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
@@ -8990,266 +8716,6 @@ export interface ScattermapData {
     visible?: true | false | 'legendonly';
 }
 
-export interface ScattermapboxData {
-    /** Determines if this scattermapbox trace's layers are to be inserted before the layer with the specified ID. By default, scattermapbox layers are inserted above all the base layers. To place the scattermapbox layers above every other layer, set `below` to *''*. */
-    below?: string;
-    cluster?: {
-        /** Sets the color for each cluster step. */
-        color?: Color | Color[];
-        /** Determines whether clustering is enabled or disabled. */
-        enabled?: boolean;
-        /**
-         * Sets the maximum zoom level. At zoom levels equal to or greater than this, points will never be clustered.
-         * @default 24
-         * Range: [0, 24]
-         */
-        maxzoom?: number;
-        /**
-         * Sets the marker opacity.
-         * @default 1
-         * Range: [0, 1]
-         */
-        opacity?: number | number[];
-        /**
-         * Sets the size for each cluster step.
-         * @default 20
-         * Minimum: 0
-         */
-        size?: number | number[];
-        /**
-         * Sets how many points it takes to create a cluster or advance to the next cluster step. Use this in conjunction with arrays for `size` and / or `color`. If an integer, steps start at multiples of this number. If an array, each step extends from the given value until one less than the next value.
-         * @default -1
-         * Minimum: -1
-         */
-        step?: number | number[];
-    };
-    /**
-     * Determines whether or not gaps (i.e. {nan} or missing values) in the provided data arrays are connected.
-     * @default false
-     */
-    connectgaps?: boolean;
-    /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
-    customdata?: Datum[] | Datum[][] | TypedArray;
-    /**
-     * Sets the area to fill with a solid color. Use with `fillcolor` if not *none*. *toself* connects the endpoints of the trace (or each segment of the trace if it has gaps) into a closed shape.
-     * @default 'none'
-     */
-    fill?: 'none' | 'toself';
-    /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
-    fillcolor?: Color;
-    /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
-     * @default 'all'
-     */
-    hoverinfo?: 'lon' | 'lat' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('lon' | 'lat' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
-    hoverlabel?: HoverLabel;
-    /** Template string used for rendering the information that appear on hover box. Note that this will override `hoverinfo`. Variables are inserted using %{variable}, for example "y: %{y}" as well as %{xother}, {%_xother}, {%_xother_}, {%xother_}. When showing info for several points, *xother* will be added to those with different x positions from the first point. An underscore before or after *(x|y)other* will add a space on that side, only when this field is shown. Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. The variables available in `hovertemplate` are the ones emitted as event data described at this link https://plotly.com/javascript/plotlyjs-events/#event-data. Additionally, all attributes that can be specified per-point (the ones that are `arrayOk: true`) are available.  Anything contained in tag `<extra>` is displayed in the secondary box, for example `<extra>%{fullData.name}</extra>`. To hide the secondary box completely, use an empty tag `<extra></extra>`. */
-    hovertemplate?: string | string[];
-    /**
-     * Fallback string that's displayed when a variable referenced in a template is missing. If the boolean value 'false' is passed in, the specifier with the missing variable will be displayed.
-     * @default '-'
-     */
-    hovertemplatefallback?: any;
-    /** Sets hover text elements associated with each (lon,lat) pair If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) coordinates. To be seen, trace `hoverinfo` must contain a *text* flag. */
-    hovertext?: string | string[];
-    /** Assigns id labels to each datum. These ids for object constancy of data points during animation. Should be an array of strings, not numbers or any other type. */
-    ids?: Datum[] | Datum[][] | TypedArray;
-    /** Sets the latitude coordinates (in degrees North). */
-    lat?: Datum[] | Datum[][] | TypedArray;
-    /**
-     * Sets the reference to a legend to show this trace in. References to these legends are *legend*, *legend2*, *legend3*, etc. Settings for these legends are set in the layout, under `layout.legend`, `layout.legend2`, etc.
-     * @default 'legend'
-     */
-    legend?: string;
-    /** Sets the legend group for this trace. Traces and shapes part of the same legend group hide/show at the same time when toggling legend items. */
-    legendgroup?: string;
-    legendgrouptitle?: LegendGroupTitle;
-    /**
-     * Sets the legend rank for this trace. Items and groups with smaller ranks are presented on top/left side while with *reversed* `legend.traceorder` they are on bottom/right side. The default legendrank is 1000, so that you can use ranks less than 1000 to place certain items before all unranked items, and ranks greater than 1000 to go after all unranked items. When having unranked or equal rank items shapes would be displayed after traces i.e. according to their order in data and layout.
-     * @default 1000
-     */
-    legendrank?: number;
-    /**
-     * Sets the width (in px or fraction) of the legend for this trace.
-     * Minimum: 0
-     */
-    legendwidth?: number;
-    line?: _internal.ErrorY;
-    /** Sets the longitude coordinates (in degrees East). */
-    lon?: Datum[] | Datum[][] | TypedArray;
-    marker?: {
-        /**
-         * Flag to draw all symbols, even if they overlap.
-         * @default false
-         */
-        allowoverlap?: boolean;
-        /**
-         * Sets the marker orientation from true North, in degrees clockwise. When using the *auto* default, no rotation would be applied in perspective views which is different from using a zero angle.
-         * @default 'auto'
-         */
-        angle?: number | number[];
-        /**
-         * Determines whether the colorscale is a default palette (`autocolorscale: true`) or the palette determined by `marker.colorscale`. Has an effect only if in `marker.color` is set to a numerical array. In case `colorscale` is unspecified or `autocolorscale` is true, the default palette will be chosen according to whether numbers in the `color` array are all positive, all negative or mixed.
-         * @default true
-         */
-        autocolorscale?: boolean;
-        /**
-         * Determines whether or not the color domain is computed with respect to the input data (here in `marker.color`) or the bounds set in `marker.cmin` and `marker.cmax` Has an effect only if in `marker.color` is set to a numerical array. Defaults to `false` when `marker.cmin` and `marker.cmax` are set by the user.
-         * @default true
-         */
-        cauto?: boolean;
-        /**
-         * Sets the upper bound of the color domain. Has an effect only if in `marker.color` is set to a numerical array. Value should have the same units as in `marker.color` and if set, `marker.cmin` must be set as well.
-         * Setting this also sets: cauto = false
-         */
-        cmax?: number;
-        /** Sets the mid-point of the color domain by scaling `marker.cmin` and/or `marker.cmax` to be equidistant to this point. Has an effect only if in `marker.color` is set to a numerical array. Value should have the same units as in `marker.color`. Has no effect when `marker.cauto` is `false`. */
-        cmid?: number;
-        /**
-         * Sets the lower bound of the color domain. Has an effect only if in `marker.color` is set to a numerical array. Value should have the same units as in `marker.color` and if set, `marker.cmax` must be set as well.
-         * Setting this also sets: cauto = false
-         */
-        cmin?: number;
-        /** Sets the marker color. It accepts either a specific color or an array of numbers that are mapped to the colorscale relative to the max and min values of the array or relative to `marker.cmin` and `marker.cmax` if set. */
-        color?: Color | Color[];
-        /** Sets a reference to a shared color axis. References to these shared color axes are *coloraxis*, *coloraxis2*, *coloraxis3*, etc. Settings for these shared color axes are set in the layout, under `layout.coloraxis`, `layout.coloraxis2`, etc. Note that multiple color scales can be linked to the same color axis. */
-        coloraxis?: string;
-        colorbar?: ColorBar;
-        /**
-         * Sets the colorscale. Has an effect only if in `marker.color` is set to a numerical array. The colorscale must be an array containing arrays mapping a normalized value to an rgb, rgba, hex, hsl, hsla, hwb, or named color string. At minimum, a mapping for the lowest (0) and highest (1) values are required. For example, `[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]`. To control the bounds of the colorscale in color space, use `marker.cmin` and `marker.cmax`. Alternatively, `colorscale` may be a palette name string of the following list: Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd.
-         * Setting this also sets: autocolorscale = false
-         */
-        colorscale?: ColorScale;
-        /**
-         * Sets the marker opacity.
-         * Range: [0, 1]
-         */
-        opacity?: number | number[];
-        /**
-         * Reverses the color mapping if true. Has an effect only if in `marker.color` is set to a numerical array. If true, `marker.cmin` will correspond to the last color in the array and `marker.cmax` will correspond to the first color.
-         * @default false
-         */
-        reversescale?: boolean;
-        /**
-         * Determines whether or not a colorbar is displayed for this trace. Has an effect only if in `marker.color` is set to a numerical array.
-         * @default false
-         */
-        showscale?: boolean;
-        /**
-         * Sets the marker size (in px).
-         * @default 6
-         * Minimum: 0
-         */
-        size?: number | number[];
-        /**
-         * Has an effect only if `marker.size` is set to a numerical array. Sets the minimum size (in px) of the rendered marker points.
-         * @default 0
-         * Minimum: 0
-         */
-        sizemin?: number;
-        /**
-         * Has an effect only if `marker.size` is set to a numerical array. Sets the rule for which the data in `size` is converted to pixels.
-         * @default 'diameter'
-         */
-        sizemode?: 'diameter' | 'area';
-        /**
-         * Has an effect only if `marker.size` is set to a numerical array. Sets the scale factor used to determine the rendered size of marker points. Use with `sizemin` and `sizemode`.
-         * @default 1
-         */
-        sizeref?: number;
-        /**
-         * Sets the marker symbol. Full list: https://www.mapbox.com/maki-icons/ Note that the array `marker.color` and `marker.size` are only available for *circle* symbols.
-         * @default 'circle'
-         */
-        symbol?: MarkerSymbol;
-    };
-    /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
-    meta?: any;
-    /**
-     * Determines the drawing mode for this scatter trace. If the provided `mode` includes *text* then the `text` elements appear at the coordinates. Otherwise, the `text` elements appear on hover.
-     * @default 'markers'
-     */
-    mode?: 'lines' | 'markers' | 'text' | 'none' | (string & {});
-    /** Sets the trace name. The trace name appears as the legend item and on hover. */
-    name?: string;
-    /**
-     * Sets the opacity of the trace.
-     * @default 1
-     * Range: [0, 1]
-     */
-    opacity?: number;
-    selected?: {
-        marker?: {
-            /** Sets the marker color of selected points. */
-            color?: Color;
-            /**
-             * Sets the marker opacity of selected points.
-             * Range: [0, 1]
-             */
-            opacity?: number;
-            /**
-             * Sets the marker size of selected points.
-             * Minimum: 0
-             */
-            size?: number;
-        };
-    };
-    /** Array containing integer indices of selected points. Has an effect only for traces that support selections. Note that an empty array means an empty selection where the `unselected` are turned on for all points, whereas, any other non-array values means no selection all where the `selected` and `unselected` styles have no effect. */
-    selectedpoints?: any;
-    /**
-     * Determines whether or not an item corresponding to this trace is shown in the legend.
-     * @default true
-     */
-    showlegend?: boolean;
-    /**
-     * mapbox subplots and traces are deprecated! Please consider switching to `map` subplots and traces. Learn more at: https://plotly.com/python/maplibre-migration/ as well as https://plotly.com/javascript/maplibre-migration/ Sets a reference between this trace's data coordinates and a mapbox subplot. If *mapbox* (the default value), the data refer to `layout.mapbox`. If *mapbox2*, the data refer to `layout.mapbox2`, and so on.
-     * @default 'mapbox'
-     */
-    subplot?: string;
-    /** Sets text elements associated with each (lon,lat) pair If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (lon,lat) coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels. */
-    text?: string | string[];
-    /** Sets the icon text font (color=mapbox.layer.paint.text-color, size=mapbox.layer.layout.text-size). Has an effect only when `type` is set to *symbol*. */
-    textfont?: Font;
-    /**
-     * Sets the positions of the `text` elements with respects to the (x,y) coordinates.
-     * @default 'middle center'
-     */
-    textposition?: 'top left' | 'top center' | 'top right' | 'middle left' | 'middle center' | 'middle right' | 'bottom left' | 'bottom center' | 'bottom right';
-    /** Template string used for rendering the information text that appears on points. Note that this will override `textinfo`. Variables are inserted using %{variable}, for example "y: %{y}". Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. All attributes that can be specified per-point (the ones that are `arrayOk: true`) are available. Finally, the template string has access to variables `lat`, `lon` and `text`. */
-    texttemplate?: string | string[];
-    /**
-     * Fallback string that's displayed when a variable referenced in a template is missing. If the boolean value 'false' is passed in, the specifier with the missing variable will be displayed.
-     * @default '-'
-     */
-    texttemplatefallback?: any;
-    type?: 'scattermapbox';
-    /** Assign an id to this trace, Use this to provide object constancy between traces during animations and transitions. */
-    uid?: string;
-    /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
-    uirevision?: any;
-    unselected?: {
-        marker?: {
-            /** Sets the marker color of unselected points, applied only when a selection exists. */
-            color?: Color;
-            /**
-             * Sets the marker opacity of unselected points, applied only when a selection exists.
-             * Range: [0, 1]
-             */
-            opacity?: number;
-            /**
-             * Sets the marker size of unselected points, applied only when a selection exists.
-             * Minimum: 0
-             */
-            size?: number;
-        };
-    };
-    /**
-     * Determines whether or not this trace is visible. If *legendonly*, the trace is not drawn, but can appear as a legend item (provided that the legend itself is visible).
-     * @default true
-     */
-    visible?: true | false | 'legendonly';
-}
-
 export interface ScatterpolarData {
     /**
      * Determines whether or not markers and text nodes are clipped about the subplot axes. To show markers and text nodes above axis lines and tick labels, make sure to set `xaxis.layer` and `yaxis.layer` to *below traces*.
@@ -12107,12 +11573,10 @@ export type Data =
     | Partial<CarpetData>
     | Partial<ChoroplethData>
     | Partial<ChoroplethmapData>
-    | Partial<ChoroplethmapboxData>
     | Partial<ConeData>
     | Partial<ContourData>
     | Partial<ContourcarpetData>
     | Partial<DensitymapData>
-    | Partial<DensitymapboxData>
     | Partial<FunnelData>
     | Partial<FunnelareaData>
     | Partial<HeatmapData>
@@ -12135,7 +11599,6 @@ export type Data =
     | Partial<ScattergeoData>
     | Partial<ScatterglData>
     | Partial<ScattermapData>
-    | Partial<ScattermapboxData>
     | Partial<ScatterpolarData>
     | Partial<ScatterpolarglData>
     | Partial<ScattersmithData>
@@ -13135,8 +12598,6 @@ export interface Legend {
 }
 
 export interface MapLayout {
-    /** Sets the mapbox access token to be used for this mapbox map. Alternatively, the mapbox access token can be set in the configuration options under `mapboxAccessToken`. Note that accessToken are only required when `style` (e.g with values : basic, streets, outdoors, light, dark, satellite, satellite-streets ) and/or a layout layer references the Mapbox server. */
-    accesstoken?: string;
     /**
      * Sets the bearing angle of the map in degrees counter-clockwise from North (map.bearing).
      * @default 0
@@ -13182,7 +12643,13 @@ export interface MapLayout {
         color?: Color;
         /** Sets the coordinates array contains [longitude, latitude] pairs for the image corners listed in clockwise order: top left, top right, bottom right, bottom left. Only has an effect for *image* `sourcetype`. */
         coordinates?: any;
-        fill?: ColorBar;
+        fill?: {
+            /**
+             * Sets the fill outline color (map.layer.paint.fill-outline-color). Has an effect only when `type` is set to *fill*.
+             * @default '#444'
+             */
+            outlinecolor?: Color;
+        };
         line?: {
             /** Sets the length of dashes and gaps (map.layer.paint.line-dasharray). Has an effect only when `type` is set to *line*. */
             dash?: Datum[] | Datum[][] | TypedArray;
@@ -16358,7 +15825,6 @@ export interface Layout {
     images?: LayoutImage[];
     legend?: Legend;
     map?: MapLayout;
-    mapbox?: MapLayout;
     margin?: {
         /**
          * Turns on/off margin expansion computations. Legends, colorbars, updatemenus, sliders, axis rangeselector and rangeslider are allowed to push the margins by defaults.
@@ -16413,7 +15879,7 @@ export interface Layout {
          * @default 'h'
          */
         orientation?: 'v' | 'h';
-        /** Determines which predefined modebar buttons to remove. Similar to `config.modeBarButtonsToRemove` option. This may include *autoScale2d*, *autoscale*, *hoverCompareCartesian*, *hovercompare*, *lasso*, *lasso2d*, *orbitRotation*, *orbitrotation*, *pan*, *pan2d*, *pan3d*, *reset*, *resetCameraDefault3d*, *resetCameraLastSave3d*, *resetGeo*, *resetSankeyGroup*, *resetScale2d*, *resetViewMap*, *resetViewMapbox*, *resetViews*, *resetcameradefault*, *resetcameralastsave*, *resetsankeygroup*, *resetscale*, *resetview*, *resetviews*, *select*, *select2d*, *sendChartToCloud*, *sendcharttocloud*, *tableRotation*, *tablerotation*, *toImage*, *toggleHover*, *toggleSpikelines*, *togglehover*, *togglespikelines*, *toimage*, *zoom*, *zoom2d*, *zoom3d*, *zoomIn2d*, *zoomInGeo*, *zoomInMap*, *zoomInMapbox*, *zoomOut2d*, *zoomOutGeo*, *zoomOutMap*, *zoomOutMapbox*, *zoomin*, *zoomout*. */
+        /** Determines which predefined modebar buttons to remove. Similar to `config.modeBarButtonsToRemove` option. This may include *autoScale2d*, *autoscale*, *hoverCompareCartesian*, *hovercompare*, *lasso*, *lasso2d*, *orbitRotation*, *orbitrotation*, *pan*, *pan2d*, *pan3d*, *reset*, *resetCameraDefault3d*, *resetCameraLastSave3d*, *resetGeo*, *resetSankeyGroup*, *resetScale2d*, *resetViewMap*, *resetViews*, *resetcameradefault*, *resetcameralastsave*, *resetsankeygroup*, *resetscale*, *resetview*, *resetviews*, *select*, *select2d*, *sendChartToCloud*, *sendcharttocloud*, *tableRotation*, *tablerotation*, *toImage*, *toggleHover*, *toggleSpikelines*, *togglehover*, *togglespikelines*, *toimage*, *zoom*, *zoom2d*, *zoom3d*, *zoomIn2d*, *zoomInGeo*, *zoomInMap*, *zoomOut2d*, *zoomOutGeo*, *zoomOutMap*, *zoomin*, *zoomout*. */
         remove?: string | string[];
         /** Controls persistence of user-driven changes related to the modebar, including `hovermode`, `dragmode`, and `showspikes` at both the root level and inside subplots. Defaults to `layout.uirevision`. */
         uirevision?: any;
@@ -16653,7 +16119,6 @@ export interface Layout {
     [key: `geo${number}`]: GeoLayout;
     [key: `legend${number}`]: Legend;
     [key: `map${number}`]: MapLayout;
-    [key: `mapbox${number}`]: MapLayout;
     [key: `polar${number}`]: PolarLayout;
     [key: `scene${number}`]: Scene;
     [key: `smith${number}`]: SmithLayout;
@@ -16781,7 +16246,7 @@ export interface ConfigBase {
      */
     doubleClick?: false | 'reset' | 'autosize' | 'reset+autosize';
     /**
-     * Sets the delay for registering a double-click in ms. This is the time interval (in ms) between first mousedown and 2nd mouseup to constitute a double-click. This setting propagates to all on-subplot double clicks (except for geo, mapbox and map) and on-legend double clicks.
+     * Sets the delay for registering a double-click in ms. This is the time interval (in ms) between first mousedown and 2nd mouseup to constitute a double-click. This setting propagates to all on-subplot double clicks (except for geo and map) and on-legend double clicks.
      * @default 300
      * Minimum: 0
      */
@@ -16824,8 +16289,6 @@ export interface ConfigBase {
      * Range: [0, 2]
      */
     logging?: number;
-    /** Mapbox access token (required to plot mapbox trace types) If using an Mapbox Atlas server, set this option to '' so that plotly.js won't attempt to authenticate to the public Mapbox server. */
-    mapboxAccessToken?: string;
     /**
      * Define fully custom mode bar buttons as nested array, where the outer arrays represents button groups, and the inner arrays have buttons config objects or names of default buttons See ./components/modebar/buttons.js for more info.
      * @default false
@@ -16867,10 +16330,10 @@ export interface ConfigBase {
      */
     responsive?: boolean;
     /**
-     * Determines whether mouse wheel or two-finger scroll zooms is enable. Turned on by default for gl3d, geo, mapbox and map subplots (as these subplot types do not have zoombox via pan), but turned off by default for cartesian subplots. Set `scrollZoom` to *false* to disable scrolling for all subplots.
+     * Determines whether mouse wheel or two-finger scroll zooms is enable. Turned on by default for gl3d, geo and map subplots (as these subplot types do not have zoombox via pan), but turned off by default for cartesian subplots. Set `scrollZoom` to *false* to disable scrolling for all subplots.
      * @default 'gl3d+geo+map'
      */
-    scrollZoom?: 'cartesian' | 'gl3d' | 'geo' | 'mapbox' | 'map' | true | false | (string & {});
+    scrollZoom?: 'cartesian' | 'gl3d' | 'geo' | 'map' | true | false | (string & {});
     /**
      * Set function to add the background color (i.e. `layout.paper_color`) to a different container. This function take the graph div as first argument and the current background color as second argument. Alternatively, set to string *opaque* to ensure there is white behind it.
      * @default 'transparent'

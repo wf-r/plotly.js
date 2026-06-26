@@ -81,8 +81,7 @@ describe('Plotly.Snapshot', function() {
                 plotGlPixelRatio: 2,
                 displaylogo: false,
                 showTips: false,
-                setBackground: 'opaque',
-                mapboxAccessToken: undefined
+                setBackground: 'opaque'
             };
 
             var themeTile = Plotly.Snapshot.clone(dummyGraphObj, themeOptions);

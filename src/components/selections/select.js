@@ -1539,7 +1539,7 @@ function getFillRangeItems(dragOptions) {
     var plotinfo = dragOptions.plotinfo;
 
     return (
-        plotinfo.fillRangeItems || // allow subplots (i.e. geo, mapbox, map, sankey) to override fillRangeItems routine
+        plotinfo.fillRangeItems || // allow subplots (i.e. geo, map, sankey) to override fillRangeItems routine
         makeFillRangeItems(dragOptions.xaxes.concat(dragOptions.yaxes))
     );
 }

@@ -140,8 +140,7 @@ module.exports = function clonePlot(graphObj, options) {
                 2 :
                 options.plotGlPixelRatio,
             displaylogo: options.displaylogo || false,
-            showTips: options.showTips || false,
-            mapboxAccessToken: context.mapboxAccessToken
+            showTips: options.showTips || false
         }
     };
 

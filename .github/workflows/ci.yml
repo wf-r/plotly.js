@@ -269,7 +269,7 @@ jobs:
       - name: Run noCI tests
         uses: ./.github/actions/run-xvfb
         with:
-          run: ./tasks/noci_test.sh jasmine
+          run: npm run test-jasmine -- --tags=noCI,noCIdep --nowatch
 
   # ============================================================
   # Image baseline generation and comparison
