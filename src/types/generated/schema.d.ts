@@ -11573,12 +11573,10 @@ export type Data =
     | Partial<CarpetData>
     | Partial<ChoroplethData>
     | Partial<ChoroplethmapData>
-    | Partial<ChoroplethmapboxData>
     | Partial<ConeData>
     | Partial<ContourData>
     | Partial<ContourcarpetData>
     | Partial<DensitymapData>
-    | Partial<DensitymapboxData>
     | Partial<FunnelData>
     | Partial<FunnelareaData>
     | Partial<HeatmapData>
@@ -11601,7 +11599,6 @@ export type Data =
     | Partial<ScattergeoData>
     | Partial<ScatterglData>
     | Partial<ScattermapData>
-    | Partial<ScattermapboxData>
     | Partial<ScatterpolarData>
     | Partial<ScatterpolarglData>
     | Partial<ScattersmithData>
