@@ -1662,27 +1662,28 @@ describe('sankey tests', function () {
     // Skipped: d3-sankey 0.12+ does not expose the internally-reduced
     // nodePadding through its public getter, so the warning detection in
     // render.js never fires. Re-enable once the warning is restored.
-    xit('emits a warning if node.pad is too large', function (done) {
-        var gd = createGraphDiv();
-        var mockCopy = Lib.extendDeep({}, mock);
+    // See issue: https://github.com/plotly/plotly.js/issues/7832
+    // it('emits a warning if node.pad is too large', function (done) {
+    //     var gd = createGraphDiv();
+    //     var mockCopy = Lib.extendDeep({}, mock);
 
-        var warnings = [];
-        spyOn(Lib, 'warn').and.callFake(function (msg) {
-            warnings.push(msg);
-        });
-        Plotly.newPlot(gd, mockCopy)
-            .then(function () {
-                expect(warnings.length).toEqual(0);
+    //     var warnings = [];
+    //     spyOn(Lib, 'warn').and.callFake(function (msg) {
+    //         warnings.push(msg);
+    //     });
+    //     Plotly.newPlot(gd, mockCopy)
+    //         .then(function () {
+    //             expect(warnings.length).toEqual(0);
 
-                return Plotly.restyle(gd, 'node.pad', 50);
-            })
-            .then(function () {
-                expect(warnings.length).toEqual(1);
-            })
-            .catch(failTest)
-            .finally(destroyGraphDiv)
-            .then(done);
-    });
+    //             return Plotly.restyle(gd, 'node.pad', 50);
+    //         })
+    //         .then(function () {
+    //             expect(warnings.length).toEqual(1);
+    //         })
+    //         .catch(failTest)
+    //         .finally(destroyGraphDiv)
+    //         .then(done);
+    // });
 });
 
 function assertLabel(content, style) {
