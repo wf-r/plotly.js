@@ -160,6 +160,30 @@ var attrs = (module.exports = overrideAll(
                     'A scale of *1* corresponds to the largest zoom level',
                     "that fits the map's lon and lat ranges. "
                 ].join(' ')
+            },
+            minscale: {
+                valType: 'number',
+                min: 0,
+                dflt: 0,
+                description: [
+                    'Sets the minimum zoom level of the map view, relative to',
+                    '`projection.scale`. A `minscale` of *0.5* (50%) prevents the',
+                    'user from zooming out beyond half the base zoom level.',
+                    'Must be greater than or equal to *0*; has no upper bound.',
+                    'The default of *0* imposes no lower bound on zoom.'
+                ].join(' ')
+            },
+            maxscale: {
+                valType: 'number',
+                min: 0,
+                dflt: null,
+                description: [
+                    'Sets the maximum zoom level of the map view, relative to',
+                    '`projection.scale`. A `maxscale` of *2* (200%) prevents the',
+                    'user from zooming in beyond twice the base zoom level.',
+                    'Must be greater than or equal to *0*; has no upper bound.',
+                    'Defaults to *null* for no upper bound on zoom.'
+                ].join(' ')
             }
         },
         center: {
