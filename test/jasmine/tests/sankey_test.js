@@ -138,6 +138,15 @@ describe('sankey tests', function () {
             expect(fullTrace.domain.y).toEqual(attributes.domain.y.dflt, 'y domain by default');
         });
 
+        it('coerces the vertical orientation values', function() {
+            ['h', 'v', 'left-right', 'right-left', 'top-down', 'bottom-up'].forEach(function(o) {
+                expect(_supply({orientation: o}).orientation)
+                    .toBe(o, o + ' is a valid orientation');
+            });
+            expect(_supply({orientation: 'sideways'}).orientation)
+                .toBe(attributes.orientation.dflt, 'invalid orientation falls back to default');
+        });
+
         it("'Sankey' layout dependent specification should have proper types", function () {
             var fullTrace = _supplyWithLayout(
                 {},
@@ -375,6 +384,45 @@ describe('sankey tests', function () {
             gd = createGraphDiv();
         });
         afterEach(destroyGraphDiv);
+
+        it('applies the correct group transform per orientation', function(done) {
+            function groupTransform() {
+                return d3Select('.sankey').attr('transform');
+            }
+            function plotWith(orientation) {
+                var fig = Lib.extendDeep({}, mock);
+                fig.data[0].orientation = orientation;
+                // newPlot re-enters the trace, so the transform is set synchronously
+                // (no mid-transition interpolation to race against).
+                return Plotly.newPlot(gd, fig);
+            }
+
+            plotWith('h')
+                .then(function() {
+                    expect(groupTransform()).toContain('matrix(1 0 0 1 0 0)');
+                    return plotWith('left-right'); // legacy synonym of h
+                })
+                .then(function() {
+                    expect(groupTransform()).toContain('matrix(1 0 0 1 0 0)');
+                    return plotWith('right-left');
+                })
+                .then(function() {
+                    expect(groupTransform()).toContain('matrix(-1 0 0 1 0 0)');
+                    return plotWith('top-down');
+                })
+                .then(function() {
+                    expect(groupTransform()).toContain('matrix(0 1 1 0 0 0)');
+                    return plotWith('v'); // legacy synonym of top-down
+                })
+                .then(function() {
+                    expect(groupTransform()).toContain('matrix(0 1 1 0 0 0)');
+                    return plotWith('bottom-up');
+                })
+                .then(function() {
+                    expect(groupTransform()).toContain('matrix(0 -1 1 0 0 0)');
+                })
+                .then(done, done.fail);
+        });
 
         it('Plotly.deleteTraces with two traces removes the deleted plot', function (done) {
             var mockCopy = Lib.extendDeep({}, mock);

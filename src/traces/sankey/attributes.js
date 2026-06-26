@@ -31,9 +31,16 @@ var attrs = (module.exports = overrideAll(
 
         orientation: {
             valType: 'enumerated',
-            values: ['v', 'h'],
+            values: ['v', 'h', 'left-right', 'right-left', 'top-down', 'bottom-up'],
             dflt: 'h',
-            description: 'Sets the orientation of the Sankey diagram.'
+            description: [
+                'Sets the orientation of the Sankey diagram.',
+                '`left-right` (synonym of the legacy value `h`) places sources on the left',
+                'with the flow running rightward; `right-left` places sources on the right',
+                'with the flow running leftward; `top-down` (synonym of the legacy value `v`)',
+                'places sources at the top with the flow running downward; `bottom-up` places',
+                'sources at the bottom with the flow running upward.'
+            ].join(' ')
         },
 
         valueformat: {

@@ -31,7 +31,11 @@ function sankeyModel(layout, d, traceIndex) {
     var calcData = unwrap(d);
     var trace = calcData.trace;
     var domain = trace.domain;
-    var horizontal = trace.orientation === 'h';
+    var horizontal = trace.orientation === 'h' ||
+        trace.orientation === 'left-right' ||
+        trace.orientation === 'right-left';
+    var rightLeft = trace.orientation === 'right-left';
+    var bottomUp = trace.orientation === 'bottom-up';
     var nodePad = trace.node.pad;
     var nodeThickness = trace.node.thickness;
     var nodeAlign = {
@@ -285,6 +289,8 @@ function sankeyModel(layout, d, traceIndex) {
         trace: trace,
         guid: Lib.randstr(),
         horizontal: horizontal,
+        rightLeft: rightLeft,
+        bottomUp: bottomUp,
         width: width,
         height: height,
         nodePad: trace.node.pad,
@@ -588,6 +594,8 @@ function nodeModel(d, n) {
         sizeAcross: d.width,
         forceLayouts: d.forceLayouts,
         horizontal: d.horizontal,
+        rightLeft: d.rightLeft,
+        bottomUp: d.bottomUp,
         darkBackground: Color.color(n.color).isDark(),
         rgb: Color.rgb(n.color),
         alpha: Color.color(n.color).alpha(),
@@ -629,8 +637,21 @@ function sizeNode(rect) {
 function salientEnough(d) {return (d.link.width > 1 || d.linkLineWidth > 0);}
 
 function sankeyTransform(d) {
-    var offset = strTranslate(d.translateX, d.translateY);
-    return offset + (d.horizontal ? 'matrix(1 0 0 1 0 0)' : 'matrix(0 1 1 0 0 0)');
+    if(d.horizontal) {
+        if(d.rightLeft) {
+            // right-left: sources on the right, flow leftward; horizontal mirror of left-right.
+            return strTranslate(d.translateX + d.width, d.translateY) + 'matrix(-1 0 0 1 0 0)';
+        }
+        // h / left-right: sources on the left, flow rightward.
+        return strTranslate(d.translateX, d.translateY) + 'matrix(1 0 0 1 0 0)';
+    }
+    if(d.bottomUp) {
+        // bottom-up: sources at the bottom, flow upward; a vertical mirror of top-down.
+        // Pure 90deg rotation (det +1) keeps the cross axis intact.
+        return strTranslate(d.translateX, d.translateY + d.height) + 'matrix(0 -1 1 0 0 0)';
+    }
+    // top-down (also 'v'): reflection about y=x, sources at the top, flow downward.
+    return strTranslate(d.translateX, d.translateY) + 'matrix(0 1 1 0 0 0)';
 }
 
 // event handling
@@ -1049,7 +1070,8 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
             svgTextUtils.convertToTspans(e, gd);
         })
         .attr('text-anchor', function(d) {
-            return (d.horizontal && d.left) ? 'end' : 'start';
+            // right-left mirrors the layout horizontally, so the outer side (and anchor) flips.
+            return (d.horizontal && (d.left !== d.rightLeft)) ? 'end' : 'start';
         })
         .attr('transform', function(d) {
             var e = d3.select(this);
@@ -1069,9 +1091,10 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
                 }
             }
 
-            var flipText = d.horizontal ? '' : (
-                'scale(-1,1)' + strRotate(90)
-            );
+            var flipText = d.horizontal ?
+                (d.rightLeft ? 'scale(-1,1)' : '') : (
+                    d.bottomUp ? strRotate(90) : ('scale(-1,1)' + strRotate(90))
+                );
 
             return strTranslate(
                 d.horizontal ? posX : posY,
