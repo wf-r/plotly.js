@@ -169,7 +169,8 @@ var attrs = (module.exports = overrideAll(
                     'Sets the minimum zoom level of the map view, relative to',
                     '`projection.scale`. A `minscale` of *0.5* (50%) prevents the',
                     'user from zooming out beyond half the base zoom level.',
-                    'The default of *0* imposes no lower bound.'
+                    'Must be greater than or equal to *0*; has no upper bound.',
+                    'The default of *0* imposes no lower bound on zoom.'
                 ].join(' ')
             },
             maxscale: {
@@ -180,7 +181,8 @@ var attrs = (module.exports = overrideAll(
                     'Sets the maximum zoom level of the map view, relative to',
                     '`projection.scale`. A `maxscale` of *2* (200%) prevents the',
                     'user from zooming in beyond twice the base zoom level.',
-                    'Defaults to *null* for no upper bound.'
+                    'Must be greater than or equal to *0*; has no upper bound.',
+                    'Defaults to *null* for no upper bound on zoom.'
                 ].join(' ')
             }
         },

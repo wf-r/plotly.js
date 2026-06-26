@@ -12274,12 +12274,12 @@ export interface GeoLayout {
          */
         distance?: number;
         /**
-         * Sets the maximum zoom level of the map view, relative to `projection.scale`. A `maxscale` of *2* (200%) prevents the user from zooming in beyond twice the base zoom level. Defaults to *null* for no upper bound.
+         * Sets the maximum zoom level of the map view, relative to `projection.scale`. A `maxscale` of *2* (200%) prevents the user from zooming in beyond twice the base zoom level. Must be greater than or equal to *0*; has no upper bound. Defaults to *null* for no upper bound on zoom.
          * Minimum: 0
          */
         maxscale?: number;
         /**
-         * Sets the minimum zoom level of the map view, relative to `projection.scale`. A `minscale` of *0.5* (50%) prevents the user from zooming out beyond half the base zoom level. The default of *0* imposes no lower bound.
+         * Sets the minimum zoom level of the map view, relative to `projection.scale`. A `minscale` of *0.5* (50%) prevents the user from zooming out beyond half the base zoom level. Must be greater than or equal to *0*; has no upper bound. The default of *0* imposes no lower bound on zoom.
          * @default 0
          * Minimum: 0
          */
