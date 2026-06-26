@@ -11557,6 +11557,65 @@ export interface WaterfallData {
     zorder?: number;
 }
 
+/**
+ * Union of every trace shape. All fields are optional via `Partial<…>` —
+ * narrow with the `type` discriminator before accessing trace-specific
+ * attributes:
+ *
+ *     if (trace.type === 'bar') { trace.marker?.cornerradius }
+ *     if (trace.type === 'pie') { trace.marker?.colors }
+ */
+export type Data =
+    | Partial<BarData>
+    | Partial<BarpolarData>
+    | Partial<BoxData>
+    | Partial<CandlestickData>
+    | Partial<CarpetData>
+    | Partial<ChoroplethData>
+    | Partial<ChoroplethmapData>
+    | Partial<ChoroplethmapboxData>
+    | Partial<ConeData>
+    | Partial<ContourData>
+    | Partial<ContourcarpetData>
+    | Partial<DensitymapData>
+    | Partial<DensitymapboxData>
+    | Partial<FunnelData>
+    | Partial<FunnelareaData>
+    | Partial<HeatmapData>
+    | Partial<HistogramData>
+    | Partial<Histogram2dData>
+    | Partial<Histogram2dcontourData>
+    | Partial<IcicleData>
+    | Partial<ImageData>
+    | Partial<IndicatorData>
+    | Partial<IsosurfaceData>
+    | Partial<Mesh3dData>
+    | Partial<OhlcData>
+    | Partial<ParcatsData>
+    | Partial<ParcoordsData>
+    | Partial<PieData>
+    | Partial<SankeyData>
+    | Partial<ScatterData>
+    | Partial<Scatter3dData>
+    | Partial<ScattercarpetData>
+    | Partial<ScattergeoData>
+    | Partial<ScatterglData>
+    | Partial<ScattermapData>
+    | Partial<ScattermapboxData>
+    | Partial<ScatterpolarData>
+    | Partial<ScatterpolarglData>
+    | Partial<ScattersmithData>
+    | Partial<ScatterternaryData>
+    | Partial<SplomData>
+    | Partial<StreamtubeData>
+    | Partial<SunburstData>
+    | Partial<SurfaceData>
+    | Partial<TableData>
+    | Partial<TreemapData>
+    | Partial<ViolinData>
+    | Partial<VolumeData>
+    | Partial<WaterfallData>;
+
 // ---------------------------------------------------------------------------
 // Layout component interfaces
 // ---------------------------------------------------------------------------
@@ -11739,6 +11798,17 @@ export interface GeoLayout {
          * Minimum: 1.001
          */
         distance?: number;
+        /**
+         * Sets the maximum zoom level of the map view, relative to `projection.scale`. A `maxscale` of *2* (200%) prevents the user from zooming in beyond twice the base zoom level. Must be greater than or equal to *0*; has no upper bound. Defaults to *null* for no upper bound on zoom.
+         * Minimum: 0
+         */
+        maxscale?: number;
+        /**
+         * Sets the minimum zoom level of the map view, relative to `projection.scale`. A `minscale` of *0.5* (50%) prevents the user from zooming out beyond half the base zoom level. Must be greater than or equal to *0*; has no upper bound. The default of *0* imposes no lower bound on zoom.
+         * @default 0
+         * Minimum: 0
+         */
+        minscale?: number;
         /** For conic projection types only. Sets the parallels (tangent, secant) where the cone intersects the sphere. */
         parallels?: [number, number];
         rotation?: {

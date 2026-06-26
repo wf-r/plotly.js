@@ -8,8 +8,7 @@
  * literal utilities, and deprecated aliases.
  */
 
-import type { Layout } from '../generated/schema';
-import type { Data, TraceType } from './data';
+import type { Data, Layout, TraceType } from '../generated/schema';
 import type { PlotlyHTMLElement } from './events';
 
 // ---------------------------------------------------------------------------

@@ -48,6 +48,7 @@ The following are **auto-generated from `plot-schema.json`** by
 - Common enum aliases (Calendar, Dash, AxisType, PatternShape, XRef, YRef,
   TransitionEasing, TraceType — and a deprecated `PlotType` alias)
 - Data interfaces for each trace type (BarData, ScatterData, IndicatorData, etc.)
+  and the `Data` discriminated union over all of them
 - Layout component interfaces (LayoutAxis, Legend, Scene, Annotation,
   Shape, Slider, UpdateMenu, etc.) and the Layout interface itself
 - Shared sub-interfaces (Font, ColorBar, HoverLabel, LegendGroupTitle, etc.)

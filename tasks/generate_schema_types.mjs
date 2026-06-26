@@ -1155,6 +1155,25 @@ export function generateSchemaTypes(schema, outputPath) {
         chunks.push('');
     }
 
+    // Discriminated union of every trace shape. All fields are optional via
+    // `Partial<…>` — narrow with the `type` discriminator before accessing
+    // trace-specific attributes.
+    chunks.push('/**');
+    chunks.push(' * Union of every trace shape. All fields are optional via `Partial<…>` —');
+    chunks.push(' * narrow with the `type` discriminator before accessing trace-specific');
+    chunks.push(' * attributes:');
+    chunks.push(' *');
+    chunks.push(' *     if (trace.type === \'bar\') { trace.marker?.cornerradius }');
+    chunks.push(' *     if (trace.type === \'pie\') { trace.marker?.colors }');
+    chunks.push(' */');
+    chunks.push('export type Data =');
+    traceNames.forEach((traceName, i) => {
+        const interfaceName = traceNameToInterfaceName(traceName);
+        const sep = i === traceNames.length - 1 ? ';' : '';
+        chunks.push(`    | Partial<${interfaceName}>${sep}`);
+    });
+    chunks.push('');
+
     // Emit layout-specific interfaces (subplots + array items)
     chunks.push('// ---------------------------------------------------------------------------');
     chunks.push('// Layout component interfaces');
@@ -1262,6 +1281,7 @@ export function generateSchemaTypes(schema, outputPath) {
         if (!INTERNAL_INTERFACES.has(name)) exportedNames.add(name);
     }
     for (const traceName of traceNames) exportedNames.add(traceNameToInterfaceName(traceName));
+    exportedNames.add('Data');
     for (const name of subplotGroups.keys()) exportedNames.add(name);
     for (const name of arrayItems.keys()) exportedNames.add(name);
     exportedNames.add('Layout');
