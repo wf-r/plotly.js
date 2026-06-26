@@ -1070,8 +1070,10 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
             svgTextUtils.convertToTspans(e, gd);
         })
         .attr('text-anchor', function(d) {
-            // right-left mirrors the layout horizontally, so the outer side (and anchor) flips.
-            return (d.horizontal && (d.left !== d.rightLeft)) ? 'end' : 'start';
+            // vertical: labels are centered over the node. horizontal: aligned to the outer
+            // edge (right-left mirrors the layout, so the outer side and anchor flip).
+            if(!d.horizontal) return 'middle';
+            return (d.left !== d.rightLeft) ? 'end' : 'start';
         })
         .attr('transform', function(d) {
             var e = d3.select(this);
@@ -1081,25 +1083,27 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
                 (nLines - 1) * LINE_SPACING - CAP_SHIFT
             );
 
-            var posX = d.nodeLineWidth / 2 + TEXTPAD;
-            var posY = ((d.horizontal ? d.visibleHeight : d.visibleWidth) - blockHeight) / 2;
-            if(d.horizontal) {
-                if(d.left) {
-                    posX = -posX;
-                } else {
-                    posX += d.visibleWidth;
-                }
+            var pad = d.nodeLineWidth / 2 + TEXTPAD;
+
+            if(!d.horizontal) {
+                var across = d.visibleHeight / 2;
+                var gap = pad + CAP_SHIFT * d.textFont.size;
+                // letzte Spalte (originalLayer === 1): Label nach innen, damit es nicht ueber den
+                // aeusseren Plot-Rand laeuft - analog zum horizontalen d.left-Fall.
+                var outside = d.left ? -gap : (d.visibleWidth + gap);
+                var flipV = d.bottomUp ? strRotate(90) : ('scale(-1,1)' + strRotate(90));
+                return strTranslate(outside, across) + flipV;
             }
 
-            var flipText = d.horizontal ?
-                (d.rightLeft ? 'scale(-1,1)' : '') : (
-                    d.bottomUp ? strRotate(90) : ('scale(-1,1)' + strRotate(90))
-                );
-
-            return strTranslate(
-                d.horizontal ? posX : posY,
-                d.horizontal ? posY : posX
-            ) + flipText;
+            // horizontal: center along the node length, place just past the thickness edge.
+            var posX = pad;
+            var posY = (d.visibleHeight - blockHeight) / 2;
+            if(d.left) {
+                posX = -posX;
+            } else {
+                posX += d.visibleWidth;
+            }
+            return strTranslate(posX, posY) + (d.rightLeft ? 'scale(-1,1)' : '');
         });
 
     nodeLabel
