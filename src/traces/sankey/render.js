@@ -1086,13 +1086,12 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
             var pad = d.nodeLineWidth / 2 + TEXTPAD;
 
             if(!d.horizontal) {
-                var across = d.visibleHeight / 2;
-                var gap = pad + CAP_SHIFT * d.textFont.size;
-                // letzte Spalte (originalLayer === 1): Label nach innen, damit es nicht ueber den
-                // aeusseren Plot-Rand laeuft - analog zum horizontalen d.left-Fall.
-                var outside = d.left ? -gap : (d.visibleWidth + gap);
+                var posY = d.visibleHeight / 2;
+                // last Column (originalLayer === 1): put label towards center.
+                var posX = d.bottomUp ? 
+                    (d.left ? -(pad + CAP_SHIFT * d.textFont.size) : (d.visibleWidth + pad)) : (d.left ? -pad : (d.visibleWidth + pad + CAP_SHIFT * d.textFont.size));
                 var flipV = d.bottomUp ? strRotate(90) : ('scale(-1,1)' + strRotate(90));
-                return strTranslate(outside, across) + flipV;
+                return strTranslate(posX, posY) + flipV;
             }
 
             // horizontal: center along the node length, place just past the thickness edge.
