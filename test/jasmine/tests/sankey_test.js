@@ -501,6 +501,27 @@ describe('sankey tests', function () {
                 .then(done, done.fail);
         });
 
+        it('falls back to the default sort for circular Sankey with node.sort set', function (done) {
+            var errors = [];
+            spyOn(Lib, 'error').and.callFake(function (msg) {
+                errors.push(msg);
+            });
+
+            var mockCircularCopy = Lib.extendDeep({}, mockCircular);
+            mockCircularCopy.data[0].node.sort = 'input';
+
+            Plotly.newPlot(gd, mockCircularCopy)
+                .then(function () {
+                    // The plot renders successfully
+                    expect(gd.calcdata[0][0].circular).toBe(true);
+                    expect(d3SelectAll('.sankey .node-rect').size()).toBeGreaterThan(0);
+
+                    // An error is logged about the fallback
+                    expect(errors.length).toBe(1);
+                })
+                .then(done, done.fail);
+        });
+
         it('can create groups, restyle groups and properly update DOM', function (done) {
             var mockCircularCopy = Lib.extendDeep({}, mockCircular);
             var firstGroup = [
