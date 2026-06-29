@@ -61,6 +61,8 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
     var xa = plotinfo.xaxis;
     var ya = plotinfo.yaxis;
 
+    cdscatter[0][plotinfo.isRangePlot ? 'nodeRangePlot3' : 'node3'] = d3.select(element);
+
     // Create line group for arrows
     var lines = d3.select(element).selectAll('g.lines')
         .data([cdscatter]);

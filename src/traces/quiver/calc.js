@@ -5,6 +5,7 @@ var Axes = require('../../plots/cartesian/axes');
 var isNumeric = require('fast-isnumeric');
 var BADNUM = require('../../constants/numerical').BADNUM;
 var colorscaleCalc = require('../../components/colorscale/calc');
+var calcSelection = require('../scatter/calc_selection');
 
 /**
  * Main calculation function for quiver trace
@@ -188,6 +189,8 @@ module.exports = function calc(gd, trace) {
             cLetter: 'c'
         });
     }
+
+    calcSelection(cd, trace);
 
     return cd;
 };

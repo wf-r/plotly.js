@@ -30,23 +30,16 @@ function colorscaleStroke(paths, trace) {
 
 function style(gd) {
     var s = d3.select(gd).selectAll('g.trace.quiver');
-
     s.each(function(d) {
-        var trace = d[0].trace;
-        var marker = trace.marker || {};
-        var markerLine = marker.line || {};
-        var lineColor = Lib.isArrayOrTypedArray(marker.color) ? undefined : marker.color;
-
-        var paths = d3.select(this).selectAll('path.js-line');
-        paths.call(Drawing.lineGroupStyle, markerLine.width, lineColor, markerLine.dash);
-
-        // colorscale strokes must be applied after lineGroupStyle, which would
-        // otherwise flatten every arrow to a single (line.color) stroke
-        if(trace._hasColorscale) colorscaleStroke(paths, trace);
+        styleArrows(gd, d, d3.select(this));
     });
 }
 
 function styleOnSelect(gd, cd, sel) {
+    styleArrows(gd, cd, sel);
+}
+
+function styleArrows(gd, cd, sel) {
     var trace = cd[0].trace;
     var marker = trace.marker || {};
     var markerLine = marker.line || {};
