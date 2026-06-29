@@ -240,7 +240,7 @@ exports.valObjectMeta = {
     flaglist: {
         description: [
             'A string representing a combination of flags',
-            '(order does not matter here).',
+            '(flag order does not affect the output).',
             'Combine any of the available `flags` with *+*.',
             "(e.g. ('lines+markers')).",
             'Values in `extras` cannot be combined.'
