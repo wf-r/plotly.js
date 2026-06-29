@@ -83,11 +83,11 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     };
 
     // Selection styling
-    coerce('selected.line.color');
-    coerce('selected.line.width');
+    coerce('selected.marker.color');
+    coerce('selected.marker.line.width');
     coerce('selected.textfont.color');
-    coerce('unselected.line.color');
-    coerce('unselected.line.width');
+    coerce('unselected.marker.color');
+    coerce('unselected.marker.line.width');
     coerce('unselected.textfont.color');
 
 };

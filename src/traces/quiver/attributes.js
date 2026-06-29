@@ -139,20 +139,21 @@ var attrs = {
             editTypeOverride: 'calc'
         })
     ),
-
-    // Selection and styling
     selected: {
-        line: {
+        marker: {
             color: {
                 valType: 'color',
                 editType: 'style',
-                description: 'Sets the line color of selected points.'
+                description: 'Sets the marker color of selected points.'
             },
-            width: {
-                valType: 'number',
-                min: 0,
-                editType: 'style',
-                description: 'Sets the line width of selected points.'
+            line: {
+                width: {
+                    valType: 'number',
+                    min: 0,
+                    editType: 'style',
+                    description: 'Sets the line width of selected points.'
+                },
+                editType: 'style'
             },
             editType: 'style'
         },
@@ -167,17 +168,20 @@ var attrs = {
         editType: 'style'
     },
     unselected: {
-        line: {
+        marker: {
             color: {
                 valType: 'color',
                 editType: 'style',
-                description: 'Sets the line color of unselected points.'
+                description: 'Sets the marker color of unselected points, applied only when a selection exists.'
             },
-            width: {
-                valType: 'number',
-                min: 0,
-                editType: 'style',
-                description: 'Sets the line width of unselected points.'
+            line: {
+                width: {
+                    valType: 'number',
+                    min: 0,
+                    editType: 'style',
+                    description: 'Sets the line width of unselected points, applied only when a selection exists.'
+                },
+                editType: 'style'
             },
             editType: 'style'
         },

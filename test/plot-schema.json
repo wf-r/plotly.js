@@ -53515,20 +53515,24 @@
         },
         "selected": {
           "editType": "style",
-          "line": {
+          "marker": {
             "color": {
-              "description": "Sets the line color of selected points.",
+              "description": "Sets the marker color of selected points.",
               "editType": "style",
               "valType": "color"
             },
             "editType": "style",
-            "role": "object",
-            "width": {
-              "description": "Sets the line width of selected points.",
+            "line": {
               "editType": "style",
-              "min": 0,
-              "valType": "number"
-            }
+              "role": "object",
+              "width": {
+                "description": "Sets the line width of selected points.",
+                "editType": "style",
+                "min": 0,
+                "valType": "number"
+              }
+            },
+            "role": "object"
           },
           "role": "object",
           "textfont": {
@@ -53716,20 +53720,24 @@
         },
         "unselected": {
           "editType": "style",
-          "line": {
+          "marker": {
             "color": {
-              "description": "Sets the line color of unselected points.",
+              "description": "Sets the marker color of unselected points, applied only when a selection exists.",
               "editType": "style",
               "valType": "color"
             },
             "editType": "style",
-            "role": "object",
-            "width": {
-              "description": "Sets the line width of unselected points.",
+            "line": {
               "editType": "style",
-              "min": 0,
-              "valType": "number"
-            }
+              "role": "object",
+              "width": {
+                "description": "Sets the line width of unselected points, applied only when a selection exists.",
+                "editType": "style",
+                "min": 0,
+                "valType": "number"
+              }
+            },
+            "role": "object"
           },
           "role": "object",
           "textfont": {

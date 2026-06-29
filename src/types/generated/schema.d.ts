@@ -1627,14 +1627,7 @@ export interface CandlestickData {
      * Minimum: 0
      */
     legendwidth?: number;
-    line?: {
-        /**
-         * Sets the width (in px) of line bounding the box(es). Note that this style setting can also be set per direction via `increasing.line.width` and `decreasing.line.width`.
-         * @default 2
-         * Minimum: 0
-         */
-        width?: number;
-    };
+    line?: _internal.ErrorY;
     /** Sets the low values. */
     low?: Datum[] | Datum[][] | TypedArray;
     /** Assigns extra meta information associated with this trace that can be used in various text attributes. Attributes such as trace `name`, graph, axis and colorbar `title.text`, annotation `text` `rangeselector`, `updatemenues` and `sliders` `label` text all support `meta`. To access the trace `meta` values in an attribute in the same trace, simply use `%{meta[i]}` where `i` is the index or key of the `meta` item in question. To access trace `meta` in layout attributes, use `%{data[n[.meta[i]}` where `i` is the index or key of the `meta` and `n` is the trace index. */
@@ -7085,7 +7078,11 @@ export interface QuiverData {
      */
     opacity?: number;
     selected?: {
-        line?: _internal.ErrorY;
+        marker?: {
+            /** Sets the marker color of selected points. */
+            color?: Color;
+            line?: _internal.ErrorY;
+        };
         textfont?: Font;
     };
     /** Array containing integer indices of selected points. Has an effect only for traces that support selections. Note that an empty array means an empty selection where the `unselected` are turned on for all points, whereas, any other non-array values means no selection all where the `selected` and `unselected` styles have no effect. */
@@ -7124,7 +7121,11 @@ export interface QuiverData {
     /** Controls persistence of some user-driven changes to the trace: `constraintrange` in `parcoords` traces, as well as some `editable: true` modifications such as `name` and `colorbar.title`. Defaults to `layout.uirevision`. Note that other user-driven trace attribute changes are controlled by `layout` attributes: `trace.visible` is controlled by `layout.legend.uirevision`, `selectedpoints` is controlled by `layout.selectionrevision`, and `colorbar.(x|y)` (accessible with `config: {editable: true}`) is controlled by `layout.editrevision`. Trace changes are tracked by `uid`, which only falls back on trace index if no `uid` is provided. So if your app can add/remove traces before the end of the `data` array, such that the same trace has a different index, you can still preserve user-driven changes if you give each trace a `uid` that stays with it as it moves. */
     uirevision?: any;
     unselected?: {
-        line?: _internal.ErrorY;
+        marker?: {
+            /** Sets the marker color of unselected points, applied only when a selection exists. */
+            color?: Color;
+            line?: _internal.ErrorY;
+        };
         textfont?: Font;
     };
     /** Sets the y components of the arrow vectors. */

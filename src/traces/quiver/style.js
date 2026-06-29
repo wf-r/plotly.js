@@ -49,19 +49,19 @@ function styleArrows(gd, cd, sel) {
     if(!sel) return;
 
     if(trace.selectedpoints) {
-        var selectedAttrs = trace.selected || {};
-        var unselectedAttrs = trace.unselected || {};
-        var selectedLine = selectedAttrs.line || {};
-        var unselectedLine = unselectedAttrs.line || {};
+        var selectedMarker = (trace.selected || {}).marker || {};
+        var unselectedMarker = (trace.unselected || {}).marker || {};
+        var selectedMarkerLine = selectedMarker.line || {};
+        var unselectedMarkerLine = unselectedMarker.line || {};
 
         sel.selectAll('path.js-line').each(function(d) {
             var path = d3.select(this);
             var dim = !d.selected;
 
-            var explicitColor = dim ? unselectedLine.color : selectedLine.color;
+            var explicitColor = dim ? unselectedMarker.color : selectedMarker.color;
             var lineWidth = dim ?
-                (unselectedLine.width !== undefined ? unselectedLine.width : markerLine.width) :
-                (selectedLine.width !== undefined ? selectedLine.width : markerLine.width);
+                (unselectedMarkerLine.width !== undefined ? unselectedMarkerLine.width : markerLine.width) :
+                (selectedMarkerLine.width !== undefined ? selectedMarkerLine.width : markerLine.width);
 
             if(explicitColor) {
                 Drawing.lineGroupStyle(path, lineWidth, explicitColor, markerLine.dash);
