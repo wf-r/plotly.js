@@ -467,7 +467,7 @@
         ]
       },
       "flaglist": {
-        "description": "A string representing a combination of flags (order does not matter here). Combine any of the available `flags` with *+*. (e.g. ('lines+markers')). Values in `extras` cannot be combined.",
+        "description": "A string representing a combination of flags (flag order does not affect the output). Combine any of the available `flags` with *+*. (e.g. ('lines+markers')). Values in `extras` cannot be combined.",
         "otherOpts": [
           "dflt",
           "extras",
@@ -15965,7 +15965,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -17835,7 +17835,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -19230,7 +19230,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -20600,7 +20600,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -23436,7 +23436,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -24576,7 +24576,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -25740,7 +25740,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "x+y+z+norm+text+name",
           "editType": "calc",
           "extras": [
@@ -27159,7 +27159,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -29789,7 +29789,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -30325,7 +30325,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -31766,7 +31766,7 @@
         },
         "textinfo": {
           "arrayOk": false,
-          "description": "Determines which trace information appear on the graph. In the case of having multiple funnels, percentages & totals are computed separately (per trace).",
+          "description": "Determines what trace information appears on the graph. In the case of having multiple funnels, percentages & totals are computed separately (per trace). Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "editType": "plot",
           "extras": [
             "none"
@@ -32070,7 +32070,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -32721,7 +32721,7 @@
           }
         },
         "textinfo": {
-          "description": "Determines which trace information appear on the graph.",
+          "description": "Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "editType": "calc",
           "extras": [
             "none"
@@ -33586,7 +33586,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -34611,7 +34611,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -37073,7 +37073,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -38643,7 +38643,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -39455,7 +39455,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "dflt": "label+text+value+name",
           "editType": "none",
           "extras": [
@@ -41029,7 +41029,7 @@
           }
         },
         "textinfo": {
-          "description": "Determines which trace information appear on the graph.",
+          "description": "Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "editType": "plot",
           "extras": [
             "none"
@@ -41188,7 +41188,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "x+y+z+text+name",
           "editType": "none",
           "extras": [
@@ -43551,7 +43551,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -44936,7 +44936,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -45606,7 +45606,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -46294,7 +46294,7 @@
         },
         "hoverinfo": {
           "arrayOk": false,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "plot",
           "extras": [
@@ -48843,7 +48843,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -49628,7 +49628,7 @@
           }
         },
         "textinfo": {
-          "description": "Determines which trace information appear on the graph.",
+          "description": "Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "editType": "calc",
           "extras": [
             "none"
@@ -49931,7 +49931,7 @@
         },
         "hoverinfo": {
           "arrayOk": false,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired. Note that this attribute is superseded by `node.hoverinfo` and `node.hoverinfo` for nodes and links respectively.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired. Note that this attribute is superseded by `node.hoverinfo` and `node.hoverinfo` for nodes and links respectively.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -50287,7 +50287,7 @@
             "valType": "color"
           },
           "hoverinfo": {
-            "description": "Determines which trace information appear when hovering links. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+            "description": "Determines what trace information appears when hovering links. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
             "dflt": "all",
             "editType": "calc",
             "valType": "enumerated",
@@ -50549,7 +50549,7 @@
             "valType": "info_array"
           },
           "hoverinfo": {
-            "description": "Determines which trace information appear when hovering nodes. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+            "description": "Determines what trace information appears when hovering nodes. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
             "dflt": "all",
             "editType": "calc",
             "valType": "enumerated",
@@ -51255,7 +51255,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -53748,7 +53748,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -55984,7 +55984,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -58062,7 +58062,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -60269,7 +60269,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -62378,7 +62378,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -63710,7 +63710,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -65805,7 +65805,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -67754,7 +67754,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -69832,7 +69832,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -71932,7 +71932,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -74363,7 +74363,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "x+y+z+norm+text+name",
           "editType": "calc",
           "extras": [
@@ -75034,7 +75034,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "dflt": "label+text+value+name",
           "editType": "none",
           "extras": [
@@ -76489,7 +76489,7 @@
           }
         },
         "textinfo": {
-          "description": "Determines which trace information appear on the graph.",
+          "description": "Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "editType": "plot",
           "extras": [
             "none"
@@ -77517,7 +77517,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -78525,7 +78525,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -78940,7 +78940,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "dflt": "label+text+value+name",
           "editType": "none",
           "extras": [
@@ -80548,7 +80548,7 @@
           }
         },
         "textinfo": {
-          "description": "Determines which trace information appear on the graph.",
+          "description": "Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "editType": "plot",
           "extras": [
             "none"
@@ -80749,7 +80749,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -82737,7 +82737,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "calc",
           "extras": [
@@ -83544,7 +83544,7 @@
         },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -84261,7 +84261,7 @@
         },
         "textinfo": {
           "arrayOk": false,
-          "description": "Determines which trace information appear on the graph. In the case of having multiple waterfalls, totals are computed separately (per trace).",
+          "description": "Determines what trace information appears on the graph. In the case of having multiple waterfalls, totals are computed separately (per trace). Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.",
           "editType": "plot",
           "extras": [
             "none"

@@ -811,7 +811,7 @@ export interface BarData {
     };
     error_y?: _internal.ErrorY;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -1074,7 +1074,7 @@ export interface BarpolarData {
     /** Sets the theta coordinate step. By default, the `dtheta` step equals the subplot's period divided by the length of the `r` coordinates. */
     dtheta?: number;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'r' | 'theta' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('r' | 'theta' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -1263,7 +1263,7 @@ export interface BoxData {
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -1560,7 +1560,7 @@ export interface CandlestickData {
     /** Sets the high values. */
     high?: Datum[] | Datum[][] | TypedArray;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -2311,7 +2311,7 @@ export interface ChoroplethData {
     /** Sets optional GeoJSON data associated with this trace. If not given, the features on the base map are used. It can be set as a valid GeoJSON object or as a URL string. Note that we only accept GeoJSONs of type *FeatureCollection* or *Feature* with geometries of type *Polygon* or *MultiPolygon*. */
     geojson?: any;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'location' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('location' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -2459,7 +2459,7 @@ export interface ChoroplethmapData {
     /** Sets the GeoJSON data associated with this trace. It can be set as a valid GeoJSON object or as a URL string. Note that we only accept GeoJSONs of type *FeatureCollection* or *Feature* with geometries of type *Polygon* or *MultiPolygon*. */
     geojson?: any;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'location' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('location' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -2620,7 +2620,7 @@ export interface ConeData {
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
     customdata?: Datum[] | Datum[][] | TypedArray;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'x+y+z+norm+text+name'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'u' | 'v' | 'w' | 'norm' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'u' | 'v' | 'w' | 'norm' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -2846,7 +2846,7 @@ export interface ContourData {
     /** Sets the fill color if `contours.type` is *constraint*. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -3331,7 +3331,7 @@ export interface DensitymapData {
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
     customdata?: Datum[] | Datum[][] | TypedArray;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'lon' | 'lat' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('lon' | 'lat' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -3491,7 +3491,7 @@ export interface FunnelData {
      */
     dy?: number;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'name' | 'x' | 'y' | 'text' | 'percent initial' | 'percent previous' | 'percent total' | 'all' | 'none' | 'skip' | (string & {}) | ('name' | 'x' | 'y' | 'text' | 'percent initial' | 'percent previous' | 'percent total' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -3617,7 +3617,7 @@ export interface FunnelData {
     textangle?: number | 'auto';
     /** Sets the font used for `text`. */
     textfont?: FontArray;
-    /** Determines which trace information appear on the graph. In the case of having multiple funnels, percentages & totals are computed separately (per trace). */
+    /** Determines what trace information appears on the graph. In the case of having multiple funnels, percentages & totals are computed separately (per trace). Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text. */
     textinfo?: 'label' | 'text' | 'percent initial' | 'percent previous' | 'percent total' | 'value' | 'none' | (string & {});
     /**
      * Specifies the location of the `text`. *inside* positions `text` inside, next to the bar end (rotated and scaled if needed). *outside* positions `text` outside, next to the bar end (scaled if needed), unless there is another bar stacked on this one, then the text gets pushed inside. *auto* tries to position `text` inside the bar, but if the bar is too small and no bar is stacked on this one the text is moved outside. If *none*, no text appears.
@@ -3727,7 +3727,7 @@ export interface FunnelareaData {
     dlabel?: number;
     domain?: Domain;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.
      * @default 'all'
      */
     hoverinfo?: 'label' | 'text' | 'value' | 'percent' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('label' | 'text' | 'value' | 'percent' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -3798,7 +3798,7 @@ export interface FunnelareaData {
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
-    /** Determines which trace information appear on the graph. */
+    /** Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text. */
     textinfo?: 'label' | 'text' | 'value' | 'percent' | 'none' | (string & {});
     /**
      * Specifies the location of the `textinfo`.
@@ -3868,7 +3868,7 @@ export interface HeatmapData {
      */
     dy?: number;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -4182,7 +4182,7 @@ export interface HistogramData {
     /** Specifies the type of normalization used for this histogram trace. If **, the span of each bar corresponds to the number of occurrences (i.e. the number of data points lying inside the bins). If *percent* / *probability*, the span of each bar corresponds to the percentage / fraction of occurrences with respect to the total number of sample points (here, the sum of all bin HEIGHTS equals 100% / 1). If *density*, the span of each bar corresponds to the number of occurrences in a bin divided by the size of the bin interval (here, the sum of all bin AREAS equals the total number of sample points). If *probability density*, the area of each bar corresponds to the probability that an event will fall into the corresponding bin (here, the sum of all bin AREAS equals 1). */
     histnorm?: '' | 'percent' | 'probability' | 'density' | 'probability density';
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -4449,7 +4449,7 @@ export interface Histogram2dData {
     /** Specifies the type of normalization used for this histogram trace. If **, the span of each bar corresponds to the number of occurrences (i.e. the number of data points lying inside the bins). If *percent* / *probability*, the span of each bar corresponds to the percentage / fraction of occurrences with respect to the total number of sample points (here, the sum of all bin HEIGHTS equals 100% / 1). If *density*, the span of each bar corresponds to the number of occurrences in a bin divided by the size of the bin interval (here, the sum of all bin AREAS equals the total number of sample points). If *probability density*, the area of each bar corresponds to the probability that an event will fall into the corresponding bin (here, the sum of all bin AREAS equals 1). */
     histnorm?: '' | 'percent' | 'probability' | 'density' | 'probability density';
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -4719,7 +4719,7 @@ export interface Histogram2dcontourData {
     /** Specifies the type of normalization used for this histogram trace. If **, the span of each bar corresponds to the number of occurrences (i.e. the number of data points lying inside the bins). If *percent* / *probability*, the span of each bar corresponds to the percentage / fraction of occurrences with respect to the total number of sample points (here, the sum of all bin HEIGHTS equals 100% / 1). If *density*, the span of each bar corresponds to the number of occurrences in a bin divided by the size of the bin interval (here, the sum of all bin AREAS equals the total number of sample points). If *probability density*, the area of each bar corresponds to the probability that an event will fall into the corresponding bin (here, the sum of all bin AREAS equals 1). */
     histnorm?: '' | 'percent' | 'probability' | 'density' | 'probability density';
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -4924,7 +4924,7 @@ export interface IcicleData {
     customdata?: Datum[] | Datum[][] | TypedArray;
     domain?: Domain;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.
      * @default 'label+text+value+name'
      */
     hoverinfo?: 'label' | 'text' | 'value' | 'name' | 'current path' | 'percent root' | 'percent entry' | 'percent parent' | 'all' | 'none' | 'skip' | (string & {}) | ('label' | 'text' | 'value' | 'name' | 'current path' | 'percent root' | 'percent entry' | 'percent parent' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -5069,7 +5069,7 @@ export interface IcicleData {
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
-    /** Determines which trace information appear on the graph. */
+    /** Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text. */
     textinfo?: 'label' | 'text' | 'value' | 'current path' | 'percent root' | 'percent entry' | 'percent parent' | 'none' | (string & {});
     /**
      * Sets the positions of the `text` elements.
@@ -5128,7 +5128,7 @@ export interface ImageData {
      */
     dy?: number;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'x+y+z+text+name'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'color' | 'name' | 'text' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'color' | 'name' | 'text' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -5612,7 +5612,7 @@ export interface IsosurfaceData {
      */
     flatshading?: boolean;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -5895,7 +5895,7 @@ export interface Mesh3dData {
      */
     flatshading?: boolean;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -6064,7 +6064,7 @@ export interface OhlcData {
     /** Sets the high values. */
     high?: Datum[] | Datum[][] | TypedArray;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -6282,7 +6282,7 @@ export interface ParcatsData {
     }>;
     domain?: Domain;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'count' | 'probability' | 'all' | 'none' | 'skip' | (string & {});
@@ -6555,7 +6555,7 @@ export interface PieData {
      */
     hole?: number;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.
      * @default 'all'
      */
     hoverinfo?: 'label' | 'text' | 'value' | 'percent' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('label' | 'text' | 'value' | 'percent' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -6649,7 +6649,7 @@ export interface PieData {
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
-    /** Determines which trace information appear on the graph. */
+    /** Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text. */
     textinfo?: 'label' | 'text' | 'value' | 'percent' | 'none' | (string & {});
     /**
      * Specifies the location of the `textinfo`.
@@ -6695,7 +6695,7 @@ export interface SankeyData {
     customdata?: Datum[] | Datum[][] | TypedArray;
     domain?: Domain;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired. Note that this attribute is superseded by `node.hoverinfo` and `node.hoverinfo` for nodes and links respectively.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired. Note that this attribute is superseded by `node.hoverinfo` and `node.hoverinfo` for nodes and links respectively.
      * @default 'all'
      */
     hoverinfo?: 'all' | 'none' | 'skip' | (string & {});
@@ -6757,7 +6757,7 @@ export interface SankeyData {
         /** Sets the `link` hover color. It can be a single value, or an array for specifying hover colors for each `link`. If `link.hovercolor` is omitted, then by default, links will become slightly more opaque when hovered over. */
         hovercolor?: Color | Color[];
         /**
-         * Determines which trace information appear when hovering links. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+         * Determines what trace information appears when hovering links. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
          * @default 'all'
          */
         hoverinfo?: 'all' | 'none' | 'skip';
@@ -6813,7 +6813,7 @@ export interface SankeyData {
          */
         groups?: number[];
         /**
-         * Determines which trace information appear when hovering nodes. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+         * Determines what trace information appears when hovering nodes. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
          * @default 'all'
          */
         hoverinfo?: 'all' | 'none' | 'skip';
@@ -6979,7 +6979,7 @@ export interface ScatterData {
     /** Only relevant when `stackgroup` is used, and only the first `groupnorm` found in the `stackgroup` will be used - including if `visible` is *legendonly* but not if it is `false`. Sets the normalization for the sum of this `stackgroup`. With *fraction*, the value of each trace at each location is divided by the sum of all trace values at that location. *percent* is the same but multiplied by 100 to show percentages. If there are multiple subplots, or multiple `stackgroup`s on one subplot, each will be normalized within its own set. */
     groupnorm?: '' | 'fraction' | 'percent';
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -7318,7 +7318,7 @@ export interface Scatter3dData {
     };
     error_z?: _internal.ErrorY;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -7718,7 +7718,7 @@ export interface ScattercarpetData {
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'a' | 'b' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('a' | 'b' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -7914,7 +7914,7 @@ export interface ScattergeoData {
     /** Sets optional GeoJSON data associated with this trace. If not given, the features on the base map are used when `locations` is set. It can be set as a valid GeoJSON object or as a URL string. Note that we only accept GeoJSONs of type *FeatureCollection* or *Feature* with geometries of type *Polygon* or *MultiPolygon*. */
     geojson?: any;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'lon' | 'lat' | 'location' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('lon' | 'lat' | 'location' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -8235,7 +8235,7 @@ export interface ScatterglData {
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -8504,7 +8504,7 @@ export interface ScattermapData {
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'lon' | 'lat' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('lon' | 'lat' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -8744,7 +8744,7 @@ export interface ScatterpolarData {
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'r' | 'theta' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('r' | 'theta' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -8941,7 +8941,7 @@ export interface ScatterpolarglData {
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'r' | 'theta' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('r' | 'theta' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -9140,7 +9140,7 @@ export interface ScattersmithData {
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'real' | 'imag' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('real' | 'imag' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -9326,7 +9326,7 @@ export interface ScatterternaryData {
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'a' | 'b' | 'c' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('a' | 'b' | 'c' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -9525,7 +9525,7 @@ export interface SplomData {
         visible?: boolean;
     }>;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -9675,7 +9675,7 @@ export interface StreamtubeData {
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
     customdata?: Datum[] | Datum[][] | TypedArray;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'x+y+z+norm+text+name'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'u' | 'v' | 'w' | 'norm' | 'divergence' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'u' | 'v' | 'w' | 'norm' | 'divergence' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -9833,7 +9833,7 @@ export interface SunburstData {
     customdata?: Datum[] | Datum[][] | TypedArray;
     domain?: Domain;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.
      * @default 'label+text+value+name'
      */
     hoverinfo?: 'label' | 'text' | 'value' | 'name' | 'current path' | 'percent root' | 'percent entry' | 'percent parent' | 'all' | 'none' | 'skip' | (string & {}) | ('label' | 'text' | 'value' | 'name' | 'current path' | 'percent root' | 'percent entry' | 'percent parent' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -9964,7 +9964,7 @@ export interface SunburstData {
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
-    /** Determines which trace information appear on the graph. */
+    /** Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text. */
     textinfo?: 'label' | 'text' | 'value' | 'current path' | 'percent root' | 'percent entry' | 'percent parent' | 'none' | (string & {});
     /** Template string used for rendering the information text that appears on points. Note that this will override `textinfo`. Variables are inserted using %{variable}, for example "y: %{y}". Numbers are formatted using d3-format's syntax %{variable:d3-format}, for example "Price: %{y:$.2f}". https://github.com/d3/d3-format/tree/v1.4.5#d3-format for details on the formatting syntax. Dates are formatted using d3-time-format's syntax %{variable|d3-time-format}, for example "Day: %{2019-01-01|%A}". https://github.com/d3/d3-time-format/tree/v2.2.3#locale_format for details on the date formatting syntax. Variables that can't be found will be replaced with the specifier. For example, a template of "data: %{x}, %{y}" will result in a value of "data: 1, %{y}" if x is 1 and y is missing. Variables with an undefined value will be replaced with the fallback value. All attributes that can be specified per-point (the ones that are `arrayOk: true`) are available. Finally, the template string has access to variables `currentPath`, `root`, `entry`, `percentRoot`, `percentEntry`, `percentParent`, `label` and `value`. */
     texttemplate?: string | string[];
@@ -10228,7 +10228,7 @@ export interface SurfaceData {
      */
     hidesurface?: boolean;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -10456,7 +10456,7 @@ export interface TableData {
         values?: Datum[] | Datum[][] | TypedArray;
     };
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -10510,7 +10510,7 @@ export interface TreemapData {
     customdata?: Datum[] | Datum[][] | TypedArray;
     domain?: Domain;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. Flags are rendered in a fixed order; use `hovertemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text.
      * @default 'label+text+value+name'
      */
     hoverinfo?: 'label' | 'text' | 'value' | 'name' | 'current path' | 'percent root' | 'percent entry' | 'percent parent' | 'all' | 'none' | 'skip' | (string & {}) | ('label' | 'text' | 'value' | 'name' | 'current path' | 'percent root' | 'percent entry' | 'percent parent' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -10678,7 +10678,7 @@ export interface TreemapData {
     text?: Datum[] | Datum[][] | TypedArray;
     /** Sets the font used for `textinfo`. */
     textfont?: FontArray;
-    /** Determines which trace information appear on the graph. */
+    /** Determines what trace information appears on the graph. Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text. */
     textinfo?: 'label' | 'text' | 'value' | 'current path' | 'percent root' | 'percent entry' | 'percent parent' | 'none' | (string & {});
     /**
      * Sets the positions of the `text` elements.
@@ -10756,7 +10756,7 @@ export interface ViolinData {
     /** Sets the fill color. Defaults to a half-transparent variant of the line color, marker color, or marker line color, whichever is available. */
     fillcolor?: Color;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -11096,7 +11096,7 @@ export interface VolumeData {
      */
     flatshading?: boolean;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}) | ('x' | 'y' | 'z' | 'text' | 'name' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -11375,7 +11375,7 @@ export interface WaterfallData {
      */
     dy?: number;
     /**
-     * Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
+     * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.
      * @default 'all'
      */
     hoverinfo?: 'name' | 'x' | 'y' | 'text' | 'initial' | 'delta' | 'final' | 'all' | 'none' | 'skip' | (string & {}) | ('name' | 'x' | 'y' | 'text' | 'initial' | 'delta' | 'final' | 'all' | 'none' | 'skip' | (string & {}))[];
@@ -11462,7 +11462,7 @@ export interface WaterfallData {
     textangle?: number | 'auto';
     /** Sets the font used for `text`. */
     textfont?: FontArray;
-    /** Determines which trace information appear on the graph. In the case of having multiple waterfalls, totals are computed separately (per trace). */
+    /** Determines what trace information appears on the graph. In the case of having multiple waterfalls, totals are computed separately (per trace). Flags are rendered in a fixed order; use `texttemplate` if you need explicit control over the rendered string, including the order of fields and surrounding text. */
     textinfo?: 'label' | 'text' | 'initial' | 'delta' | 'final' | 'none' | (string & {});
     /**
      * Specifies the location of the `text`. *inside* positions `text` inside, next to the bar end (rotated and scaled if needed). *outside* positions `text` outside, next to the bar end (scaled if needed), unless there is another bar stacked on this one, then the text gets pushed inside. *auto* tries to position `text` inside the bar, but if the bar is too small and no bar is stacked on this one the text is moved outside. If *none*, no text appears.
