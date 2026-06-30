@@ -6,6 +6,15 @@ var Lib = require('../../lib');
 var Drawing = require('../../components/drawing');
 var colorscaleStroke = require('./style').colorscaleStroke;
 
+// Length (px) of each arrowhead arm per unit of marker.line.width at
+// arrowsize = 1. With the head's half-angle of PI/12, this yields an opening
+// roughly 3x the line width, matching the `marker.arrowsize` spec
+var HEAD_LEN_PER_WIDTH = 5.8;
+
+// Max arrowhead length as a fraction of the body length, so the head stays
+// slightly shorter than the body for very short arrows
+var MAX_HEAD_FRAC = 0.7;
+
 module.exports = function plot(gd, plotinfo, cdscatter, scatterLayer, transitionOpts, makeOnCompleteCallback) {
     var join, onComplete;
 
@@ -90,7 +99,7 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
 
     // Update line segments
     lineSegments.each(function(cdi) {
-        var path = d3.select(this);
+        const path = d3.select(this);
 
         // Skip invalid points
         if(cdi.x === undefined || cdi.y === undefined) {
@@ -100,25 +109,22 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
 
         // Compute arrow in data space
         // Derive pixel-per-data scaling from axes at this point
-        var pxPerX = Math.abs(xa.c2p(cdi.x + 1) - xa.c2p(cdi.x));
-        var pxPerY = Math.abs(ya.c2p(cdi.y + 1) - ya.c2p(cdi.y));
-        var scaleRatio = (pxPerX && pxPerY) ? (pxPerY / pxPerX) : 1;
-        var baseHeadScale = 0.2;
-        var markerArrowsize = (trace.marker || {}).arrowsize;
-        var arrowScale = (markerArrowsize !== undefined)
-            ? (baseHeadScale * markerArrowsize)
-            : baseHeadScale;
-        // Fixed arrowhead wedge angle (radians).
-        // Arrow direction is fully determined by u,v (see barbAng below);
-        // this constant only controls the opening of the head.
-        var headAngle = Math.PI / 12;
+        const pxPerX = Math.abs(xa.c2p(cdi.x + 1) - xa.c2p(cdi.x));
+        const pxPerY = Math.abs(ya.c2p(cdi.y + 1) - ya.c2p(cdi.y));
+        const scaleRatio = (pxPerX && pxPerY) ? (pxPerY / pxPerX) : 1;
+        const markerArrowsize = (trace.marker || {}).arrowsize;
+        const arrowSizeVal = (markerArrowsize !== undefined) ? markerArrowsize : 1;
+        // Fixed arrowhead wedge angle (radians). Arrow direction is fully
+        // determined by u,v (see angPx below); this constant only controls the
+        // relative angle of the point of the arrowhead
+        const headAngle = Math.PI / 12;
 
-        var u = (trace.u && trace.u[cdi.i]) || 0;
-        var v = (trace.v && trace.v[cdi.i]) || 0;
+        const u = (trace.u && trace.u[cdi.i]) || 0;
+        const v = (trace.v && trace.v[cdi.i]) || 0;
 
-        var norm = Math.sqrt(u * u + v * v);
-        var unitx = norm ? (u / norm) : 0;
-        var unity = norm ? (v / norm) : 0;
+        const norm = Math.sqrt(u * u + v * v);
+        const unitx = norm ? (u / norm) : 0;
+        const unity = norm ? (v / norm) : 0;
         var baseLen;
         if(sizemode === 'scaled') {
             var n = maxNorm ? (norm / maxNorm) : 0;
@@ -127,16 +133,10 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
             baseLen = norm * sizeref;
         }
 
-        var dxBase = unitx * baseLen;
-        var dyBase = unity * baseLen;
-        var dx = dxBase * scaleRatio;
-        var dy = dyBase;
-        var barbLen = Math.sqrt((dx * dx) / scaleRatio + dy * dy);
-        var arrowLen = barbLen * arrowScale;
-        var barbAng = Math.atan2(dy, dx / scaleRatio);
-
-        var ang1 = barbAng + headAngle;
-        var ang2 = barbAng - headAngle;
+        const dxBase = unitx * baseLen;
+        const dyBase = unity * baseLen;
+        const dx = dxBase * scaleRatio;
+        const dy = dyBase;
 
         var x0, y0, x1, y1;
         if(anchor === 'tip') {
@@ -156,22 +156,28 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
             y1 = y0 + dy;
         }
 
-        var xh1 = x1 - arrowLen * Math.cos(ang1) * scaleRatio;
-        var yh1 = y1 - arrowLen * Math.sin(ang1);
-        var xh2 = x1 - arrowLen * Math.cos(ang2) * scaleRatio;
-        var yh2 = y1 - arrowLen * Math.sin(ang2);
+        // Arrow body endpoints (px)
+        const p0x = xa.c2p(x0);
+        const p0y = ya.c2p(y0);
+        const p1x = xa.c2p(x1);
+        const p1y = ya.c2p(y1);
 
-        // Convert to pixels
-        var p0x = xa.c2p(x0);
-        var p0y = ya.c2p(y0);
-        var p1x = xa.c2p(x1);
-        var p1y = ya.c2p(y1);
-        var ph1x = xa.c2p(xh1);
-        var ph1y = ya.c2p(yh1);
-        var ph2x = xa.c2p(xh2);
-        var ph2y = ya.c2p(yh2);
+        // Arrowhead is sized in pixels (relative to the line width)
+        // so it remains the same regardless of zoom, rather than scaling with the data space
+        // Set max head size so the head stays slightly shorter than the arrow body
+        // (e.g. for very short arrows when zoomed out). No head for zero-length arrows.
+        const lineWidth = trace.marker.line.width;
+        const bodyLenPx = Math.sqrt((p1x - p0x) * (p1x - p0x) + (p1y - p0y) * (p1y - p0y));
+        const maxHeadPx = MAX_HEAD_FRAC * bodyLenPx;
+        const headLenPx = Math.min(HEAD_LEN_PER_WIDTH * arrowSizeVal * lineWidth, maxHeadPx);
+        const angPx = Math.atan2(p1y - p0y, p1x - p0x);
 
-        var pathData = 'M' + p0x + ',' + p0y + 'L' + p1x + ',' + p1y + 'L' + ph1x + ',' + ph1y + 'L' + p1x + ',' + p1y + 'L' + ph2x + ',' + ph2y;
+        const ph1x = p1x - headLenPx * Math.cos(angPx - headAngle);
+        const ph1y = p1y - headLenPx * Math.sin(angPx - headAngle);
+        const ph2x = p1x - headLenPx * Math.cos(angPx + headAngle);
+        const ph2y = p1y - headLenPx * Math.sin(angPx + headAngle);
+
+        const pathData = 'M' + p0x + ',' + p0y + 'L' + p1x + ',' + p1y + 'L' + ph1x + ',' + ph1y + 'L' + p1x + ',' + p1y + 'L' + ph2x + ',' + ph2y;
         path.attr('d', pathData);
     });
 
