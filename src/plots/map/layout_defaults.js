@@ -6,7 +6,6 @@ var handleSubplotDefaults = require('../subplot_defaults');
 var handleArrayContainerDefaults = require('../array_container_defaults');
 var layoutAttributes = require('./layout_attributes');
 
-
 module.exports = function supplyLayoutDefaults(layoutIn, layoutOut, fullData) {
     handleSubplotDefaults(layoutIn, layoutOut, fullData, {
         type: 'map',
@@ -28,12 +27,7 @@ function handleDefaults(containerIn, containerOut, coerce) {
     var east = coerce('bounds.east');
     var south = coerce('bounds.south');
     var north = coerce('bounds.north');
-    if(
-        west === undefined ||
-        east === undefined ||
-        south === undefined ||
-        north === undefined
-    ) {
+    if (west === undefined || east === undefined || south === undefined || north === undefined) {
         delete containerOut.bounds;
     }
 
@@ -52,27 +46,27 @@ function handleLayerDefaults(layerIn, layerOut) {
     }
 
     var visible = coerce('visible');
-    if(visible) {
+    if (visible) {
         var sourceType = coerce('sourcetype');
         var mustBeRasterLayer = sourceType === 'raster' || sourceType === 'image';
 
         coerce('source');
         coerce('sourceattribution');
 
-        if(sourceType === 'vector') {
+        if (sourceType === 'vector') {
             coerce('sourcelayer');
         }
 
-        if(sourceType === 'image') {
+        if (sourceType === 'image') {
             coerce('coordinates');
         }
 
         var typeDflt;
-        if(mustBeRasterLayer) typeDflt = 'raster';
+        if (mustBeRasterLayer) typeDflt = 'raster';
 
         var type = coerce('type', typeDflt);
 
-        if(mustBeRasterLayer && type !== 'raster') {
+        if (mustBeRasterLayer && type !== 'raster') {
             type = layerOut.type = 'raster';
             Lib.log('Source types *raster* and *image* must drawn *raster* layer type.');
         }
@@ -83,20 +77,20 @@ function handleLayerDefaults(layerIn, layerOut) {
         coerce('minzoom');
         coerce('maxzoom');
 
-        if(type === 'circle') {
+        if (type === 'circle') {
             coerce('circle.radius');
         }
 
-        if(type === 'line') {
+        if (type === 'line') {
             coerce('line.width');
             coerce('line.dash');
         }
 
-        if(type === 'fill') {
+        if (type === 'fill') {
             coerce('fill.outlinecolor');
         }
 
-        if(type === 'symbol') {
+        if (type === 'symbol') {
             coerce('symbol.icon');
             coerce('symbol.iconsize');
 
@@ -105,7 +99,7 @@ function handleLayerDefaults(layerIn, layerOut) {
                 noFontVariant: true,
                 noFontShadow: true,
                 noFontLineposition: true,
-                noFontTextcase: true,
+                noFontTextcase: true
             });
             coerce('symbol.textposition');
             coerce('symbol.placement');
