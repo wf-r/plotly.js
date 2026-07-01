@@ -15,24 +15,16 @@ updateVersion(constants.pathToPlotlyVersion);
 
 // convert scss to css to js and static css file
 function makeBuildCSS() {
-    sass.render(
-        {
-            file: constants.pathToSCSS,
-            outputStyle: 'compressed'
-        },
-        function (err, result) {
-            if (err) throw err;
+    const result = sass.compile(constants.pathToSCSS, { style: 'compressed' });
 
-            // To support application with strict CSP where styles cannot be inlined,
-            // build a static CSS file that can be included into such applications.
-            fs.writeFile(constants.pathToCSSDist, String(result.css), function (err) {
-                if (err) throw err;
-            });
+    // To support application with strict CSP where styles cannot be inlined,
+    // build a static CSS file that can be included into such applications.
+    fs.writeFile(constants.pathToCSSDist, String(result.css), function (err) {
+        if (err) throw err;
+    });
 
-            // css to js to be inlined
-            pullCSS(String(result.css), constants.pathToCSSBuild);
-        }
-    );
+    // css to js to be inlined
+    pullCSS(result.css, constants.pathToCSSBuild);
 }
 
 function exposePartsInLib() {
