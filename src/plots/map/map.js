@@ -85,28 +85,35 @@ proto.createMap = function (calcData, fullLayout, resolve, reject) {
           ]
         : null;
 
-    // create the map!
-    var map = (self.map = new maplibregl.Map({
+    const mapOptions = {
         container: self.div,
-
         style: styleObj.style,
         center: convertCenter(opts.center),
         zoom: opts.zoom,
         bearing: opts.bearing,
         pitch: opts.pitch,
         maxBounds: maxBounds,
-
         interactive: !self.isStatic,
         preserveDrawingBuffer: self.isStatic,
-
         doubleClickZoom: false,
         boxZoom: false,
-
         attributionControl: false
-    }).addControl(
-        new maplibregl.AttributionControl({
-            compact: true
-        })
+    };
+
+    // Auto-frame the initial view if supplyLayoutDefaults computed a
+    // bounding box (i.e. the user didn't specify center/zoom)
+    const fitBounds = opts._fitBounds;
+    if (fitBounds) {
+        mapOptions.bounds = [
+            [fitBounds.west, fitBounds.south],
+            [fitBounds.east, fitBounds.north]
+        ];
+        mapOptions.fitBoundsOptions = { padding: constants.fitBoundsPadding };
+    }
+
+    // Create the map!
+    const map = (self.map = new maplibregl.Map(mapOptions).addControl(
+        new maplibregl.AttributionControl({ compact: true })
     ));
 
     var requestedIcons = {};
@@ -163,6 +170,13 @@ proto.createMap = function (calcData, fullLayout, resolve, reject) {
 
     Promise.all(promises)
         .then(function () {
+            // Capture the auto-framed view onto `_input` so
+            // subsequent updateLayout calls don't reset to the schema defaults
+            if (fitBounds) {
+                const { center, zoom } = self.getView();
+                opts._input.center = opts.center = center;
+                opts._input.zoom = opts.zoom = zoom;
+            }
             self.fillBelowLookup(calcData, fullLayout);
             self.updateData(calcData);
             self.updateLayout(fullLayout);

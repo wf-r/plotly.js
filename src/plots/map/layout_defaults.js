@@ -5,17 +5,19 @@ var Lib = require('../../lib');
 var handleSubplotDefaults = require('../subplot_defaults');
 var handleArrayContainerDefaults = require('../array_container_defaults');
 var layoutAttributes = require('./layout_attributes');
+const { getMapFitBounds } = require('./get_map_fit_bounds');
 
 module.exports = function supplyLayoutDefaults(layoutIn, layoutOut, fullData) {
     handleSubplotDefaults(layoutIn, layoutOut, fullData, {
         type: 'map',
         attributes: layoutAttributes,
-        handleDefaults: handleDefaults,
-        partition: 'y'
+        handleDefaults,
+        partition: 'y',
+        fullData
     });
 };
 
-function handleDefaults(containerIn, containerOut, coerce) {
+function handleDefaults(containerIn, containerOut, coerce, opts) {
     coerce('style');
     coerce('center.lon');
     coerce('center.lat');
@@ -35,6 +37,12 @@ function handleDefaults(containerIn, containerOut, coerce) {
         name: 'layers',
         handleItemDefaults: handleLayerDefaults
     });
+
+    // Auto-frame the initial view to the data
+    if (containerIn.center === undefined && containerIn.zoom === undefined) {
+        const fitBounds = getMapFitBounds(opts.fullData, opts.id);
+        if (fitBounds) containerOut._fitBounds = fitBounds;
+    }
 
     // copy ref to input container to update 'center' and 'zoom' on map move
     containerOut._input = containerIn;
