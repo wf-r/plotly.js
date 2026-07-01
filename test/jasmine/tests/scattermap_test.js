@@ -721,7 +721,9 @@ describe('scattermap hover', function() {
             text: ['A', 'B', 'C', 'D']
         }];
 
-        Plotly.newPlot(gd, data, { autosize: true }).then(done);
+        // Set zoom to opt out of the v4 default auto-fit so the that
+        // hover-pixel assertions still match
+        Plotly.newPlot(gd, data, { autosize: true, map: { zoom: 1 } }).then(done);
     });
 
     afterAll(function() {
