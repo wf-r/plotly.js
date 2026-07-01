@@ -170,12 +170,18 @@ proto.createMap = function (calcData, fullLayout, resolve, reject) {
 
     Promise.all(promises)
         .then(function () {
-            // Capture the auto-framed view onto `_input` so
-            // subsequent updateLayout calls don't reset to the schema defaults
+            // Capture the auto-framed view so subsequent updateLayout/resetView
+            // calls don't reset to the schema defaults
             if (fitBounds) {
                 const { center, zoom } = self.getView();
                 opts._input.center = opts.center = center;
                 opts._input.zoom = opts.zoom = zoom;
+                self.viewInitial = {
+                    center: Lib.extendFlat({}, center),
+                    bearing: opts.bearing,
+                    pitch: opts.pitch,
+                    zoom
+                };
             }
             self.fillBelowLookup(calcData, fullLayout);
             self.updateData(calcData);
