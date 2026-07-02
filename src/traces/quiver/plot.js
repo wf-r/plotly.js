@@ -156,6 +156,14 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
             y1 = y0 + dy;
         }
 
+        // Store the arrow body endpoints in calcData so that
+        // hovertext can be shown based on distance to the whole arrow segment,
+        // not just the base point (x,y)
+        cdi._x0 = x0;
+        cdi._y0 = y0;
+        cdi._x1 = x1;
+        cdi._y1 = y1;
+
         // Arrow body endpoints (px)
         const p0x = xa.c2p(x0);
         const p0y = ya.c2p(y0);
