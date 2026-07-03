@@ -554,6 +554,7 @@ function linkTextGetter(trace) {
                 data: [{
                     label: l.label,
                     value: l.value,
+                    valueLabel: valueLabel,
                     source: l.source.label,
                     target: l.target.label,
                     customdata: l.customdata
@@ -1043,6 +1044,7 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
         .append('text')
         .classed(c.cn.sankeyLinkLabel, true)
         .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'central')
         .style('pointer-events', 'none');
 
     sankeyLinkLabel
