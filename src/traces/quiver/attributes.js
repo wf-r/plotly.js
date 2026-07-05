@@ -85,6 +85,14 @@ var attrs = {
     uhoverformat: axisHoverFormat('u', 'noDate'),
     vhoverformat: axisHoverFormat('v', 'noDate'),
 
+    hoverinfo: extendFlat({}, baseAttrs.hoverinfo, {
+        flags: ['x', 'y', 'u', 'v', 'text', 'name'],
+        dflt: 'all'
+    }),
+    hovertemplate: hovertemplateAttrs({}, {
+        keys: ['x', 'y', 'u', 'v', 'text', 'name']
+    }),
+
     // Text and labels
     text: {
         valType: 'data_array',
@@ -196,21 +204,5 @@ var attrs = {
         editType: 'style'
     }
 };
-
-// Extend with base attributes (includes hoverinfo, etc.), keeping the
-// quiver-specific attributes layered on top of the shared base attributes.
-attrs = extendFlat({}, baseAttrs, attrs);
-
-// Add hoverinfo with proper flags for quiver
-// We need to create a new object to avoid mutating the shared base attributes
-attrs.hoverinfo = extendFlat({}, baseAttrs.hoverinfo, {
-    flags: ['x', 'y', 'u', 'v', 'text', 'name'],
-    dflt: 'all'
-});
-
-// Add hovertemplate
-attrs.hovertemplate = extendFlat({}, hovertemplateAttrs({}, {
-    keys: ['x', 'y', 'u', 'v', 'text', 'name']
-}));
 
 module.exports = attrs;
