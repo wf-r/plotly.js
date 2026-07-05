@@ -39,32 +39,37 @@ module.exports = function calc(gd, trace) {
         var xValid = isNumeric(xVals[i]);
         var yValid = isNumeric(yVals[i]);
 
-        if(xValid && yValid) {
-            cdi.x = xVals[i];
-            cdi.y = yVals[i];
-        } else {
-            cdi.x = BADNUM;
-            cdi.y = BADNUM;
-        }
-
         // Sanitize u/v the same way as x/y: anything non-numeric (bad strings,
         // Infinity, NaN, null, undefined) becomes a zero-length vector component
         // so it can't poison norm/geometry downstream. Numeric strings are cast.
+        // Stored on every calcdata point (even invalid ones) so the geometry pass
+        // and plot.js can reuse them without re-reading the raw arrays.
         var ui = cdi.u = isNumeric(uArr[i]) ? +uArr[i] : 0;
         var vi = cdi.v = isNumeric(vArr[i]) ? +vArr[i] : 0;
-        var norm = Math.sqrt(ui * ui + vi * vi);
 
-        if(isFinite(norm)) {
+        if(xValid && yValid) {
+            cdi.x = xVals[i];
+            cdi.y = yVals[i];
+
+            // Only plottable points feed the ranges derived here: the vector norm
+            // range that drives 'scaled' arrow sizing (_maxNorm) and the
+            // magnitude-based colorscale range. A point that can't be drawn must
+            // not stretch either range. (u/v are already finite, so norm needs no
+            // isFinite guard.)
+            var norm = Math.sqrt(ui * ui + vi * vi);
             if(norm > normMax) normMax = norm;
             if(norm < normMin) normMin = norm;
-        }
 
-        if(hasMarkerColorArray) {
-            var ci = markerColor[i];
-            if(isNumeric(ci)) {
-                if(ci < cMin) cMin = ci;
-                if(ci > cMax) cMax = ci;
+            if(hasMarkerColorArray) {
+                var ci = markerColor[i];
+                if(isNumeric(ci)) {
+                    if(ci < cMin) cMin = ci;
+                    if(ci > cMax) cMax = ci;
+                }
             }
+        } else {
+            cdi.x = BADNUM;
+            cdi.y = BADNUM;
         }
     }
 
