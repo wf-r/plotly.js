@@ -119,8 +119,9 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
         // relative angle of the point of the arrowhead
         const headAngle = Math.PI / 12;
 
-        const u = (trace.u && trace.u[cdi.i]) || 0;
-        const v = (trace.v && trace.v[cdi.i]) || 0;
+        // u/v were sanitized in calc (non-numeric -> 0); reuse those values.
+        const u = cdi.u || 0;
+        const v = cdi.v || 0;
 
         const norm = Math.sqrt(u * u + v * v);
         const unitx = norm ? (u / norm) : 0;

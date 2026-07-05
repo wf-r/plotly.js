@@ -47,8 +47,11 @@ module.exports = function calc(gd, trace) {
             cdi.y = BADNUM;
         }
 
-        var ui = uArr[i] || 0;
-        var vi = vArr[i] || 0;
+        // Sanitize u/v the same way as x/y: anything non-numeric (bad strings,
+        // Infinity, NaN, null, undefined) becomes a zero-length vector component
+        // so it can't poison norm/geometry downstream. Numeric strings are cast.
+        var ui = cdi.u = isNumeric(uArr[i]) ? +uArr[i] : 0;
+        var vi = cdi.v = isNumeric(vArr[i]) ? +vArr[i] : 0;
         var norm = Math.sqrt(ui * ui + vi * vi);
 
         if(isFinite(norm)) {
@@ -99,8 +102,8 @@ module.exports = function calc(gd, trace) {
     for(var k = 0; k < len; k++) {
         var xk = xVals[k];
         var yk = yVals[k];
-        var uk = uArr[k] || 0;
-        var vk = vArr[k] || 0;
+        var uk = cd[k].u;
+        var vk = cd[k].v;
         var nk = Math.sqrt(uk * uk + vk * vk);
 
         var baseLen;
