@@ -2,7 +2,6 @@
 
 var baseAttrs = require('../../plots/attributes');
 var hovertemplateAttrs = require('../../plots/template_attributes').hovertemplateAttrs;
-var fontAttrs = require('../../plots/font_attributes');
 var axisHoverFormat = require('../../plots/cartesian/axis_format_attributes').axisHoverFormat;
 var extendFlat = require('../../lib/extend').extendFlat;
 var colorScaleAttrs = require('../../components/colorscale/attributes');
@@ -93,31 +92,10 @@ var attrs = {
         keys: ['x', 'y', 'u', 'v', 'text', 'name']
     }),
 
-    // Text and labels
-    text: {
-        valType: 'data_array',
-        editType: 'calc',
-        anim: true,
-        description: 'Sets text elements associated with each (x,y) pair.'
-    },
-    textposition: {
-        valType: 'enumerated',
-        values: [
-            'top left', 'top center', 'top right',
-            'middle left', 'middle center', 'middle right',
-            'bottom left', 'bottom center', 'bottom right'
-        ],
-        dflt: 'middle center',
-        editType: 'calc',
-        description: 'Sets the positions of the `text` elements with respects to the (x,y) coordinates.'
-    },
-    // Text font
-    textfont: fontAttrs({
-        editType: 'calc',
-        colorEditType: 'style',
-        arrayOk: true,
-        description: 'Sets the text font.'
-    }),
+    // Text and labels (shared with scatter)
+    text: scatterAttrs.text,
+    textposition: scatterAttrs.textposition,
+    textfont: scatterAttrs.textfont,
 
     // Marker: color, colorscale, arrowhead sizing, and line styling for arrows
     marker: extendFlat(
