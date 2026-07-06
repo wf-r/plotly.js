@@ -103,7 +103,7 @@ var attrs = {
                 width: {
                     valType: 'number',
                     min: 0,
-                    dflt: 1,
+                    dflt: 2,
                     editType: 'style',
                     description: 'Sets the width (in px) of the arrow lines.'
                 },

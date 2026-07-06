@@ -6,14 +6,24 @@ var Lib = require('../../lib');
 var Drawing = require('../../components/drawing');
 var colorscaleStroke = require('./style').colorscaleStroke;
 
+// Fixed arrowhead wedge angle (radians). Arrow direction is fully
+// determined by u,v (see angPx below); this constant only controls the
+// relative angle of the point of the arrowhead
+const HEAD_ANGLE = Math.PI / 12;
+
 // Length (px) of each arrowhead arm per unit of marker.line.width at
 // arrowsize = 1. With the head's half-angle of PI/12, this yields an opening
 // roughly 3x the line width, matching the `marker.arrowsize` spec
-var HEAD_LEN_PER_WIDTH = 5.8;
+const HEAD_LEN_PER_WIDTH = 5.8;
+
+// Minimum line width value used when calculating arrowhead size, to ensure
+// arrowhead is visible at narrow line widths. This minimum is ignored when
+// `arrowsize` is set manually
+const MIN_LINE_WIDTH_FOR_ARROWSIZE = 1.5;
 
 // Max arrowhead length as a fraction of the body length, so the head stays
 // slightly shorter than the body for very short arrows
-var MAX_HEAD_FRAC = 0.7;
+const MAX_HEAD_FRAC = 0.7;
 
 module.exports = function plot(gd, plotinfo, cdscatter, scatterLayer, transitionOpts, makeOnCompleteCallback) {
     var join, onComplete;
@@ -112,12 +122,9 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
         const pxPerX = Math.abs(xa.c2p(cdi.x + 1) - xa.c2p(cdi.x));
         const pxPerY = Math.abs(ya.c2p(cdi.y + 1) - ya.c2p(cdi.y));
         const scaleRatio = (pxPerX && pxPerY) ? (pxPerY / pxPerX) : 1;
-        const markerArrowsize = (trace.marker || {}).arrowsize;
-        const arrowSizeVal = (markerArrowsize !== undefined) ? markerArrowsize : 1;
-        // Fixed arrowhead wedge angle (radians). Arrow direction is fully
-        // determined by u,v (see angPx below); this constant only controls the
-        // relative angle of the point of the arrowhead
-        const headAngle = Math.PI / 12;
+        const markerArrowsize = trace.marker.arrowsize;
+        // Check whether arrowsize was set explicitly in the input trace
+        const hasExplicitArrowsize = (trace._input.marker || {}).arrowsize !== undefined;
 
         // u/v were sanitized in calc (non-numeric -> 0); reuse those values.
         const u = cdi.u || 0;
@@ -175,16 +182,20 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
         // so it remains the same regardless of zoom, rather than scaling with the data space
         // Set max head size so the head stays slightly shorter than the arrow body
         // (e.g. for very short arrows when zoomed out). No head for zero-length arrows.
-        const lineWidth = trace.marker.line.width;
+        var lineWidthForArrowsize = trace.marker.line.width;
+        // If arrowsize is not set explicitly, increase line width for arrowsize calculations
+        // to a minimum value, in order to avoid very small arrowheads
+        if(!hasExplicitArrowsize) lineWidthForArrowsize = Math.max(lineWidthForArrowsize, MIN_LINE_WIDTH_FOR_ARROWSIZE);
+
         const bodyLenPx = Math.sqrt((p1x - p0x) * (p1x - p0x) + (p1y - p0y) * (p1y - p0y));
         const maxHeadPx = MAX_HEAD_FRAC * bodyLenPx;
-        const headLenPx = Math.min(HEAD_LEN_PER_WIDTH * arrowSizeVal * lineWidth, maxHeadPx);
+        const headLenPx = Math.min(HEAD_LEN_PER_WIDTH * markerArrowsize * lineWidthForArrowsize, maxHeadPx);
         const angPx = Math.atan2(p1y - p0y, p1x - p0x);
 
-        const ph1x = p1x - headLenPx * Math.cos(angPx - headAngle);
-        const ph1y = p1y - headLenPx * Math.sin(angPx - headAngle);
-        const ph2x = p1x - headLenPx * Math.cos(angPx + headAngle);
-        const ph2y = p1y - headLenPx * Math.sin(angPx + headAngle);
+        const ph1x = p1x - headLenPx * Math.cos(angPx - HEAD_ANGLE);
+        const ph1y = p1y - headLenPx * Math.sin(angPx - HEAD_ANGLE);
+        const ph2x = p1x - headLenPx * Math.cos(angPx + HEAD_ANGLE);
+        const ph2y = p1y - headLenPx * Math.sin(angPx + HEAD_ANGLE);
 
         const pathData = 'M' + p0x + ',' + p0y + 'L' + p1x + ',' + p1y + 'L' + ph1x + ',' + ph1y + 'L' + p1x + ',' + p1y + 'L' + ph2x + ',' + ph2y;
         path.attr('d', pathData);
