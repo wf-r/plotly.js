@@ -54,8 +54,11 @@ function calcGeoJSON(calcTrace, fullLayout) {
             calcPt._polygons = geoUtils.feature2polygons(feature);
 
             var bboxFeature = geoUtils.computeBbox(feature);
-            lonArray.push(bboxFeature[0], bboxFeature[2]);
-            latArray.push(bboxFeature[1], bboxFeature[3]);
+            if (bboxFeature) {
+                const [west, south, east, north] = bboxFeature;
+                lonArray.push(west, east);
+                latArray.push(south, north);
+            }
         } else {
             calcPt.geojson = null;
         }
@@ -63,8 +66,13 @@ function calcGeoJSON(calcTrace, fullLayout) {
 
     if (geoLayout.fitbounds === 'geojson' && locationmode === 'geojson-id') {
         var bboxGeojson = geoUtils.computeBbox(geoUtils.getTraceGeojson(trace));
-        lonArray = [bboxGeojson[0], bboxGeojson[2]];
-        latArray = [bboxGeojson[1], bboxGeojson[3]];
+        // Falsy bbox (Sphere / malformed / empty geojson) falls through to the
+        // per-feature bounds populated above, effectively the same as fitBounds === 'locations'.
+        if (bboxGeojson) {
+            const [west, south, east, north] = bboxGeojson;
+            lonArray = [west, east];
+            latArray = [south, north];
+        }
     }
 
     var opts = { padded: true };
@@ -73,6 +81,6 @@ function calcGeoJSON(calcTrace, fullLayout) {
 }
 
 module.exports = {
-    calcGeoJSON: calcGeoJSON,
-    plot: plot
+    calcGeoJSON,
+    plot
 };

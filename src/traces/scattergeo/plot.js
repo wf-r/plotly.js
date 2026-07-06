@@ -101,10 +101,15 @@ function calcGeoJSON(calcTrace, fullLayout) {
     var lonArray;
     var latArray;
 
-    if (geoLayout.fitbounds === 'geojson' && trace.locationmode === 'geojson-id') {
-        var bboxGeojson = geoUtils.computeBbox(geoUtils.getTraceGeojson(trace));
-        lonArray = [bboxGeojson[0], bboxGeojson[2]];
-        latArray = [bboxGeojson[1], bboxGeojson[3]];
+    const bboxGeojson =
+        geoLayout.fitbounds === 'geojson' && trace.locationmode === 'geojson-id'
+            ? geoUtils.computeBbox(geoUtils.getTraceGeojson(trace))
+            : null;
+
+    if (bboxGeojson) {
+        const [west, south, east, north] = bboxGeojson;
+        lonArray = [west, east];
+        latArray = [south, north];
     } else {
         lonArray = new Array(len);
         latArray = new Array(len);
