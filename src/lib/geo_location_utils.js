@@ -4,7 +4,8 @@ var d3 = require('@plotly/d3');
 const { COUNTRIES, createLookup } = require('country-iso-search');
 var { area: turfArea } = require('@turf/area');
 var { centroid: turfCentroid } = require('@turf/centroid');
-var { bbox: turfBbox } = require('@turf/bbox');
+const { coordAll } = require('@turf/meta');
+const { geoBounds } = require('d3-geo');
 
 var identity = require('./identity');
 var loggers = require('./loggers');
@@ -385,10 +386,42 @@ function fetchTraceGeoData(calcData) {
     return promises;
 }
 
-// TODO `turf/bbox` gives wrong result when the input feature/geometry
-// crosses the anti-meridian. We should try to implement our own bbox logic.
+/**
+ * Compute a `[west, south, east, north]` bounding box for a GeoJSON object
+ * (Feature, Geometry, FeatureCollection, or GeometryCollection). This function
+ * handles geometry that crosses the antimeridian.
+ *
+ * @param {object} d - a GeoJSON Feature, Geometry, FeatureCollection, or
+ *   GeometryCollection.
+ * @return {[number, number, number, number]|null} `[west, south, east, north]`
+ *   in degrees; `east` may exceed 180° when the input crosses ±180°.
+ *   Returns `null` for input with no extractable coordinates (e.g. `Sphere`,
+ *   empty FeatureCollection).
+ */
 function computeBbox(d) {
-    return turfBbox(d);
+    // coordAll throws on Sphere, malformed inputs, and nullish values.
+    // Treat any failure as "no bounds" so callers can null-guard uniformly.
+    let points;
+    try {
+        points = coordAll(d);
+    } catch (_) {
+        return null;
+    }
+    if (points.length === 0) return null;
+    if (points.length === 1) {
+        const [lon, lat] = points[0];
+        return [lon, lat, lon, lat];
+    }
+    // Pass as MultiPoint to sidestep d3-geo's polygon winding assumption (CW
+    // exterior, opposite of RFC 7946) and geodesic apex overshoot
+    const [[west, south], [east, north]] = geoBounds({ type: 'MultiPoint', coordinates: points });
+
+    return [
+        west,
+        south,
+        east < west ? east + ANTIMERIDIAN_LON_SHIFT : east, // Unwrap antimeridian crossing; east may exceed 180°
+        north
+    ];
 }
 
 /**
