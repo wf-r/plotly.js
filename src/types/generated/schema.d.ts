@@ -6771,7 +6771,7 @@ export interface QuiverData {
             dash?: Dash;
             /**
              * Sets the width (in px) of the arrow lines.
-             * @default 1
+             * @default 2
              * Minimum: 0
              */
             width?: number;

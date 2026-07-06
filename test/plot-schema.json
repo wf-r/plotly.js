@@ -50860,7 +50860,7 @@
             "role": "object",
             "width": {
               "description": "Sets the width (in px) of the arrow lines.",
-              "dflt": 1,
+              "dflt": 2,
               "editType": "style",
               "min": 0,
               "valType": "number"
