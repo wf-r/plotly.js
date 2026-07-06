@@ -49878,16 +49878,9 @@
           "editType": "calc",
           "valType": "number"
         },
-        "hoverdistance": {
-          "description": "Maximum distance (in pixels) to look for nearby arrows on hover.",
-          "dflt": 20,
-          "editType": "calc",
-          "min": -1,
-          "valType": "number"
-        },
         "hoverinfo": {
           "arrayOk": true,
-          "description": "Determines which trace information appear on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
+          "description": "Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired.",
           "dflt": "all",
           "editType": "none",
           "extras": [
@@ -50967,10 +50960,11 @@
           "valType": "number"
         },
         "text": {
-          "anim": true,
-          "description": "Sets text elements associated with each (x,y) pair.",
+          "arrayOk": true,
+          "description": "Sets text elements associated with each (x,y) pair. If a single string, the same string appears over all the data points. If an array of string, the items are mapped in order to the this trace's (x,y) coordinates. If trace `hoverinfo` contains a *text* flag and *hovertext* is not set, these elements will be seen in the hover labels.",
+          "dflt": "",
           "editType": "calc",
-          "valType": "data_array"
+          "valType": "string"
         },
         "textfont": {
           "color": {
@@ -51071,6 +51065,7 @@
           }
         },
         "textposition": {
+          "arrayOk": true,
           "description": "Sets the positions of the `text` elements with respects to the (x,y) coordinates.",
           "dflt": "middle center",
           "editType": "calc",
