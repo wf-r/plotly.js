@@ -39,13 +39,19 @@ module.exports = function calc(gd, trace) {
         var xValid = isNumeric(xVals[i]);
         var yValid = isNumeric(yVals[i]);
 
-        // Sanitize u/v the same way as x/y: anything non-numeric (bad strings,
-        // Infinity, NaN, null, undefined) becomes a zero-length vector component
-        // so it can't poison norm/geometry downstream. Numeric strings are cast.
-        // Stored on every calcdata point (even invalid ones) so the geometry pass
-        // and plot.js can reuse them without re-reading the raw arrays.
-        var ui = cdi.u = isNumeric(uArr[i]) ? +uArr[i] : 0;
-        var vi = cdi.v = isNumeric(vArr[i]) ? +vArr[i] : 0;
+        // Sanitize u/v: If either u or v is non-numeric (bad strings, Infinity,
+        // NaN, null, undefined) for a single point, set both to zero. Numeric strings are cast.
+        // Store in calcdata so that the sanitized values can be reused.
+        // Use underscore-prefixed keys because 'v' is already used by box/violin
+        // (meaning "value") and setting it here has unintended side effects.
+        var ui, vi;
+        if(isNumeric(uArr[i]) && isNumeric(vArr[i])) {
+            ui = cdi._u = +uArr[i];
+            vi = cdi._v = +vArr[i];
+        } else {
+            ui = cdi._u = 0;
+            vi = cdi._v = 0;
+        }
 
         if(xValid && yValid) {
             cdi.x = xVals[i];
@@ -107,8 +113,8 @@ module.exports = function calc(gd, trace) {
     for(var k = 0; k < len; k++) {
         var xk = xVals[k];
         var yk = yVals[k];
-        var uk = cd[k].u;
-        var vk = cd[k].v;
+        var uk = cd[k]._u;
+        var vk = cd[k]._v;
         var nk = Math.sqrt(uk * uk + vk * vk);
 
         var baseLen;

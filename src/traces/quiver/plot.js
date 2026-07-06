@@ -127,8 +127,8 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
         const hasExplicitArrowsize = (trace._input.marker || {}).arrowsize !== undefined;
 
         // u/v were sanitized in calc (non-numeric -> 0); reuse those values.
-        const u = cdi.u || 0;
-        const v = cdi.v || 0;
+        const u = cdi._u || 0;
+        const v = cdi._v || 0;
 
         const norm = Math.sqrt(u * u + v * v);
         const unitx = norm ? (u / norm) : 0;
