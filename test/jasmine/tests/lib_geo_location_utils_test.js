@@ -1,4 +1,4 @@
-const { getFitboundsLonRange, unwrapLonRange, doesCrossAntiMeridian } = require('../../../src/lib/geo_location_utils');
+const { computeBbox, getFitboundsLonRange, unwrapLonRange, doesCrossAntiMeridian } = require('../../../src/lib/geo_location_utils');
 
 describe('Test geo_location_utils.getFitboundsLonRange', () => {
     it('returns the compact crossing range when point data straddles the antimeridian', () => {
@@ -35,6 +35,69 @@ describe('Test geo_location_utils.unwrapLonRange', () => {
         expect(unwrapLonRange([-10, 10])).toEqual([-10, 10]);
         expect(unwrapLonRange([-170, -10])).toEqual([-170, -10]);
         expect(unwrapLonRange([10, 170])).toEqual([10, 170]);
+    });
+});
+
+describe('Test geo_location_utils.computeBbox', () => {
+    const franceCCW = { type: 'Polygon', coordinates: [[[-5, 41], [10, 41], [10, 51], [-5, 51], [-5, 41]]] };
+    const franceCW = { type: 'Polygon', coordinates: [[[-5, 41], [-5, 51], [10, 51], [10, 41], [-5, 41]]] };
+    // Fiji-ish narrow band crossing the antimeridian.
+    const fiji = { type: 'Polygon', coordinates: [[[176, -19], [180, -19], [-178, -19], [-178, -16], [180, -16], [176, -16], [176, -19]]] };
+    // Russia-ish MultiPolygon with parts on both sides of ±180.
+    const russia = {
+        type: 'MultiPolygon',
+        coordinates: [
+            [[[30, 55], [170, 55], [170, 75], [30, 75], [30, 55]]],
+            [[[-180, 65], [-170, 65], [-170, 72], [-180, 72], [-180, 65]]]
+        ]
+    };
+
+    it('returns a degenerate bbox for a single Point', () => {
+        expect(computeBbox({ type: 'Point', coordinates: [10, 45] })).toEqual([10, 45, 10, 45]);
+    });
+
+    it('returns a normal bbox for a non-antimeridian polygon', () => {
+        expect(computeBbox(franceCCW)).toEqual([-5, 41, 10, 51]);
+    });
+
+    it('is winding-agnostic (CCW and CW polygons yield the same bbox)', () => {
+        expect(computeBbox(franceCW)).toEqual(computeBbox(franceCCW));
+    });
+
+    it('unwraps east past 180° for a polygon that crosses the antimeridian', () => {
+        expect(computeBbox(fiji)).toEqual([176, -19, 182, -16]);
+    });
+
+    it('unwraps east past 180° for a MultiPolygon that crosses the antimeridian', () => {
+        expect(computeBbox(russia)).toEqual([30, 55, 190, 75]);
+    });
+
+    it('handles a FeatureCollection mixing antimeridian and non-antimeridian features', () => {
+        const fc = {
+            type: 'FeatureCollection',
+            features: [
+                { type: 'Feature', geometry: russia, properties: {} },
+                { type: 'Feature', geometry: franceCCW, properties: {} }
+            ]
+        };
+        expect(computeBbox(fc)).toEqual([-5, 41, 190, 75]);
+    });
+
+    it('unwraps identically whether the input is a raw Geometry or wrapped in a Feature', () => {
+        const raw = computeBbox(russia);
+        const wrapped = computeBbox({ type: 'Feature', geometry: russia, properties: {} });
+        expect(wrapped).toEqual(raw);
+    });
+
+    it('returns null for inputs with no extractable coordinates', () => {
+        expect(computeBbox({ type: 'Sphere' })).toBe(null);
+        expect(computeBbox({ type: 'FeatureCollection', features: [] })).toBe(null);
+    });
+
+    it('returns null for nullish or malformed inputs instead of throwing', () => {
+        expect(computeBbox(null)).toBe(null);
+        expect(computeBbox(undefined)).toBe(null);
+        expect(computeBbox({})).toBe(null);
     });
 });
 

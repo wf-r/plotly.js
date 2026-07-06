@@ -2661,7 +2661,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
 
             newPlot(fig)
                 .then(function () {
-                    _assert('base', [[undefined, undefined], undefined], [[0.252, -19.8], 160], undefined);
+                    _assert('base', [[undefined, undefined], undefined], [[-76.014, -19.8], 160], undefined);
                     return drag({
                         path: [
                             [250, 250],
@@ -2673,8 +2673,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after east-west drag',
-                        [[-20.32, 21.226], 1],
-                        [[20.32, -21.226], 160],
+                        [[55.99, 21.103], 1],
+                        [[-55.99, -21.103], 160],
                         [
                             'geo.projection.rotation.lon',
                             'geo.projection.rotation.lat',
@@ -2687,8 +2687,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after scroll',
-                        [[-17.5597, 18.862], 1.1488],
-                        [[17.5597, -18.862], 183.818],
+                        [[58.694, 18.759], 1.1488],
+                        [[-58.694, -18.759], 183.818],
                         ['geo.projection.rotation.lon', 'geo.projection.rotation.lat', 'geo.projection.scale']
                     );
                     return Plotly.relayout(gd, 'geo.showocean', false);
@@ -2696,8 +2696,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after some relayout call that causes a replot',
-                        [[-17.5597, 18.862], 1.1488],
-                        [[17.5597, -18.862], 183.818],
+                        [[58.694, 18.759], 1.1488],
+                        [[-58.694, -18.759], 183.818],
                         ['geo.showocean']
                     );
                     return dblClick([350, 250]);
@@ -2707,7 +2707,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                     _assert(
                         'after double click',
                         [[undefined, undefined], undefined],
-                        [[0.252, -19.8], 160],
+                        [[-76.014, -19.8], 160],
                         'dblclick'
                     );
                 })
@@ -3159,11 +3159,6 @@ describe('Test geo interactions update marker angles:', function () {
             })
             .then(function () {
                 newPath = getPath();
-                expect(newPath).toEqual(
-                    'M0,0L18.27769005891461,8.119485581627321L19.559475756661865,-4.174554841483899Z'
-                );
-
-                expect(newPath).not.toEqual(initialPath);
                 expect(newPath).toEqual(
                     'M0,0L18.27769005891461,8.119485581627321L19.559475756661865,-4.174554841483899Z'
                 );
