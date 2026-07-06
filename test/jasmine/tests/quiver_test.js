@@ -32,28 +32,33 @@ describe('Test quiver defaults', function() {
         expect(gd._fullData[0].visible).toBe(true);
     });
 
-    it('should set `visible: false` for traces missing x or y arrays', function() {
-        var keysToDelete = ['x', 'y'];
+    it('should set `visible: false` for traces missing both x and y arrays', function() {
+        gd = makeGD();
+        delete gd.data[0].x;
+        delete gd.data[0].y;
 
-        keysToDelete.forEach(function(k) {
-            gd = makeGD();
-            delete gd.data[0][k];
-
-            supplyAllDefaults(gd);
-            expect(gd._fullData[0].visible).toBe(false, 'missing array ' + k);
-        });
+        supplyAllDefaults(gd);
+        expect(gd._fullData[0].visible).toBe(false);
     });
 
-    it('should set `visible: false` for traces with empty x or y arrays', function() {
-        var keysToEmpty = ['x', 'y'];
+    it('should generate the missing axis from x0/dx or y0/dy (like scatter)', function() {
+        // missing x: generated from x0/dx (defaults 0 and 1)
+        gd = makeGD();
+        delete gd.data[0].x;
+        supplyAllDefaults(gd);
+        expect(gd._fullData[0].visible).toBe(true, 'missing x');
+        expect(gd._fullData[0].x0).toBe(0);
+        expect(gd._fullData[0].dx).toBe(1);
+        expect(gd._fullData[0]._length).toBe(2);
 
-        keysToEmpty.forEach(function(k) {
-            gd = makeGD();
-            gd.data[0][k] = [];
-
-            supplyAllDefaults(gd);
-            expect(gd._fullData[0].visible).toBe(false, 'empty array ' + k);
-        });
+        // missing y: generated from y0/dy (defaults 0 and 1)
+        gd = makeGD();
+        delete gd.data[0].y;
+        supplyAllDefaults(gd);
+        expect(gd._fullData[0].visible).toBe(true, 'missing y');
+        expect(gd._fullData[0].y0).toBe(0);
+        expect(gd._fullData[0].dy).toBe(1);
+        expect(gd._fullData[0]._length).toBe(2);
     });
 
     it('should default u,v to zeros when missing', function() {
@@ -140,6 +145,33 @@ describe('Test quiver calc', function() {
             expect(calcData[1].y).toBe(1);
             expect(calcData[2].x).toBe(2);
             expect(calcData[2].y).toBe(2);
+        })
+        .then(done, done.fail);
+    });
+
+    it('should generate x from x0/dx and y from y0/dy with the expected values', function(done) {
+        // missing x -> x generated from x0/dx defaults (0, 1)
+        Plotly.newPlot(gd, [{
+            type: 'quiver',
+            y: [10, 20, 30],
+            u: [1, 1, 1],
+            v: [1, 1, 1]
+        }]).then(function() {
+            var cd = gd.calcdata[0];
+            expect(cd.map(function(c) { return c.x; })).toEqual([0, 1, 2]);
+            expect(cd.map(function(c) { return c.y; })).toEqual([10, 20, 30]);
+
+            // missing y -> y generated from y0/dy defaults (0, 1)
+            return Plotly.newPlot(gd, [{
+                type: 'quiver',
+                x: [10, 20, 30],
+                u: [1, 1, 1],
+                v: [1, 1, 1]
+            }]);
+        }).then(function() {
+            var cd = gd.calcdata[0];
+            expect(cd.map(function(c) { return c.x; })).toEqual([10, 20, 30]);
+            expect(cd.map(function(c) { return c.y; })).toEqual([0, 1, 2]);
         })
         .then(done, done.fail);
     });
