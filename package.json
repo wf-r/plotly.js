@@ -1,6 +1,6 @@
 {
   "name": "plotly.js",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "description": "The open source javascript graphing library that powers plotly",
   "license": "MIT",
   "main": "./lib/index.js",
@@ -59,7 +59,6 @@
     "strict": "node devtools/test_dashboard/server.mjs --strict",
     "start": "node devtools/test_dashboard/server.mjs",
     "baseline": "node test/image/make_baseline.mjs",
-    "noci-baseline": "npm run cibuild && ./tasks/noci_test.sh image && git checkout dist && echo 'Please do not commit unless the change was expected!'",
     "preversion": "check-node-version --node 22 --npm 10 && npm-link-check && npm ls --prod --all",
     "version": "npm run build && git add -A lib dist build src/version.js",
     "postversion": "node -e \"console.log('Version bumped and committed. If ok, run: git push && git push --tags')\"",
@@ -72,9 +71,8 @@
   },
   "dependencies": {
     "@plotly/d3": "3.8.2",
-    "@plotly/d3-sankey": "0.7.2",
+    "@plotly/d3-sankey": "0.12.3",
     "@plotly/d3-sankey-circular": "0.33.1",
-    "@plotly/mapbox-gl": "1.13.4",
     "@plotly/regl": "^2.1.2",
     "@turf/area": "^7.1.0",
     "@turf/bbox": "^7.1.0",

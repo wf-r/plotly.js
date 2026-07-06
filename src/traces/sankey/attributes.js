@@ -19,7 +19,7 @@ var attrs = (module.exports = overrideAll(
             flags: [],
             arrayOk: false,
             description: [
-                'Determines which trace information appear on hover.',
+                'Determines what trace information appears on hover.',
                 'If `none` or `skip` are set, no information is displayed upon hovering.',
                 'But, if `none` is set, click and hover events are still fired.',
                 'Note that this attribute is superseded by `node.hoverinfo` and `node.hoverinfo`',
@@ -150,7 +150,7 @@ var attrs = (module.exports = overrideAll(
                 values: ['all', 'none', 'skip'],
                 dflt: 'all',
                 description: [
-                    'Determines which trace information appear when hovering nodes.',
+                    'Determines what trace information appears when hovering nodes.',
                     'If `none` or `skip` are set, no information is displayed upon hovering.',
                     'But, if `none` is set, click and hover events are still fired.'
                 ].join(' ')
@@ -242,7 +242,7 @@ var attrs = (module.exports = overrideAll(
                 values: ['all', 'none', 'skip'],
                 dflt: 'all',
                 description: [
-                    'Determines which trace information appear when hovering links.',
+                    'Determines what trace information appears when hovering links.',
                     'If `none` or `skip` are set, no information is displayed upon hovering.',
                     'But, if `none` is set, click and hover events are still fired.'
                 ].join(' ')

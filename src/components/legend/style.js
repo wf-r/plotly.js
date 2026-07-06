@@ -211,7 +211,7 @@ module.exports = function style(s, gd, legend) {
                 // the map itself, which usually doesn't correspond to a valid
                 // Plotly symbol. Always draw a circle so the swatch is consistent
                 // across symbols rather than silently mismatched.
-                var isScattermapTrace = trace.type === 'scattermap' || trace.type === 'scattermapbox';
+                var isScattermapTrace = trace.type === 'scattermap';
                 dEdit.mx = isScattermapTrace ? 'circle' : boundVal('marker.symbol', pickFirst);
                 dEdit.mo = boundVal('marker.opacity', Lib.mean, [0.2, 1]);
                 dEdit.mlc = boundVal('marker.line.color', pickFirst);
@@ -574,12 +574,10 @@ module.exports = function style(s, gd, legend) {
                     useGradient = true;
                     break;
                 case 'choropleth':
-                case 'choroplethmapbox':
                 case 'choroplethmap':
                     ptsData = [['M-6,-6V6H6V-6Z']];
                     useGradient = true;
                     break;
-                case 'densitymapbox':
                 case 'densitymap':
                     ptsData = [['M-6,0 a6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0']];
                     useGradient = 'radial';

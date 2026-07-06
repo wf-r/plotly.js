@@ -550,8 +550,9 @@ describe('config argument', function() {
                 expect(confirmBtn).not.toBe(null, 'confirm button should be shown');
                 mouseEvent('click', 0, 0, {element: confirmBtn});
 
-                // Should open the provided URL's origin in a new tab
-                expect(openSpy).toHaveBeenCalledWith('https://example.plotly.com/endpoint', '_blank');
+                // Should open the provided URL's origin in a new tab,
+                // adding the current page's origin as a query parameter
+                expect(openSpy).toHaveBeenCalledWith('https://example.plotly.com/endpoint?origin=http%3A%2F%2Flocalhost%3A9876', '_blank');
             })
             .then(done, done.fail);
         });
@@ -847,7 +848,6 @@ describe('config argument', function() {
                 expect(gd._context.scrollZoom).toBe('gl3d+geo+map');
                 expect(gd._context._scrollZoom).toEqual({gl3d: 1, geo: 1, map: 1});
                 expect(gd._context._scrollZoom.cartesian).toBe(undefined, 'no cartesian!');
-                expect(gd._context._scrollZoom.mapbox).toBe(undefined, 'no mapbox!');
             })
             .then(done, done.fail);
         });
@@ -855,7 +855,7 @@ describe('config argument', function() {
         it('should fill in blank scrollZoom value', function(done) {
             plot({scrollZoom: null}).then(function() {
                 expect(gd._context.scrollZoom).toBe(null);
-                expect(gd._context._scrollZoom).toEqual({gl3d: 1, geo: 1, mapbox: 1, map: 1});
+                expect(gd._context._scrollZoom).toEqual({gl3d: 1, geo: 1, map: 1});
                 expect(gd._context._scrollZoom.cartesian).toBe(undefined, 'no cartesian!');
             })
             .then(done, done.fail);
@@ -864,7 +864,7 @@ describe('config argument', function() {
         it('should honor scrollZoom:true', function(done) {
             plot({scrollZoom: true}).then(function() {
                 expect(gd._context.scrollZoom).toBe(true);
-                expect(gd._context._scrollZoom).toEqual({gl3d: 1, geo: 1, cartesian: 1, mapbox: 1, map: 1});
+                expect(gd._context._scrollZoom).toEqual({gl3d: 1, geo: 1, cartesian: 1, map: 1});
             })
             .then(done, done.fail);
         });
@@ -873,14 +873,6 @@ describe('config argument', function() {
             plot({scrollZoom: false}).then(function() {
                 expect(gd._context.scrollZoom).toBe(false);
                 expect(gd._context._scrollZoom).toEqual({});
-            })
-            .then(done, done.fail);
-        });
-
-        it('should honor scrollZoom flaglist (mapbox and cartesian)', function(done) {
-            plot({scrollZoom: 'mapbox+cartesian'}).then(function() {
-                expect(gd._context.scrollZoom).toBe('mapbox+cartesian');
-                expect(gd._context._scrollZoom).toEqual({mapbox: 1, cartesian: 1});
             })
             .then(done, done.fail);
         });

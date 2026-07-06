@@ -211,14 +211,6 @@ function registerTraceModule(_module) {
     var basePlotModule = _module.basePlotModule;
     var bpmName = basePlotModule.name;
 
-    // add mapbox-gl CSS here to avoid console warning on instantiation
-    if(bpmName === 'mapbox') {
-        var styleRules = basePlotModule.constants.styleRules;
-        for(var k in styleRules) {
-            addStyleRule('.js-plotly-plot .plotly .mapboxgl-' + k, styleRules[k]);
-        }
-    }
-
     // add maplibre-gl CSS here to avoid console warning on instantiation
     if(bpmName === 'map') {
         require('maplibre-gl/dist/maplibre-gl.css');
@@ -227,7 +219,7 @@ function registerTraceModule(_module) {
     // if `plotly-geo-assets.js` is not included,
     // add `PlotlyGeoAssets` global to stash references to all fetched
     // topojson / geojson data
-    if((bpmName === 'geo' || bpmName === 'mapbox' || bpmName === 'map') &&
+    if((bpmName === 'geo' || bpmName === 'map') &&
         (window.PlotlyGeoAssets === undefined)
     ) {
         window.PlotlyGeoAssets = {topojson: {}};

@@ -70,11 +70,8 @@ export type ModeBarDefaultButtons =
     | 'resetViews'
     | 'toggleSpikelines'
     | 'zoomInMap'
-    | 'zoomInMapbox'
     | 'zoomOutMap'
-    | 'zoomOutMapbox'
     | 'resetViewMap'
-    | 'resetViewMapbox'
     | 'togglespikelines'
     | 'togglehover'
     | 'hovercompare'
@@ -146,9 +143,3 @@ export interface Template {
     layout?: Partial<Layout> | undefined;
 }
 
-// ---------------------------------------------------------------------------
-// Deprecated aliases
-// ---------------------------------------------------------------------------
-
-/** @deprecated `Mapbox` traces are deprecated; use the unified `Map`/`MapLayout` types. */
-export type { MapLayout as Mapbox } from '../generated/schema';
