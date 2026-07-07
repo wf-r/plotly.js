@@ -172,17 +172,9 @@ proto.createMap = function (calcData, fullLayout, resolve, reject) {
         .then(function () {
             // Capture the auto-framed view so subsequent updateLayout/resetView
             // calls don't reset to the schema defaults
-            if (fitBounds) {
-                const { center, zoom } = self.getView();
-                opts._input.center = opts.center = center;
-                opts._input.zoom = opts.zoom = zoom;
-                self.viewInitial = {
-                    center: Lib.extendFlat({}, center),
-                    bearing: opts.bearing,
-                    pitch: opts.pitch,
-                    zoom
-                };
-            }
+            if (fitBounds) saveViewToLayout(self, opts);
+            // Save viewInitial here to get values from the post-load map view
+            updateViewInitial(self, opts);
             self.fillBelowLookup(calcData, fullLayout);
             self.updateData(calcData);
             self.updateLayout(fullLayout);
@@ -222,11 +214,45 @@ proto.updateMap = function (calcData, fullLayout, resolve, reject) {
         .then(function () {
             self.fillBelowLookup(calcData, fullLayout);
             self.updateData(calcData);
+            const fitBounds = opts._fitBounds;
+            if (fitBounds) {
+                // Apply new bounds via map.fitBounds since map already exists
+                map.fitBounds(
+                    [
+                        [fitBounds.west, fitBounds.south],
+                        [fitBounds.east, fitBounds.north]
+                    ],
+                    // Don't animate to get proper transform values immediately
+                    // (we need the values after the view transition; not before or mid)
+                    { padding: constants.fitBoundsPadding, animate: false }
+                );
+                saveViewToLayout(self, opts);
+                updateViewInitial(self, opts);
+            }
             self.updateLayout(fullLayout);
             self.resolveOnRender(resolve);
         })
         .catch(reject);
 };
+
+// Persist the current map view state
+function saveViewToLayout(self, opts) {
+    const view = self.getView();
+    opts._input.center = opts.center = view.center;
+    opts._input.zoom = opts.zoom = view.zoom;
+}
+
+// Snapshot the current map view state for the Reset view modebar
+// button and dblclick handler
+function updateViewInitial(self, opts) {
+    const view = self.getView();
+    self.viewInitial = {
+        center: Lib.extendFlat({}, view.center),
+        bearing: opts.bearing,
+        pitch: opts.pitch,
+        zoom: view.zoom
+    };
+}
 
 proto.fillBelowLookup = function (calcData, fullLayout) {
     var opts = fullLayout[this.id];
