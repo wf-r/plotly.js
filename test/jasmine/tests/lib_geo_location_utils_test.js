@@ -1,4 +1,9 @@
-const { computeBbox, getFitboundsLonRange, unwrapLonRange, doesCrossAntiMeridian } = require('../../../src/lib/geo_location_utils');
+const {
+    computeBbox,
+    getFitboundsLonRange,
+    unwrapLonRange,
+    doesCrossAntiMeridian
+} = require('../../../src/lib/geo_location_utils');
 
 describe('Test geo_location_utils.getFitboundsLonRange', () => {
     it('returns the compact crossing range when point data straddles the antimeridian', () => {
@@ -39,16 +44,67 @@ describe('Test geo_location_utils.unwrapLonRange', () => {
 });
 
 describe('Test geo_location_utils.computeBbox', () => {
-    const franceCCW = { type: 'Polygon', coordinates: [[[-5, 41], [10, 41], [10, 51], [-5, 51], [-5, 41]]] };
-    const franceCW = { type: 'Polygon', coordinates: [[[-5, 41], [-5, 51], [10, 51], [10, 41], [-5, 41]]] };
+    const franceCCW = {
+        type: 'Polygon',
+        coordinates: [
+            [
+                [-5, 41],
+                [10, 41],
+                [10, 51],
+                [-5, 51],
+                [-5, 41]
+            ]
+        ]
+    };
+    const franceCW = {
+        type: 'Polygon',
+        coordinates: [
+            [
+                [-5, 41],
+                [-5, 51],
+                [10, 51],
+                [10, 41],
+                [-5, 41]
+            ]
+        ]
+    };
     // Fiji-ish narrow band crossing the antimeridian.
-    const fiji = { type: 'Polygon', coordinates: [[[176, -19], [180, -19], [-178, -19], [-178, -16], [180, -16], [176, -16], [176, -19]]] };
+    const fiji = {
+        type: 'Polygon',
+        coordinates: [
+            [
+                [176, -19],
+                [180, -19],
+                [-178, -19],
+                [-178, -16],
+                [180, -16],
+                [176, -16],
+                [176, -19]
+            ]
+        ]
+    };
     // Russia-ish MultiPolygon with parts on both sides of ±180.
     const russia = {
         type: 'MultiPolygon',
         coordinates: [
-            [[[30, 55], [170, 55], [170, 75], [30, 75], [30, 55]]],
-            [[[-180, 65], [-170, 65], [-170, 72], [-180, 72], [-180, 65]]]
+            [
+                [
+                    [30, 55],
+                    [170, 55],
+                    [170, 75],
+                    [30, 75],
+                    [30, 55]
+                ]
+            ],
+            [
+                [
+                    [-180, 65],
+                    [-170, 65],
+                    [-170, 72],
+                    [-180, 72],
+                    [-180, 65]
+                ]
+            ]
         ]
     };
 
@@ -103,13 +159,37 @@ describe('Test geo_location_utils.computeBbox', () => {
 
 describe('Test geo_location_utils.doesCrossAntiMeridian', () => {
     it('returns the index of the first positive-to-negative longitude transition', () => {
-        expect(doesCrossAntiMeridian([[170, 0], [179, 0], [-179, 0], [-170, 0]])).toBe(1);
-        expect(doesCrossAntiMeridian([[1, 0], [-1, 0]])).toBe(0);
+        expect(
+            doesCrossAntiMeridian([
+                [170, 0],
+                [179, 0],
+                [-179, 0],
+                [-170, 0]
+            ])
+        ).toBe(1);
+        expect(
+            doesCrossAntiMeridian([
+                [1, 0],
+                [-1, 0]
+            ])
+        ).toBe(0);
     });
 
     it('returns null when no segment crosses the antimeridian', () => {
-        expect(doesCrossAntiMeridian([[-179, 0], [-170, 0], [170, 0]])).toBe(null);
-        expect(doesCrossAntiMeridian([[10, 0], [20, 0], [30, 0]])).toBe(null);
+        expect(
+            doesCrossAntiMeridian([
+                [-179, 0],
+                [-170, 0],
+                [170, 0]
+            ])
+        ).toBe(null);
+        expect(
+            doesCrossAntiMeridian([
+                [10, 0],
+                [20, 0],
+                [30, 0]
+            ])
+        ).toBe(null);
         expect(doesCrossAntiMeridian([])).toBe(null);
         expect(doesCrossAntiMeridian([[10, 0]])).toBe(null);
     });
