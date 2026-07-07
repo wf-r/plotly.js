@@ -38,6 +38,14 @@ function calcGeoJSON(calcTrace, fullLayout) {
             ? geoUtils.extractTraceFeature(calcTrace)
             : getTopojsonFeatures(trace, geo.topojson);
 
+    // A falsy result (Sphere feature or malformed/empty geojson) here
+    // falls back to per-feature bounds — effectively the same as
+    // fitbounds === 'locations' behavior.
+    const bboxGeojson =
+        geoLayout.fitbounds === 'geojson' && locationmode === 'geojson-id'
+            ? geoUtils.computeBbox(geoUtils.getTraceGeojson(trace))
+            : null;
+
     var lonArray = [];
     var latArray = [];
 
@@ -53,26 +61,23 @@ function calcGeoJSON(calcTrace, fullLayout) {
             calcPt.ct = feature.properties.ct;
             calcPt._polygons = geoUtils.feature2polygons(feature);
 
-            var bboxFeature = geoUtils.computeBbox(feature);
-            if (bboxFeature) {
-                const [west, south, east, north] = bboxFeature;
-                lonArray.push(west, east);
-                latArray.push(south, north);
+            if (!bboxGeojson) {
+                const bboxFeature = geoUtils.computeBbox(feature);
+                if (bboxFeature) {
+                    const [west, south, east, north] = bboxFeature;
+                    lonArray.push(west, east);
+                    latArray.push(south, north);
+                }
             }
         } else {
             calcPt.geojson = null;
         }
     }
 
-    if (geoLayout.fitbounds === 'geojson' && locationmode === 'geojson-id') {
-        var bboxGeojson = geoUtils.computeBbox(geoUtils.getTraceGeojson(trace));
-        // Falsy bbox (Sphere / malformed / empty geojson) falls through to the
-        // per-feature bounds populated above, effectively the same as fitBounds === 'locations'.
-        if (bboxGeojson) {
-            const [west, south, east, north] = bboxGeojson;
-            lonArray = [west, east];
-            latArray = [south, north];
-        }
+    if (bboxGeojson) {
+        const [west, south, east, north] = bboxGeojson;
+        lonArray = [west, east];
+        latArray = [south, north];
     }
 
     var opts = { padded: true };
