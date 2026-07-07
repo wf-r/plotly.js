@@ -1,5 +1,3 @@
-'use strict';
-
 import { getFitboundsLonRange } from '../../lib/geo_location_utils';
 import type { MapLayout, ScattermapData } from '../../types/generated/schema';
 
@@ -30,6 +28,8 @@ interface FitBoundsTrace extends Pick<ScattermapData, 'subplot' | 'visible'> {
  */
 export function getMapFitBounds(fullData: FitBoundsTrace[], subplotId: string): LonLatBox | null {
     const validLons: number[] = [];
+    let minLon = Infinity;
+    let maxLon = -Infinity;
     let minLat = Infinity;
     let maxLat = -Infinity;
 
@@ -49,6 +49,10 @@ export function getMapFitBounds(fullData: FitBoundsTrace[], subplotId: string): 
             const la = lat[j];
             if (Number.isFinite(lo) && Number.isFinite(la)) {
                 validLons.push(lo);
+                // Track longitude bounds
+                if (lo < minLon) minLon = lo;
+                if (lo > maxLon) maxLon = lo;
+                // Track latitude bounds
                 if (la < minLat) minLat = la;
                 if (la > maxLat) maxLat = la;
             }
@@ -57,18 +61,14 @@ export function getMapFitBounds(fullData: FitBoundsTrace[], subplotId: string): 
 
     if (!validLons.length) return null;
 
-    let west: number;
-    let east: number;
-    const lonRange = getFitboundsLonRange(validLons);
-    if (lonRange) {
-        west = lonRange[0];
-        east = lonRange[1];
-    } else {
-        west = Infinity;
-        east = -Infinity;
-        for (const lon of validLons) {
-            if (lon < west) west = lon;
-            if (lon > east) east = lon;
+    let west = minLon;
+    let east = maxLon;
+    // Only handle antimeridian if it actually gets crossed
+    if (maxLon - minLon > 180) {
+        const lonRange = getFitboundsLonRange(validLons);
+        if (lonRange) {
+            west = lonRange[0];
+            east = lonRange[1];
         }
     }
 
