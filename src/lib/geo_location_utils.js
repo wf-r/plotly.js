@@ -389,7 +389,10 @@ function fetchTraceGeoData(calcData) {
 /**
  * Compute a `[west, south, east, north]` bounding box for a GeoJSON object
  * (Feature, Geometry, FeatureCollection, or GeometryCollection). This function
- * handles geometry that crosses the antimeridian.
+ * handles geometry that crosses the antimeridian. `north`/`south` will be in the
+ * range `[-90, 90]`; `west` will typically be in the range `[-180, 180]`; `east`
+ * will typically be in the range `[-180, 180]`, but when the input crosses the
+ * antimeridian, it will be shifted by +360° so the range will be `[180, west + 360)`.
  *
  * @param {object} d - a GeoJSON Feature, Geometry, FeatureCollection, or
  *   GeometryCollection.
@@ -399,7 +402,8 @@ function fetchTraceGeoData(calcData) {
  *   empty FeatureCollection).
  */
 function computeBbox(d) {
-    // coordAll throws on Sphere, malformed inputs, and nullish values.
+    // Extract an array containing all points contained in the GeoJSON object.
+    // coordAll throws an error on Sphere, malformed inputs, and nullish values.
     // Treat any failure as "no bounds" so callers can null-guard uniformly.
     let points;
     try {
@@ -412,14 +416,14 @@ function computeBbox(d) {
         const [lon, lat] = points[0];
         return [lon, lat, lon, lat];
     }
-    // Pass as MultiPoint to sidestep d3-geo's polygon winding assumption (CW
-    // exterior, opposite of RFC 7946) and geodesic apex overshoot
+    // Pass as MultiPoint (just a bunch of vertices) to avoid
+    // geobounds treating collection as polygons
     const [[west, south], [east, north]] = geoBounds({ type: 'MultiPoint', coordinates: points });
 
     return [
         west,
         south,
-        east < west ? east + ANTIMERIDIAN_LON_SHIFT : east, // Unwrap antimeridian crossing; east may exceed 180°
+        unwrapLonRange([west, east])[1], // Unwrap antimeridian crossing; east may exceed 180°
         north
     ];
 }
@@ -474,7 +478,7 @@ function getFitboundsLonRange(lons) {
 
 /**
  * Return an unwrapped version of a `[lon0, lon1]` longitude range.
- * When the range crosses the antimeridian (`lon0 > 0`, `lon1 < 0`),
+ * When the range crosses the antimeridian (`lon0 > lon1`),
  * 360 is added to `lon1` to produce a continuous range;
  * otherwise the input pair is returned unchanged. Function assumes
  * `lon0` is west of `lon1`.
@@ -482,13 +486,14 @@ function getFitboundsLonRange(lons) {
  * @example
  *   unwrapLonRange([170, -170]) // → [170, 190]  (span = 20°, midpoint = 180°)
  *   unwrapLonRange([-10, 20])   // → [-10, 20]   (no crossing, passthrough)
+ *   unwrapLonRange([-5, -170])  // → [-5, 190]   (mixed-sign crossing, e.g. from geoBounds)
  *
  * @param {[number, number]} lonRange - `[lon0, lon1]`, each in the range [-180, 180]
  * @return {[number, number]} The unwrapped range; when the input contract is
  *   respected, `lon1` falls in the range `[lon0, lon0 + 360)`.
  */
 function unwrapLonRange([lon0, lon1]) {
-    return [lon0, lon0 > 0 && lon1 < 0 ? lon1 + ANTIMERIDIAN_LON_SHIFT : lon1];
+    return [lon0, lon0 > lon1 ? lon1 + ANTIMERIDIAN_LON_SHIFT : lon1];
 }
 
 module.exports = {
