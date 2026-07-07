@@ -41,6 +41,11 @@ describe('Test geo_location_utils.unwrapLonRange', () => {
         expect(unwrapLonRange([-170, -10])).toEqual([-170, -10]);
         expect(unwrapLonRange([10, 170])).toEqual([10, 170]);
     });
+
+    it('unwraps same-sign descending pairs', () => {
+        expect(unwrapLonRange([-5, -170])).toEqual([-5, 190]);
+        expect(unwrapLonRange([170, 5])).toEqual([170, 365]);
+    });
 });
 
 describe('Test geo_location_utils.computeBbox', () => {
