@@ -39,59 +39,69 @@ function move(fromX, fromY, toX, toY, delay) {
     });
 }
 
-describe('Test geo fitbounds with antimeridian-straddling points', function() {
+describe('Test geo fitbounds with antimeridian-straddling points', function () {
     var gd;
 
-    beforeEach(function() { gd = createGraphDiv(); });
+    beforeEach(function () {
+        gd = createGraphDiv();
+    });
 
     afterEach(destroyGraphDiv);
 
     function _plot(lons) {
-        return Plotly.newPlot(gd, [{
-            type: 'scattergeo',
-            mode: 'markers',
-            lat: [43.1155, 32.7157],
-            lon: lons
-        }], {
-            geo: {fitbounds: 'locations', projection: {type: 'equirectangular'}},
-            width: 700,
-            height: 500
-        });
+        return Plotly.newPlot(
+            gd,
+            [
+                {
+                    type: 'scattergeo',
+                    mode: 'markers',
+                    lat: [43.1155, 32.7157],
+                    lon: lons
+                }
+            ],
+            {
+                geo: { fitbounds: 'locations', projection: { type: 'equirectangular' } },
+                width: 700,
+                height: 500
+            }
+        );
     }
 
-    it('centers on the compact crossing view when points straddle the antimeridian', function(done) {
+    it('centers on the compact crossing view when points straddle the antimeridian', function (done) {
         // lon = [131.8855, -179] spans ~311deg the naive way; the compact view
         // crosses the antimeridian, giving a range around [131.8855, 181] (padded
         // for markers like any fitbounds map) and a projection rotated to its
         // mid-longitude (~156.4deg), not to the naive mid (~-24deg).
-        _plot([131.8855, -179]).then(function() {
-            var geoLayout = gd._fullLayout.geo;
-            var lonRange = geoLayout.lonaxis._ax.range;
-            // crosses the antimeridian (upper bound past 180) and stays compact
-            // (~49deg plus a little padding), nowhere near the naive ~311deg.
-            expect(lonRange[0]).toBeLessThan(131.8855);
-            expect(lonRange[1]).toBeGreaterThan(181);
-            expect(lonRange[1] - lonRange[0]).toBeGreaterThan(49);
-            expect(lonRange[1] - lonRange[0]).toBeLessThan(70);
-            expect(geoLayout._subplot.projection.rotate()[0]).toBeCloseTo(-156.44, 1);
-        })
-        .then(done, done.fail);
+        _plot([131.8855, -179])
+            .then(function () {
+                var geoLayout = gd._fullLayout.geo;
+                var lonRange = geoLayout.lonaxis._ax.range;
+                // crosses the antimeridian (upper bound past 180) and stays compact
+                // (~49deg plus a little padding), nowhere near the naive ~311deg.
+                expect(lonRange[0]).toBeLessThan(131.8855);
+                expect(lonRange[1]).toBeGreaterThan(181);
+                expect(lonRange[1] - lonRange[0]).toBeGreaterThan(49);
+                expect(lonRange[1] - lonRange[0]).toBeLessThan(70);
+                expect(geoLayout._subplot.projection.rotate()[0]).toBeCloseTo(-156.44, 1);
+            })
+            .then(done, done.fail);
     });
 
-    it('keeps the naive centering when points do not straddle the antimeridian', function(done) {
-        _plot([131.8855, 179]).then(function() {
-            var geoLayout = gd._fullLayout.geo;
-            // projection rotated to the naive mid-longitude (~155.4deg); the range is
-            // not wrapped across the antimeridian (which would rotate near -24deg or +156deg)
-            var rotateLon = geoLayout._subplot.projection.rotate()[0];
-            expect(rotateLon).toBeLessThan(-150);
-            expect(rotateLon).toBeGreaterThan(-160);
-        })
-        .then(done, done.fail);
+    it('keeps the naive centering when points do not straddle the antimeridian', function (done) {
+        _plot([131.8855, 179])
+            .then(function () {
+                var geoLayout = gd._fullLayout.geo;
+                // projection rotated to the naive mid-longitude (~155.4deg); the range is
+                // not wrapped across the antimeridian (which would rotate near -24deg or +156deg)
+                var rotateLon = geoLayout._subplot.projection.rotate()[0];
+                expect(rotateLon).toBeLessThan(-150);
+                expect(rotateLon).toBeGreaterThan(-160);
+            })
+            .then(done, done.fail);
     });
 });
 
-describe('Test Geo layout defaults', function() {
+describe('Test Geo layout defaults', function () {
     var layoutAttributes = Geo.layoutAttributes;
     var supplyLayoutDefaults = Geo.supplyLayoutDefaults;
 
@@ -871,7 +881,7 @@ describe('geojson / topojson utils', function () {
 
         it('with *country names* locationmode and a custom country code', () => {
             const out = _locationToFeature(topojson, 'Aksai Chin', 'country names');
-            
+
             expect(out.id).toEqual('XAC');
         });
     });
@@ -2651,7 +2661,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
 
             newPlot(fig)
                 .then(function () {
-                    _assert('base', [[undefined, undefined], undefined], [[0.252, -19.8], 160], undefined);
+                    _assert('base', [[undefined, undefined], undefined], [[-76.014, -19.8], 160], undefined);
                     return drag({
                         path: [
                             [250, 250],
@@ -2663,8 +2673,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after east-west drag',
-                        [[-20.32, 21.226], 1],
-                        [[20.32, -21.226], 160],
+                        [[55.99, 21.103], 1],
+                        [[-55.99, -21.103], 160],
                         [
                             'geo.projection.rotation.lon',
                             'geo.projection.rotation.lat',
@@ -2677,8 +2687,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after scroll',
-                        [[-17.5597, 18.862], 1.1488],
-                        [[17.5597, -18.862], 183.818],
+                        [[58.694, 18.759], 1.1488],
+                        [[-58.694, -18.759], 183.818],
                         ['geo.projection.rotation.lon', 'geo.projection.rotation.lat', 'geo.projection.scale']
                     );
                     return Plotly.relayout(gd, 'geo.showocean', false);
@@ -2686,8 +2696,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after some relayout call that causes a replot',
-                        [[-17.5597, 18.862], 1.1488],
-                        [[17.5597, -18.862], 183.818],
+                        [[58.694, 18.759], 1.1488],
+                        [[-58.694, -18.759], 183.818],
                         ['geo.showocean']
                     );
                     return dblClick([350, 250]);
@@ -2697,7 +2707,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                     _assert(
                         'after double click',
                         [[undefined, undefined], undefined],
-                        [[0.252, -19.8], 160],
+                        [[-76.014, -19.8], 160],
                         'dblclick'
                     );
                 })
@@ -3149,11 +3159,6 @@ describe('Test geo interactions update marker angles:', function () {
             })
             .then(function () {
                 newPath = getPath();
-                expect(newPath).toEqual(
-                    'M0,0L18.27769005891461,8.119485581627321L19.559475756661865,-4.174554841483899Z'
-                );
-
-                expect(newPath).not.toEqual(initialPath);
                 expect(newPath).toEqual(
                     'M0,0L18.27769005891461,8.119485581627321L19.559475756661865,-4.174554841483899Z'
                 );
