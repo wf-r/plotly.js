@@ -198,27 +198,5 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
     }
 
     coerce('bgcolor');
-
-    var fitBounds = coerce('fitbounds');
-
-    // clear attributes that will get auto-filled later
-    if (fitBounds) {
-        delete geoLayoutOut.projection.scale;
-
-        if (isScoped) {
-            delete geoLayoutOut.center.lon;
-            delete geoLayoutOut.center.lat;
-        } else if (isClipped) {
-            delete geoLayoutOut.center.lon;
-            delete geoLayoutOut.center.lat;
-            delete geoLayoutOut.projection.rotation.lon;
-            delete geoLayoutOut.projection.rotation.lat;
-            delete geoLayoutOut.lonaxis.range;
-            delete geoLayoutOut.lataxis.range;
-        } else {
-            delete geoLayoutOut.center.lon;
-            delete geoLayoutOut.center.lat;
-            delete geoLayoutOut.projection.rotation.lon;
-        }
-    }
+    coerce('fitbounds');
 }

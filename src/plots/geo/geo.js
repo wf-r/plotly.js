@@ -287,8 +287,11 @@ proto.updateProjection = function (geoCalcData, fullLayout) {
         var midLon = (axLon.range[0] + axLon.range[1]) / 2;
         var midLat = (axLat.range[0] + axLat.range[1]) / 2;
 
+        // Overwrite the coerced view attrs on geoLayout with the fit-computed
+        // values so they can be used in downstream calculations
         if (geoLayout._isScoped) {
             center = { lon: midLon, lat: midLat };
+            geoLayout.center = center;
         } else if (geoLayout._isClipped) {
             center = { lon: midLon, lat: midLat };
             rotation = { lon: midLon, lat: midLat, roll: rotation.roll };
@@ -299,9 +302,15 @@ proto.updateProjection = function (geoCalcData, fullLayout) {
 
             lonaxisRange = [midLon - lonHalfSpan, midLon + lonHalfSpan];
             lataxisRange = [midLat - latHalfSpan, midLat + latHalfSpan];
+            geoLayout.center = center;
+            projLayout.rotation = rotation;
+            lonaxis.range = lonaxisRange;
+            lataxis.range = lataxisRange;
         } else {
             center = { lon: midLon, lat: midLat };
             rotation = { lon: midLon, lat: rotation.lat, roll: rotation.roll };
+            geoLayout.center = center;
+            projLayout.rotation = rotation;
         }
     }
 
@@ -335,6 +344,8 @@ proto.updateProjection = function (geoCalcData, fullLayout) {
 
         if (isFinite(k2)) {
             projection.scale(k2 * s);
+            // Write the fitted scale back to the layout so it can be used in downstream calculations
+            projLayout.scale = k2;
         } else {
             Lib.warn('Something went wrong during' + this.id + 'fitbounds computations.');
         }
