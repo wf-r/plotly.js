@@ -655,7 +655,9 @@ proto.saveViewInitial = function (geoLayout) {
     } else if (geoLayout._isClipped) {
         extra = {
             'projection.rotation.lon': rotation.lon,
-            'projection.rotation.lat': rotation.lat
+            'projection.rotation.lat': rotation.lat,
+            'center.lon': center.lon,
+            'center.lat': center.lat
         };
     } else {
         extra = {
