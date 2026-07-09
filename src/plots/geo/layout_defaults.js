@@ -198,5 +198,18 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
     }
 
     coerce('bgcolor');
-    coerce('fitbounds');
+
+    // Only use fitbounds if user hasn't set any view attributes. This prevents
+    // user specified view info from being ignored.
+    const fitBounds = coerce('fitbounds');
+    if (fitBounds) {
+        const projectionIn = geoLayoutIn.projection || {};
+        const hasUserView =
+            geoLayoutIn.center !== undefined ||
+            projectionIn.rotation !== undefined ||
+            projectionIn.scale !== undefined ||
+            geoLayoutIn.lonaxis?.range !== undefined ||
+            geoLayoutIn.lataxis?.range !== undefined;
+        if (hasUserView) geoLayoutOut.fitbounds = false;
+    }
 }
