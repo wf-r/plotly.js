@@ -103,7 +103,15 @@ describe('Test geo fitbounds with antimeridian-straddling points', function () {
 
 describe('Test Geo layout defaults', function () {
     var layoutAttributes = Geo.layoutAttributes;
-    var supplyLayoutDefaults = Geo.supplyLayoutDefaults;
+    // Tests here were written against `fitbounds` defaulting to `false`. Shim
+    // the helper to inject that default when a test doesn't set fitbounds itself.
+    const supplyLayoutDefaults = (layoutIn, layoutOut, fullData) => {
+        if (layoutIn.geo && !('fitbounds' in layoutIn.geo)) {
+            layoutIn.geo.fitbounds = false;
+        }
+
+        return Geo.supplyLayoutDefaults(layoutIn, layoutOut, fullData);
+    };
 
     var layoutIn, layoutOut, fullData;
 
@@ -546,7 +554,7 @@ describe('Test Geo layout defaults', function () {
         });
     });
 
-    describe('should clear attributes that get auto-filled under *fitbounds*', function () {
+    describe('should retain coerced attributes under *fitbounds*', function () {
         var vals = ['locations', 'geojson'];
 
         function _assert(exp) {
@@ -599,9 +607,9 @@ describe('Test Geo layout defaults', function () {
                     };
                     supplyLayoutDefaults(layoutIn, layoutOut, fullData);
                     _assert({
-                        'projection.scale': undefined,
-                        'center.lon': undefined,
-                        'center.lat': undefined,
+                        'projection.scale': 1,
+                        'center.lon': 15,
+                        'center.lat': 57.5,
                         'projection.rotation.lon': 15,
                         'projection.rotation.lat': 0,
                         'lonaxis.range': [-30, 60],
@@ -649,13 +657,13 @@ describe('Test Geo layout defaults', function () {
                     };
                     supplyLayoutDefaults(layoutIn, layoutOut, fullData);
                     _assert({
-                        'projection.scale': undefined,
-                        'center.lon': undefined,
-                        'center.lat': undefined,
-                        'projection.rotation.lon': undefined,
-                        'projection.rotation.lat': undefined,
-                        'lonaxis.range': undefined,
-                        'lataxis.range': undefined
+                        'projection.scale': 2,
+                        'center.lon': 20,
+                        'center.lat': 20,
+                        'projection.rotation.lon': 20,
+                        'projection.rotation.lat': 20,
+                        'lonaxis.range': [-70, 110],
+                        'lataxis.range': [-70, 110]
                     });
                 });
             });
@@ -703,10 +711,10 @@ describe('Test Geo layout defaults', function () {
                     };
                     supplyLayoutDefaults(layoutIn, layoutOut, fullData);
                     _assert({
-                        'projection.scale': undefined,
-                        'center.lon': undefined,
-                        'center.lat': undefined,
-                        'projection.rotation.lon': undefined,
+                        'projection.scale': 2,
+                        'center.lon': 20,
+                        'center.lat': 40,
+                        'projection.rotation.lon': 20,
                         'projection.rotation.lat': 0,
                         'lonaxis.range': [-90, 90],
                         'lataxis.range': [0, 80]
@@ -933,6 +941,10 @@ describe('Test geo interactions', function () {
             gd = createGraphDiv();
 
             var mockCopy = Lib.extendDeep({}, mock);
+            // These tests check hover/click coordinates assuming fitbounds is 'false',
+            // so set it here (v4 changed the default to 'locations')
+            mockCopy.layout.geo ||= {};
+            mockCopy.layout.geo.fitbounds = false;
 
             Plotly.newPlot(gd, mockCopy.data, mockCopy.layout).then(done);
         });
@@ -1519,6 +1531,7 @@ describe('Test geo interactions', function () {
     it('should clear hover label when cursor slips off subplot', function (done) {
         var gd = createGraphDiv();
         var fig = Lib.extendDeep({}, require('../../image/mocks/geo_orthographic.json'));
+        fig.layout.geo.fitbounds = false;
 
         function _assert(msg, hoverLabelCnt) {
             expect(d3SelectAll('g.hovertext').size()).toBe(hoverLabelCnt, msg);
@@ -1564,6 +1577,7 @@ describe('Test geo interactions', function () {
 
         fig.data[0].visible = false;
         fig.layout.geo.projection.rotation = { lon: -75, lat: 90 };
+        fig.layout.geo.fitbounds = false;
 
         function check(p, hoverLabelCnt) {
             mouseEvent('mousemove', p[0], p[1]);
@@ -1666,7 +1680,7 @@ describe('Test geo interactions', function () {
                     z: ['10', '20', '15']
                 }
             ],
-            layout: { geo: { scope: 'world' } }
+            layout: { geo: { scope: 'world', fitbounds: false } }
         };
         var figUSA = {
             data: [
@@ -1677,7 +1691,7 @@ describe('Test geo interactions', function () {
                     z: ['10', '20', '15']
                 }
             ],
-            layout: { geo: { scope: 'usa' } }
+            layout: { geo: { scope: 'usa', fitbounds: false } }
         };
         var figNA = {
             data: [
@@ -1688,7 +1702,7 @@ describe('Test geo interactions', function () {
                     z: ['10', '20', '15']
                 }
             ],
-            layout: { geo: { scope: 'north america' } }
+            layout: { geo: { scope: 'north america', fitbounds: false } }
         };
 
         Plotly.react(gd, figWorld)
@@ -2392,6 +2406,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
             fig.layout.width = 700;
             fig.layout.height = 500;
             fig.layout.dragmode = 'pan';
+            fig.layout.geo.fitbounds = false;
         });
 
         function _assert(step, attr, proj, eventKeys) {
@@ -2500,12 +2515,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
 
             newPlot(fig)
                 .then(function () {
-                    _assert(
-                        'base',
-                        [[undefined, 0], [undefined, undefined], undefined],
-                        [[-180, -0], [350, 260], [0, 0], 114.59],
-                        undefined
-                    );
+                    _assert('base', [[180, 0], [180, 0], 1.1249], [[-180, -0], [350, 260], [0, 0], 114.59], undefined);
                     return drag({
                         path: [
                             [350, 250],
@@ -2519,13 +2529,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after east-west drag',
                         [[149.4, 0], [149.4, 0], 1.1249],
                         [[-149.4, 0], [350, 260], [0, 0], 114.59],
-                        [
-                            'geo.projection.rotation.lon',
-                            'geo.center.lon',
-                            'geo.center.lat',
-                            'geo.projection.scale',
-                            'geo.fitbounds'
-                        ]
+                        ['geo.projection.rotation.lon', 'geo.center.lon', 'geo.fitbounds']
                     );
                     return scroll([200, 250], [-200, -200]);
                 })
@@ -2555,7 +2559,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after double click',
-                        [[undefined, 0], [undefined, undefined], undefined],
+                        [[180, 0], [180, 0], 1.1249],
                         [[-180, -0], [350, 260], [0, 0], 114.59],
                         'dblclick'
                     );
@@ -2570,6 +2574,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
         beforeEach(function () {
             fig = Lib.extendDeep({}, require('../../image/mocks/geo_orthographic'));
             fig.layout.dragmode = 'pan';
+            fig.layout.geo.fitbounds = false;
 
             // of layout width = height = 500
         });
@@ -2612,7 +2617,12 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after east-west drag',
                         [[-103.7, 49.3], 1],
                         [[103.7, -49.3], 160],
-                        ['geo.projection.rotation.lon', 'geo.projection.rotation.lat']
+                        [
+                            'geo.projection.rotation.lon',
+                            'geo.projection.rotation.lat',
+                            'geo.center.lon',
+                            'geo.center.lat'
+                        ]
                     );
                     return drag({
                         path: [
@@ -2627,7 +2637,12 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after NW-SE drag',
                         [[-135.5, 73.8], 1],
                         [[135.5, -73.8], 160],
-                        ['geo.projection.rotation.lon', 'geo.projection.rotation.lat']
+                        [
+                            'geo.projection.rotation.lon',
+                            'geo.projection.rotation.lat',
+                            'geo.center.lon',
+                            'geo.center.lat'
+                        ]
                     );
                     return scroll([300, 300], [-200, -200]);
                 })
@@ -2636,7 +2651,13 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after scroll',
                         [[-126.2, 67.1], 1.3],
                         [[126.2, -67.1], 211.1],
-                        ['geo.projection.rotation.lon', 'geo.projection.rotation.lat', 'geo.projection.scale']
+                        [
+                            'geo.projection.rotation.lon',
+                            'geo.projection.rotation.lat',
+                            'geo.center.lon',
+                            'geo.center.lat',
+                            'geo.projection.scale'
+                        ]
                     );
                     return Plotly.relayout(gd, 'geo.showocean', false);
                 })
@@ -2661,7 +2682,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
 
             newPlot(fig)
                 .then(function () {
-                    _assert('base', [[undefined, undefined], undefined], [[-76.014, -19.8], 160], undefined);
+                    _assert('base', [[76.014, 19.735], 1], [[-76.014, -19.735], 160], undefined);
                     return drag({
                         path: [
                             [250, 250],
@@ -2678,7 +2699,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         [
                             'geo.projection.rotation.lon',
                             'geo.projection.rotation.lat',
-                            'geo.projection.scale',
+                            'geo.center.lon',
+                            'geo.center.lat',
                             'geo.fitbounds'
                         ]
                     );
@@ -2689,7 +2711,13 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after scroll',
                         [[58.694, 18.759], 1.1488],
                         [[-58.694, -18.759], 183.818],
-                        ['geo.projection.rotation.lon', 'geo.projection.rotation.lat', 'geo.projection.scale']
+                        [
+                            'geo.projection.rotation.lon',
+                            'geo.projection.rotation.lat',
+                            'geo.center.lon',
+                            'geo.center.lat',
+                            'geo.projection.scale'
+                        ]
                     );
                     return Plotly.relayout(gd, 'geo.showocean', false);
                 })
@@ -2703,13 +2731,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                     return dblClick([350, 250]);
                 })
                 .then(function () {
-                    // resets to initial view
-                    _assert(
-                        'after double click',
-                        [[undefined, undefined], undefined],
-                        [[-76.014, -19.8], 160],
-                        'dblclick'
-                    );
+                    // resets to initial view (viewInitial captured the fit values)
+                    _assert('after double click', [[76.014, 19.735], 1], [[-76.014, -19.8], 160], 'dblclick');
                 })
                 .then(done, done.fail);
         });
@@ -2722,6 +2745,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
             fig = Lib.extendDeep({}, require('../../image/mocks/geo_europe-bubbles'));
             fig.layout.geo.resolution = 110;
             fig.layout.dragmode = 'pan';
+            fig.layout.geo.fitbounds = false;
 
             // of layout width = height = 500
         });
@@ -2810,12 +2834,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
 
             newPlot(fig)
                 .then(function () {
-                    _assert(
-                        'base',
-                        [[undefined, undefined], undefined],
-                        [[247, 260], [5.7998, 49.29], 504.8559],
-                        undefined
-                    );
+                    _assert('base', [[20.87, 49.33], 1.7303], [[247, 260], [5.7998, 49.29], 504.8559], undefined);
                     return drag({
                         path: [
                             [250, 250],
@@ -2829,7 +2848,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after SW-NE drag',
                         [[29.059, 42.38], 1.727],
                         [[197, 210], [5.7988, 49.29], 504.8559],
-                        ['geo.center.lon', 'geo.center.lon', 'geo.projection.scale', 'geo.fitbounds']
+                        ['geo.center.lon', 'geo.center.lat', 'geo.fitbounds']
                     );
                     return scroll([300, 300], [-200, -200]);
                 })
@@ -2859,7 +2878,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after double click',
-                        [[undefined, undefined], undefined],
+                        [[20.87, 49.33], 1.7303],
                         [[247, 260], [5.7998, 49.29], 504.8559],
                         'dblclick'
                     );
@@ -2871,6 +2890,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
     it('should work for *albers usa* projections', function (done) {
         var fig = Lib.extendDeep({}, require('../../image/mocks/geo_choropleth-usa'));
         fig.layout.dragmode = 'pan';
+        fig.layout.geo.fitbounds = false;
 
         // layout width = 870
         // layout height = 598
@@ -2954,6 +2974,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
         fig.data = [fig.data[0]];
         fig.layout.width = 700;
         fig.layout.height = 500;
+        fig.layout.geo.fitbounds = false;
 
         newPlot(fig)
             .then(function () {
@@ -2972,6 +2993,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
         fig.layout.width = 700;
         fig.layout.height = 500;
         fig.layout.dragmode = 'pan';
+        fig.layout.geo.fitbounds = false;
 
         function _assert(step, attr, proj, eventKeys) {
             var msg = '[' + step + '] ';
@@ -3141,6 +3163,7 @@ describe('Test geo interactions update marker angles:', function () {
         fig.layout.width = 700;
         fig.layout.height = 500;
         fig.layout.dragmode = 'pan';
+        fig.layout.geo.fitbounds = false;
 
         var initialPath, newPath;
 
@@ -3214,6 +3237,7 @@ describe('plotly_relayouting', function () {
                 fig.layout.dragmode = dragmode;
                 fig.layout.width = 700;
                 fig.layout.height = 500;
+                fig.layout.geo.fitbounds = false;
 
                 newPlot(fig)
                     .then(function () {
