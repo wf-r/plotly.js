@@ -63,6 +63,8 @@ function sync(geo, projection, cb) {
 
     cb(set);
     set('projection.scale', projection.scale() / geo.fitScale);
+    // Turn off fitbounds so subsequent replays don't re-run the auto-fit and
+    // overwrite the user's dragged/scrolled position
     set('fitbounds', false);
     gd.emit('plotly_relayout', eventData);
 }
@@ -272,7 +274,9 @@ function zoomClipped(geo, projection) {
             geo.graphDiv.emit('plotly_relayouting', {
                 'geo.projection.scale': projection.scale() / geo.fitScale,
                 'geo.projection.rotation.lon': -_rotate[0],
-                'geo.projection.rotation.lat': -_rotate[1]
+                'geo.projection.rotation.lat': -_rotate[1],
+                'geo.center.lon': -_rotate[0],
+                'geo.center.lat': -_rotate[1]
             });
         });
 
@@ -292,6 +296,8 @@ function zoomClipped(geo, projection) {
         var _rotate = projection.rotate();
         set('projection.rotation.lon', -_rotate[0]);
         set('projection.rotation.lat', -_rotate[1]);
+        set('center.lon', -_rotate[0]);
+        set('center.lat', -_rotate[1]);
     }
 
     return d3.rebind(zoom, event, 'on');

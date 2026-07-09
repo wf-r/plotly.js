@@ -617,7 +617,18 @@ function handleGeo(gd, ev) {
             else if (newScale < min) newScale = min;
 
             if (newScale !== scale) {
-                Registry.call('_guiRelayout', gd, id + '.projection.scale', newScale);
+                // Persist the currently-effective view attrs with the new scale; turn
+                // off fitbounds so auto-fit doesn't overwrite them on the ensuing replot
+                const { rotation } = geoLayout.projection;
+                const { center } = geoLayout;
+                Registry.call('_guiRelayout', gd, {
+                    [id + '.projection.scale']: newScale,
+                    [id + '.projection.rotation.lon']: rotation.lon,
+                    [id + '.projection.rotation.lat']: rotation.lat,
+                    [id + '.center.lon']: center.lon,
+                    [id + '.center.lat']: center.lat,
+                    [id + '.fitbounds']: false
+                });
             }
         }
     }
