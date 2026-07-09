@@ -1531,7 +1531,6 @@ describe('Test geo interactions', function () {
     it('should clear hover label when cursor slips off subplot', function (done) {
         var gd = createGraphDiv();
         var fig = Lib.extendDeep({}, require('../../image/mocks/geo_orthographic.json'));
-        fig.layout.geo.fitbounds = false;
 
         function _assert(msg, hoverLabelCnt) {
             expect(d3SelectAll('g.hovertext').size()).toBe(hoverLabelCnt, msg);
@@ -1577,7 +1576,6 @@ describe('Test geo interactions', function () {
 
         fig.data[0].visible = false;
         fig.layout.geo.projection.rotation = { lon: -75, lat: 90 };
-        fig.layout.geo.fitbounds = false;
 
         function check(p, hoverLabelCnt) {
             mouseEvent('mousemove', p[0], p[1]);
@@ -2406,7 +2404,6 @@ describe('Test geo zoom/pan/drag interactions:', function () {
             fig.layout.width = 700;
             fig.layout.height = 500;
             fig.layout.dragmode = 'pan';
-            fig.layout.geo.fitbounds = false;
         });
 
         function _assert(step, attr, proj, eventKeys) {
@@ -2511,6 +2508,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
         });
 
         it('- fitbounds case', function (done) {
+            // Clear the mock's user-set rotation so the fitbounds gate doesn't opt out
+            delete fig.layout.geo.projection.rotation;
             fig.layout.geo.fitbounds = 'locations';
 
             newPlot(fig)
@@ -2574,7 +2573,6 @@ describe('Test geo zoom/pan/drag interactions:', function () {
         beforeEach(function () {
             fig = Lib.extendDeep({}, require('../../image/mocks/geo_orthographic'));
             fig.layout.dragmode = 'pan';
-            fig.layout.geo.fitbounds = false;
 
             // of layout width = height = 500
         });
@@ -2678,6 +2676,8 @@ describe('Test geo zoom/pan/drag interactions:', function () {
         });
 
         it('- fitbounds case', function (done) {
+            // Clear the mock's user-set rotation so the fitbounds gate doesn't opt out
+            delete fig.layout.geo.projection.rotation;
             fig.layout.geo.fitbounds = 'locations';
 
             newPlot(fig)
@@ -2974,7 +2974,6 @@ describe('Test geo zoom/pan/drag interactions:', function () {
         fig.data = [fig.data[0]];
         fig.layout.width = 700;
         fig.layout.height = 500;
-        fig.layout.geo.fitbounds = false;
 
         newPlot(fig)
             .then(function () {
@@ -2993,7 +2992,6 @@ describe('Test geo zoom/pan/drag interactions:', function () {
         fig.layout.width = 700;
         fig.layout.height = 500;
         fig.layout.dragmode = 'pan';
-        fig.layout.geo.fitbounds = false;
 
         function _assert(step, attr, proj, eventKeys) {
             var msg = '[' + step + '] ';
@@ -3163,7 +3161,6 @@ describe('Test geo interactions update marker angles:', function () {
         fig.layout.width = 700;
         fig.layout.height = 500;
         fig.layout.dragmode = 'pan';
-        fig.layout.geo.fitbounds = false;
 
         var initialPath, newPath;
 
