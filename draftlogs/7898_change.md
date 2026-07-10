@@ -1,0 +1,1 @@
+- Add support for MathJax v4, and **drop support for v2** [[#7898](https://github.com/plotly/plotly.js/pull/7898)]
