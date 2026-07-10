@@ -200,16 +200,45 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
     coerce('bgcolor');
 
     // Only use fitbounds if user hasn't set any view attributes. This prevents
-    // user specified view info from being ignored.
-    const fitBounds = coerce('fitbounds');
-    if (fitBounds) {
+    // user-specified view info from being ignored.
+    const fitbounds = coerce('fitbounds');
+    if (fitbounds) {
+        const centerIn = geoLayoutIn.center || {};
         const projectionIn = geoLayoutIn.projection || {};
-        const hasUserView =
-            geoLayoutIn.center !== undefined ||
-            projectionIn.rotation !== undefined ||
-            projectionIn.scale !== undefined ||
-            geoLayoutIn.lonaxis?.range !== undefined ||
-            geoLayoutIn.lataxis?.range !== undefined;
+        const rotationIn = projectionIn.rotation || {};
+        const lonaxisIn = geoLayoutIn.lonaxis || {};
+        const lataxisIn = geoLayoutIn.lataxis || {};
+        const hasUserView = [
+            centerIn.lon,
+            centerIn.lat,
+            rotationIn.lon,
+            rotationIn.lat,
+            projectionIn.scale,
+            lonaxisIn.range,
+            lataxisIn.range
+        ].some((d) => d !== undefined);
         if (hasUserView) geoLayoutOut.fitbounds = false;
+    }
+
+    // Set auto-filled view attributes to null so updateProjection can
+    // compute the fit from scratch and fullLayout matches user input
+    if (geoLayoutOut.fitbounds) {
+        geoLayoutOut.projection.scale = null;
+
+        if (isScoped) {
+            geoLayoutOut.center.lon = null;
+            geoLayoutOut.center.lat = null;
+        } else if (isClipped) {
+            geoLayoutOut.center.lon = null;
+            geoLayoutOut.center.lat = null;
+            geoLayoutOut.projection.rotation.lon = null;
+            geoLayoutOut.projection.rotation.lat = null;
+            geoLayoutOut.lonaxis.range = null;
+            geoLayoutOut.lataxis.range = null;
+        } else {
+            geoLayoutOut.center.lon = null;
+            geoLayoutOut.center.lat = null;
+            geoLayoutOut.projection.rotation.lon = null;
+        }
     }
 }

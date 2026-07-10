@@ -274,9 +274,7 @@ function zoomClipped(geo, projection) {
             geo.graphDiv.emit('plotly_relayouting', {
                 'geo.projection.scale': projection.scale() / geo.fitScale,
                 'geo.projection.rotation.lon': -_rotate[0],
-                'geo.projection.rotation.lat': -_rotate[1],
-                'geo.center.lon': -_rotate[0],
-                'geo.center.lat': -_rotate[1]
+                'geo.projection.rotation.lat': -_rotate[1]
             });
         });
 
@@ -296,8 +294,6 @@ function zoomClipped(geo, projection) {
         var _rotate = projection.rotate();
         set('projection.rotation.lon', -_rotate[0]);
         set('projection.rotation.lat', -_rotate[1]);
-        set('center.lon', -_rotate[0]);
-        set('center.lat', -_rotate[1]);
     }
 
     return d3.rebind(zoom, event, 'on');
