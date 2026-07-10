@@ -607,9 +607,9 @@ describe('Test Geo layout defaults', function () {
                     };
                     supplyLayoutDefaults(layoutIn, layoutOut, fullData);
                     _assert({
-                        'projection.scale': 1,
-                        'center.lon': 15,
-                        'center.lat': 57.5,
+                        'projection.scale': null,
+                        'center.lon': null,
+                        'center.lat': null,
                         'projection.rotation.lon': 15,
                         'projection.rotation.lat': 0,
                         'lonaxis.range': [-30, 60],
@@ -2514,7 +2514,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
 
             newPlot(fig)
                 .then(function () {
-                    _assert('base', [[180, 0], [180, 0], 1.1249], [[-180, -0], [350, 260], [0, 0], 114.59], undefined);
+                    _assert('base', [[null, 0], [null, null], null], [[-180, -0], [350, 260], [0, 0], 114.59], undefined);
                     return drag({
                         path: [
                             [350, 250],
@@ -2528,7 +2528,13 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after east-west drag',
                         [[149.4, 0], [149.4, 0], 1.1249],
                         [[-149.4, 0], [350, 260], [0, 0], 114.59],
-                        ['geo.projection.rotation.lon', 'geo.center.lon', 'geo.fitbounds']
+                        [
+                            'geo.projection.rotation.lon',
+                            'geo.center.lon',
+                            'geo.center.lat',
+                            'geo.projection.scale',
+                            'geo.fitbounds'
+                        ]
                     );
                     return scroll([200, 250], [-200, -200]);
                 })
@@ -2558,7 +2564,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after double click',
-                        [[180, 0], [180, 0], 1.1249],
+                        [[null, 0], [null, null], null],
                         [[-180, -0], [350, 260], [0, 0], 114.59],
                         'dblclick'
                     );
@@ -2615,12 +2621,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after east-west drag',
                         [[-103.7, 49.3], 1],
                         [[103.7, -49.3], 160],
-                        [
-                            'geo.projection.rotation.lon',
-                            'geo.projection.rotation.lat',
-                            'geo.center.lon',
-                            'geo.center.lat'
-                        ]
+                        ['geo.projection.rotation.lon', 'geo.projection.rotation.lat']
                     );
                     return drag({
                         path: [
@@ -2635,12 +2636,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after NW-SE drag',
                         [[-135.5, 73.8], 1],
                         [[135.5, -73.8], 160],
-                        [
-                            'geo.projection.rotation.lon',
-                            'geo.projection.rotation.lat',
-                            'geo.center.lon',
-                            'geo.center.lat'
-                        ]
+                        ['geo.projection.rotation.lon', 'geo.projection.rotation.lat']
                     );
                     return scroll([300, 300], [-200, -200]);
                 })
@@ -2649,13 +2645,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after scroll',
                         [[-126.2, 67.1], 1.3],
                         [[126.2, -67.1], 211.1],
-                        [
-                            'geo.projection.rotation.lon',
-                            'geo.projection.rotation.lat',
-                            'geo.center.lon',
-                            'geo.center.lat',
-                            'geo.projection.scale'
-                        ]
+                        ['geo.projection.rotation.lon', 'geo.projection.rotation.lat', 'geo.projection.scale']
                     );
                     return Plotly.relayout(gd, 'geo.showocean', false);
                 })
@@ -2682,7 +2672,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
 
             newPlot(fig)
                 .then(function () {
-                    _assert('base', [[76.014, 19.735], 1], [[-76.014, -19.735], 160], undefined);
+                    _assert('base', [[null, null], null], [[-76.014, -19.735], 160], undefined);
                     return drag({
                         path: [
                             [250, 250],
@@ -2699,8 +2689,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         [
                             'geo.projection.rotation.lon',
                             'geo.projection.rotation.lat',
-                            'geo.center.lon',
-                            'geo.center.lat',
+                            'geo.projection.scale',
                             'geo.fitbounds'
                         ]
                     );
@@ -2711,13 +2700,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after scroll',
                         [[58.694, 18.759], 1.1488],
                         [[-58.694, -18.759], 183.818],
-                        [
-                            'geo.projection.rotation.lon',
-                            'geo.projection.rotation.lat',
-                            'geo.center.lon',
-                            'geo.center.lat',
-                            'geo.projection.scale'
-                        ]
+                        ['geo.projection.rotation.lon', 'geo.projection.rotation.lat', 'geo.projection.scale']
                     );
                     return Plotly.relayout(gd, 'geo.showocean', false);
                 })
@@ -2731,8 +2714,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                     return dblClick([350, 250]);
                 })
                 .then(function () {
-                    // resets to initial view (viewInitial captured the fit values)
-                    _assert('after double click', [[76.014, 19.735], 1], [[-76.014, -19.8], 160], 'dblclick');
+                    _assert('after double click', [[null, null], null], [[-76.014, -19.8], 160], 'dblclick');
                 })
                 .then(done, done.fail);
         });
@@ -2834,7 +2816,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
 
             newPlot(fig)
                 .then(function () {
-                    _assert('base', [[20.87, 49.33], 1.7303], [[247, 260], [5.7998, 49.29], 504.8559], undefined);
+                    _assert('base', [[null, null], null], [[247, 260], [5.7998, 49.29], 504.8559], undefined);
                     return drag({
                         path: [
                             [250, 250],
@@ -2848,7 +2830,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                         'after SW-NE drag',
                         [[29.059, 42.38], 1.727],
                         [[197, 210], [5.7988, 49.29], 504.8559],
-                        ['geo.center.lon', 'geo.center.lat', 'geo.fitbounds']
+                        ['geo.center.lon', 'geo.center.lat', 'geo.projection.scale', 'geo.fitbounds']
                     );
                     return scroll([300, 300], [-200, -200]);
                 })
@@ -2878,7 +2860,7 @@ describe('Test geo zoom/pan/drag interactions:', function () {
                 .then(function () {
                     _assert(
                         'after double click',
-                        [[20.87, 49.33], 1.7303],
+                        [[null, null], null],
                         [[247, 260], [5.7998, 49.29], 504.8559],
                         'dblclick'
                     );

@@ -1411,7 +1411,7 @@ describe('Plotly.react and uirevision attributes', function() {
                 }],
                 layout: {
                     uirevision: mainRev,
-                    geo: {uirevision: geoRev}
+                    geo: {uirevision: geoRev, fitbounds: false}
                 }
             };
         }
@@ -2017,7 +2017,8 @@ describe('Test Plotly.react + interactions under uirevision:', function() {
             }], {
                 width: 500,
                 height: 500,
-                uirevision: true
+                uirevision: true,
+                geo: {fitbounds: false}
             });
         }
 
@@ -2044,7 +2045,7 @@ describe('Test Plotly.react + interactions under uirevision:', function() {
 
         _react()
         .then(function() {
-            expect(gd.layout.geo).toEqual({});
+            expect(gd.layout.geo).toEqual({fitbounds: false});
 
             var fullGeo = gd._fullLayout.geo;
             expect(fullGeo.projection.rotation.lon).toBe(0);
