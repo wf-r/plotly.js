@@ -87,13 +87,17 @@ async def make_baselines_async():
     if mathjax is not None:
         kopts["mathjax"] = mathjax
 
+    # Per-mock timeout so a runaway render surfaces as a named failure instead
+    # of hanging the whole shard until the runner times out.
+    PER_MOCK_TIMEOUT_SECONDS = 60
+
     async with kaleido.Kaleido(n=1, **kopts) as k:
         for name in allNames:
             outName = name
             if mathjax_version == 3:
                 outName = "mathjax3___" + name
 
-            print(outName)
+            print(outName, flush=True)
 
             created = False
 
@@ -124,23 +128,35 @@ async def make_baselines_async():
                             print(json.dumps(fig, indent=2))
 
                     try:
-                        bytes = await k.calc_fig(
-                            fig,
-                            opts=dict(
-                                format="png",
-                                width=width,
-                                height=height,
+                        bytes = await asyncio.wait_for(
+                            k.calc_fig(
+                                fig,
+                                opts=dict(
+                                    format="png",
+                                    width=width,
+                                    height=height,
+                                ),
+                                topojson=topojson,
                             ),
-                            topojson=topojson,
+                            timeout=PER_MOCK_TIMEOUT_SECONDS,
                         )
                         filename = os.path.join(dirOut, outName + ".png")
                         with open(filename, "wb") as f:
                             f.write(bytes)
                         created = True
-                    except Exception as e:
-                        print(e)
+                    except asyncio.TimeoutError:
+                        print(
+                            f"timed out after {PER_MOCK_TIMEOUT_SECONDS}s",
+                            flush=True,
+                        )
                         if attempt < MAX_RETRY:
-                            print("retry", attempt + 1, "/", MAX_RETRY)
+                            print("retry", attempt + 1, "/", MAX_RETRY, flush=True)
+                        else:
+                            failed.append(outName)
+                    except Exception as e:
+                        print(e, flush=True)
+                        if attempt < MAX_RETRY:
+                            print("retry", attempt + 1, "/", MAX_RETRY, flush=True)
                         else:
                             failed.append(outName)
 
