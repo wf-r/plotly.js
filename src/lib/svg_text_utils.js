@@ -78,6 +78,10 @@ exports.convertToTspans = function(_context, gd, _callback) {
             _context.style('display', 'none');
             var fontSize = parseInt(_context.node().style.fontSize, 10);
             var config = {fontSize: fontSize};
+            // Capture the text-anchor value now, since the the callback function below
+            // will run async, and in the meantime the text-anchor may change
+            // which would result in a wrongly-positioned SVG
+            var textAnchor = _context.attr('text-anchor');
 
             texToSVG(tex[2], config, function(_svgEl, _glyphDefs, _svgBBox) {
                 parent.selectAll('svg.' + svgClass).remove();
@@ -89,6 +93,11 @@ exports.convertToTspans = function(_context, gd, _callback) {
                     resolve();
                     return;
                 }
+
+                // Now that the MathJax render has finished, re-hide the source text.
+                // We hid it earlier, too, but since this callback runs async,
+                // another function may have made it visible again
+                _context.style('display', 'none');
 
                 var mathjaxGroup = parent.append('g')
                     .classed(svgClass + '-group', true)
@@ -151,11 +160,9 @@ exports.convertToTspans = function(_context, gd, _callback) {
                     x = 0;
                     y = dy;
                 } else {
-                    var anchor = _context.attr('text-anchor');
-
                     x = x - w * (
-                        anchor === 'middle' ? 0.5 :
-                        anchor === 'end' ? 1 : 0
+                        textAnchor === 'middle' ? 0.5 :
+                        textAnchor === 'end' ? 1 : 0
                     );
                     y = y + dy - h / 2;
                 }
@@ -185,7 +192,11 @@ function cleanEscapesForTex(s) {
         .replace(GT_MATCH, '\\gt ');
 }
 
-var inlineMath = [['$', '$'], ['\\(', '\\)']];
+// Create a dedicated MathDocument just for Plotly.js,
+// to avoid interfering with any other MathJax on the page.
+// mathjaxSVGDocument is initialized on the first call to texToSVG(),
+// and reused for subsequent calls.
+var mathjaxSVGDocument = null;
 
 function texToSVG(_texString, _config, _callback) {
     const MathJaxVersion = parseInt(
@@ -200,24 +211,24 @@ function texToSVG(_texString, _config, _callback) {
         return;
     }
 
-    var originalConfig,
-        tmpDiv;
-
-    const setConfig = function() {
-        originalConfig = Lib.extendDeepAll({}, MathJax.config);
-
-        if(!MathJax.config.tex) {
-            MathJax.config.tex = {};
-        }
-
-        MathJax.config.tex.inlineMath = inlineMath;
-
-        if(MathJax.config.startup.output !== 'svg') {
-            MathJax.config.startup.output = 'svg';
-        }
-    };
+    var tmpDiv;
 
     const initiateMathJax = function() {
+        if(!mathjaxSVGDocument) {
+            const SVG = MathJax._.output.svg_ts.SVG;
+            // fontCache 'local' keeps each rendered svg self-contained
+            const svgConfig = Lib.extendFlat({}, MathJax.config.svg, {fontCache: 'local'});
+            // MathJax v4 enables automatic inline linebreaking by default, which
+            // messes up our layout assumptions. Disabling it gives behavior consistent with v3.
+            if(MathJaxVersion === 4) {
+                svgConfig.linebreaks = Lib.extendFlat({}, svgConfig.linebreaks, {inline: false});
+            }
+            mathjaxSVGDocument = MathJax._.mathjax.mathjax.document(document, Lib.extendFlat({}, MathJax.config.options, {
+                InputJax: MathJax.startup.input,
+                OutputJax: new SVG(svgConfig)
+            }));
+        }
+
         const randomID = 'math-output-' + Lib.randstr({}, 64);
         tmpDiv = d3.select('body').append('div')
             .attr({id: randomID})
@@ -225,12 +236,16 @@ function texToSVG(_texString, _config, _callback) {
                 visibility: 'hidden',
                 position: 'absolute',
                 'font-size': _config.fontSize + 'px'
-            })
-            .text(cleanEscapesForTex(_texString));
+            });
 
-        const tmpNode = tmpDiv.node();
-
-        return MathJax.typesetPromise([tmpNode]);
+        // Strip $…$ delimiters and clean up escape charaters,
+        // then pass the result to MathDocument.convert() to get an SVG element back
+        const texMath = cleanEscapesForTex(_texString).replace(/^\$+|\$+$/g, '');
+        return MathJax._.mathjax.mathjax.handleRetriesFor(function() {
+            return mathjaxSVGDocument.convert(texMath, {display: false});
+        }).then(function(node) {
+            tmpDiv.node().appendChild(node);
+        });
     };
 
     const finalizeMathJax = function() {
@@ -249,24 +264,15 @@ function texToSVG(_texString, _config, _callback) {
         tmpDiv.remove();
     };
 
-    // Restore the original state of the global MathJax config we mutated above
-    // This also restores the renderer to its original value
-    const resetConfig = function() {
-        MathJax.config = originalConfig;
-    };
-
-    // Set up MathJax, render tex, then clean up and return
-    setConfig();
-    MathJax.startup.defaultReady();
-    MathJax.startup.promise
+    // Initialize, render MathJax, then call _callback()
+    Promise.resolve()
         .then(initiateMathJax)
         .then(finalizeMathJax)
         .catch((err) => {
             Lib.log('MathJax typesetting failed.', _texString, err);
             if(tmpDiv) tmpDiv.remove();
             _callback();
-        })
-        .then(resetConfig);
+        });
 }
 
 var TAG_STYLES = {
