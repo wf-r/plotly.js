@@ -18,10 +18,13 @@ describe('Test MathJax v' + mathjaxVersion + ' config test:', function() {
 
         window.MathJax = {
             startup: {
-                output: 'chtml',
-                tex: {
-                    inlineMath: [['|', '|']]
-                }
+                output: 'svg'
+            },
+            tex: {
+                inlineMath: [['|', '|']]
+            },
+            svg: {
+                fontCache: 'none'
             }
         };
 
@@ -34,10 +37,11 @@ describe('Test MathJax v' + mathjaxVersion + ' config test:', function() {
 
     afterAll(destroyGraphDiv);
 
-    it('should maintain startup renderer & inlineMath after SVG rendering', function(done) {
+    it('should maintain original inlineMath & fontCache config values after SVG rendering', function(done) {
         // before plot
-        expect(window.MathJax.config.startup.output).toEqual('chtml');
-        expect(window.MathJax.config.startup.tex.inlineMath).toEqual([['|', '|']]);
+        expect(window.MathJax.config.startup.output).toEqual('svg');
+        expect(window.MathJax.config.tex.inlineMath).toEqual([['|', '|']]);
+        expect(window.MathJax.config.svg.fontCache).toEqual('none');
 
         Plotly.newPlot(gd, {
             data: [{
@@ -51,8 +55,9 @@ describe('Test MathJax v' + mathjaxVersion + ' config test:', function() {
         })
         .then(function() {
             // after plot
-            expect(window.MathJax.config.startup.output).toEqual('chtml');
-            expect(window.MathJax.config.startup.tex.inlineMath).toEqual([['|', '|']]);
+            expect(window.MathJax.config.startup.output).toEqual('svg');
+            expect(window.MathJax.config.tex.inlineMath).toEqual([['|', '|']]);
+            expect(window.MathJax.config.svg.fontCache).toEqual('none');
         })
         .then(done, done.fail);
     });
