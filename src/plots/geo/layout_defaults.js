@@ -201,8 +201,8 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
 
     // Only use fitbounds if user hasn't set any view attributes. This prevents
     // user-specified view info from being ignored.
-    const fitbounds = coerce('fitbounds');
-    if (fitbounds) {
+    coerce('fitbounds');
+    if (geoLayoutOut.fitbounds) {
         const centerIn = geoLayoutIn.center || {};
         const projectionIn = geoLayoutIn.projection || {};
         const rotationIn = projectionIn.rotation || {};
@@ -217,7 +217,8 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
             lonaxisIn.range,
             lataxisIn.range
         ].some((d) => d !== undefined);
-        if (hasUserView) geoLayoutOut.fitbounds = false;
+        // The Albers projection doesn't need a fit, so skip here
+        if (hasUserView || isAlbersUsa) geoLayoutOut.fitbounds = false;
     }
 
     // Set auto-filled view attributes to null so updateProjection can
