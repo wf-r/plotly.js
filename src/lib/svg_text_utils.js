@@ -125,7 +125,11 @@ exports.convertToTspans = function(_context, gd, _callback) {
                     height: h0,
                     preserveAspectRatio: 'xMinYMin meet'
                 })
-                .style({overflow: 'visible', 'pointer-events': 'none'});
+                .style({
+                    overflow: 'visible',
+                    'pointer-events': 'none',
+                    'font-size': config.fontSize + 'px',
+                });
 
                 var fill = _context.node().style.fill || 'black';
                 var g = newSvg.select('g');
@@ -245,6 +249,7 @@ function texToSVG(_texString, _config, _callback) {
         const texMath = cleanEscapesForTex(_texString).replace(/^\$+|\$+$/g, '');
         // handleRetriesFor() automatically retries a MathJax function if it fails
         // due to a transient error (docs: https://docs.mathjax.org/en/v4.0/web/retry.html)
+        // handleRetriesFor() returns a promise which resolves to the result of the provided function
         return MathJax._.mathjax.mathjax.handleRetriesFor(function() {
             return mathjaxSVGDocument.convert(texMath, {
                 display: false
