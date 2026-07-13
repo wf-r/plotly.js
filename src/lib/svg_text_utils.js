@@ -264,7 +264,6 @@ function texToSVG(_texString, _config, _callback) {
         tmpDiv.remove();
     };
 
-    // Initialize, render MathJax, then call _callback()
     Promise.resolve()
         .then(initiateMathJax)
         .then(finalizeMathJax)
