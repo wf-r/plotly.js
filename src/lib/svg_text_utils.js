@@ -97,6 +97,8 @@ exports.convertToTspans = function(_context, gd, _callback) {
                 // Now that the MathJax render has finished, re-hide the source text.
                 // We hid it earlier, too, but since this callback runs async,
                 // another function may have made it visible again
+                // TODO: investigate this issue more deeply, there's probably a better
+                // solution than this band-aid fix
                 _context.style('display', 'none');
 
                 var mathjaxGroup = parent.append('g')
@@ -241,8 +243,12 @@ function texToSVG(_texString, _config, _callback) {
         // Strip $…$ delimiters and clean up escape charaters,
         // then pass the result to MathDocument.convert() to get an SVG element back
         const texMath = cleanEscapesForTex(_texString).replace(/^\$+|\$+$/g, '');
+        // handleRetriesFor() automatically retries a MathJax function if it fails
+        // due to a transient error (docs: https://docs.mathjax.org/en/v4.0/web/retry.html)
         return MathJax._.mathjax.mathjax.handleRetriesFor(function() {
-            return mathjaxSVGDocument.convert(texMath, {display: false});
+            return mathjaxSVGDocument.convert(texMath, {
+                display: false
+            });
         }).then(function(node) {
             tmpDiv.node().appendChild(node);
         });
