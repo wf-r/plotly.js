@@ -74,11 +74,27 @@ describe('Test getMapFitBounds', () => {
             })
         ];
         const bounds = getMapFitBounds(fullData, 'map');
-        // getFitboundsLonRange picks the tight west→east arc across the antimeridian
         expect(bounds.west).toBe(170);
         expect(bounds.east).toBe(190);
         expect(bounds.south).toBe(-10);
         expect(bounds.north).toBe(20);
+    });
+
+    it('keeps the naive range when the interior gap is narrower than the antimeridian gap', () => {
+        // Span = 200°, antimeridian gap = 160°. Widest interior gap (100°) fits
+        // inside the antimeridian gap, so the naive [-100, 100] arc wins.
+        const fullData = [
+            scattermap({
+                lon: [-100, 0, 100],
+                lat: [0, 10, 20]
+            })
+        ];
+        expect(getMapFitBounds(fullData, 'map')).toEqual({
+            west: -100,
+            east: 100,
+            south: 0,
+            north: 20
+        });
     });
 
     it('ignores traces on other subplots', () => {
