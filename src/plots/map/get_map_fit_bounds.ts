@@ -1,4 +1,4 @@
-import { getFitboundsLonRange } from '../../lib/geo_location_utils';
+import { computeBbox } from '../../lib/geo_location_utils';
 import type { MapLayout, ScattermapData } from '../../types/generated/schema';
 
 // Same shape as the user-facing `map.bounds` attribute, but with all fields required
@@ -27,11 +27,7 @@ interface FitBoundsTrace extends Pick<ScattermapData, 'subplot' | 'visible'> {
  * @param subplotId - e.g. `'map'`, `'map2'`
  */
 export function getMapFitBounds(fullData: FitBoundsTrace[], subplotId: string): LonLatBox | null {
-    const validLons: number[] = [];
-    let minLon = Infinity;
-    let maxLon = -Infinity;
-    let minLat = Infinity;
-    let maxLat = -Infinity;
+    const coordinates: [number, number][] = [];
 
     for (const trace of fullData) {
         if (trace.subplot !== subplotId || trace.visible !== true) continue;
@@ -47,30 +43,13 @@ export function getMapFitBounds(fullData: FitBoundsTrace[], subplotId: string): 
         for (let j = 0; j < len; j++) {
             const lo = lon[j];
             const la = lat[j];
-            if (Number.isFinite(lo) && Number.isFinite(la)) {
-                validLons.push(lo);
-                // Track longitude bounds
-                if (lo < minLon) minLon = lo;
-                if (lo > maxLon) maxLon = lo;
-                // Track latitude bounds
-                if (la < minLat) minLat = la;
-                if (la > maxLat) maxLat = la;
-            }
+            if (Number.isFinite(lo) && Number.isFinite(la)) coordinates.push([lo, la]);
         }
     }
 
-    if (!validLons.length) return null;
+    const bbox = computeBbox({ type: 'MultiPoint', coordinates });
+    if (!bbox) return null;
 
-    let west = minLon;
-    let east = maxLon;
-    // Only handle antimeridian if it actually gets crossed
-    if (maxLon - minLon > 180) {
-        const lonRange = getFitboundsLonRange(validLons);
-        if (lonRange) {
-            west = lonRange[0];
-            east = lonRange[1];
-        }
-    }
-
-    return { west, east, south: minLat, north: maxLat };
+    const [west, south, east, north] = bbox;
+    return { west, east, south, north };
 }
