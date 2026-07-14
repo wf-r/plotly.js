@@ -24,6 +24,7 @@ function handleDefaults(containerIn, containerOut, coerce, opts) {
     coerce('zoom');
     coerce('bearing');
     coerce('pitch');
+    const fitbounds = coerce('fitbounds');
 
     var west = coerce('bounds.west');
     var east = coerce('bounds.east');
@@ -38,8 +39,28 @@ function handleDefaults(containerIn, containerOut, coerce, opts) {
         handleItemDefaults: handleLayerDefaults
     });
 
-    // Auto-frame the initial view to the data
-    if (containerIn.center === undefined && containerIn.zoom === undefined) {
+    // Explicitly assign `_fitBounds` (even when null) so `relinkPrivateKeys`
+    // doesn't carry a stale value forward from the previous render
+    containerOut._fitBounds = null;
+
+    // Fit the view to the data. Runs when no view attributes have
+    // been set (initial render, or user cleared them) OR when they still
+    // hold the exact values that were auto-computed last time. Skipped when
+    // the user has explicitly opted out via `fitbounds: false`.
+    const {
+        _fitView: { center: fitCenter, zoom: fitZoom, bearing: fitBearing, pitch: fitPitch } = {},
+        center,
+        zoom,
+        bearing,
+        pitch
+    } = containerIn;
+    const isFitView =
+        bearing === fitBearing &&
+        center?.lon === fitCenter?.lon &&
+        center?.lat === fitCenter?.lat &&
+        pitch === fitPitch &&
+        zoom === fitZoom;
+    if (fitbounds && isFitView) {
         const fitBounds = getMapFitBounds(opts.fullData, opts.id);
         if (fitBounds) containerOut._fitBounds = fitBounds;
     }
