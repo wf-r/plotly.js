@@ -80,6 +80,17 @@ var attrs = (module.exports = overrideAll(
             ].join(' ')
         },
 
+        fitbounds: {
+            valType: 'boolean',
+            dflt: true,
+            description: [
+                'Determines whether the map view auto-fits to the data.',
+                'For *true* (default), `center` and `zoom` are computed from the provided lon/lat coordinates,',
+                'For *false*, `center` and `zoom` are computed from the schema defaults or user-supplied values.',
+                'If `fitbounds` is enabled but a user provides `center` or `zoom`, auto-fit will be skipped.'
+            ].join(' ')
+        },
+
         bounds: {
             west: {
                 valType: 'number',
