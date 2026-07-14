@@ -2,13 +2,16 @@ const { getMapFitBounds } = require('../../../src/plots/map/get_map_fit_bounds')
 
 // Fabricate a fullData-shaped trace for testing without spinning up Plotly.
 function scattermap(overrides) {
-    return Object.assign({
-        type: 'scattermap',
-        subplot: 'map',
-        visible: true,
-        lon: [],
-        lat: []
-    }, overrides);
+    return Object.assign(
+        {
+            type: 'scattermap',
+            subplot: 'map',
+            visible: true,
+            lon: [],
+            lat: []
+        },
+        overrides
+    );
 }
 
 function densitymap(overrides) {
@@ -16,50 +19,60 @@ function densitymap(overrides) {
 }
 
 function choroplethmap(overrides) {
-    return Object.assign({
-        type: 'choroplethmap',
-        subplot: 'map',
-        visible: true,
-        locations: ['USA']
-    }, overrides);
+    return Object.assign(
+        {
+            type: 'choroplethmap',
+            subplot: 'map',
+            visible: true,
+            locations: ['USA']
+        },
+        overrides
+    );
 }
 
 describe('Test getMapFitBounds', () => {
     it('returns a lon/lat box for a single scattermap trace', () => {
-        const fullData = [scattermap({
-            lon: [-10, 20, 5],
-            lat: [40, 50, 45]
-        })];
+        const fullData = [
+            scattermap({
+                lon: [-10, 20, 5],
+                lat: [40, 50, 45]
+            })
+        ];
         expect(getMapFitBounds(fullData, 'map')).toEqual({
-            west: -10, east: 20, south: 40, north: 50
+            west: -10,
+            east: 20,
+            south: 40,
+            north: 50
         });
     });
 
     it('combines lon/lat across multiple visible traces on the same subplot', () => {
-        const fullData = [
-            scattermap({ lon: [-10, 20], lat: [40, 50] }),
-            scattermap({ lon: [5, 30], lat: [35, 45] })
-        ];
+        const fullData = [scattermap({ lon: [-10, 20], lat: [40, 50] }), scattermap({ lon: [5, 30], lat: [35, 45] })];
         expect(getMapFitBounds(fullData, 'map')).toEqual({
-            west: -10, east: 30, south: 35, north: 50
+            west: -10,
+            east: 30,
+            south: 35,
+            north: 50
         });
     });
 
     it('treats densitymap traces the same as scattermap for lon/lat contribution', () => {
-        const fullData = [
-            scattermap({ lon: [10, 20], lat: [40, 50] }),
-            densitymap({ lon: [5, 25], lat: [30, 55] })
-        ];
+        const fullData = [scattermap({ lon: [10, 20], lat: [40, 50] }), densitymap({ lon: [5, 25], lat: [30, 55] })];
         expect(getMapFitBounds(fullData, 'map')).toEqual({
-            west: 5, east: 25, south: 30, north: 55
+            west: 5,
+            east: 25,
+            south: 30,
+            north: 55
         });
     });
 
     it('uses the compact antimeridian-crossing range when data straddles ±180°', () => {
-        const fullData = [scattermap({
-            lon: [170, 175, -175, -170],
-            lat: [-10, 0, 10, 20]
-        })];
+        const fullData = [
+            scattermap({
+                lon: [170, 175, -175, -170],
+                lat: [-10, 0, 10, 20]
+            })
+        ];
         const bounds = getMapFitBounds(fullData, 'map');
         // getFitboundsLonRange picks the tight west→east arc across the antimeridian
         expect(bounds.west).toBe(170);
@@ -74,7 +87,10 @@ describe('Test getMapFitBounds', () => {
             scattermap({ lon: [-10, 10], lat: [30, 40] })
         ];
         expect(getMapFitBounds(fullData, 'map')).toEqual({
-            west: -10, east: 10, south: 30, north: 40
+            west: -10,
+            east: 10,
+            south: 30,
+            north: 40
         });
     });
 
@@ -84,7 +100,10 @@ describe('Test getMapFitBounds', () => {
             scattermap({ subplot: 'map2', lon: [100, 120], lat: [50, 60] })
         ];
         expect(getMapFitBounds(fullData, 'map2')).toEqual({
-            west: 100, east: 120, south: 50, north: 60
+            west: 100,
+            east: 120,
+            south: 50,
+            north: 60
         });
     });
 
@@ -94,7 +113,10 @@ describe('Test getMapFitBounds', () => {
             scattermap({ lon: [-10, 10], lat: [30, 40] })
         ];
         expect(getMapFitBounds(fullData, 'map')).toEqual({
-            west: -10, east: 10, south: 30, north: 40
+            west: -10,
+            east: 10,
+            south: 30,
+            north: 40
         });
     });
 
@@ -104,15 +126,15 @@ describe('Test getMapFitBounds', () => {
             scattermap({ lon: [-10, 10], lat: [30, 40] })
         ];
         expect(getMapFitBounds(fullData, 'map')).toEqual({
-            west: -10, east: 10, south: 30, north: 40
+            west: -10,
+            east: 10,
+            south: 30,
+            north: 40
         });
     });
 
     it('returns null when a choroplethmap trace is present on the subplot', () => {
-        const fullData = [
-            scattermap({ lon: [-10, 10], lat: [30, 40] }),
-            choroplethmap()
-        ];
+        const fullData = [scattermap({ lon: [-10, 10], lat: [30, 40] }), choroplethmap()];
         // location-based traces need geojson bbox handling — bail entirely
         expect(getMapFitBounds(fullData, 'map')).toBe(null);
     });
@@ -124,13 +146,18 @@ describe('Test getMapFitBounds', () => {
     });
 
     it('skips non-finite lonlat entries in an otherwise valid trace', () => {
-        const fullData = [scattermap({
-            lon: [-10, NaN, 20, null],
-            lat: [40, 50, NaN, 45]
-        })];
+        const fullData = [
+            scattermap({
+                lon: [-10, NaN, 20, null],
+                lat: [40, 50, NaN, 45]
+            })
+        ];
         // Only the (-10, 40) pair is fully finite → single-point box
         expect(getMapFitBounds(fullData, 'map')).toEqual({
-            west: -10, east: -10, south: 40, north: 40
+            west: -10,
+            east: -10,
+            south: 40,
+            north: 40
         });
     });
 });
