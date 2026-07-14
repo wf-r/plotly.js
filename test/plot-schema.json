@@ -3806,6 +3806,12 @@
           }
         },
         "editType": "plot",
+        "fitbounds": {
+          "description": "Determines whether the map view auto-fits to the data. For *true* (default), `center` and `zoom` are computed from the provided lon/lat coordinates, For *false*, `center` and `zoom` are computed from the schema defaults or user-supplied values. If `fitbounds` is enabled but a user provides `center` or `zoom`, auto-fit will be skipped.",
+          "dflt": true,
+          "editType": "plot",
+          "valType": "boolean"
+        },
         "layers": {
           "items": {
             "layer": {

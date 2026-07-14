@@ -12626,6 +12626,11 @@ export interface MapLayout {
         lon?: number;
     };
     domain?: Domain;
+    /**
+     * Determines whether the map view auto-fits to the data. For *true* (default), `center` and `zoom` are computed from the provided lon/lat coordinates, For *false*, `center` and `zoom` are computed from the schema defaults or user-supplied values. If `fitbounds` is enabled but a user provides `center` or `zoom`, auto-fit will be skipped.
+     * @default true
+     */
+    fitbounds?: boolean;
     layers?: Array<{
         /** Determines if the layer will be inserted before the layer with the specified ID. If omitted or set to '', the layer will be inserted above every existing layer. */
         below?: string;
