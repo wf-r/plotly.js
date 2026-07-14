@@ -56,6 +56,7 @@
     "b64": "python3 test/image/generate_b64_mocks.py && node devtools/test_dashboard/server.mjs",
     "mathjax3": "node devtools/test_dashboard/server.mjs --mathjax3",
     "mathjax3chtml": "node devtools/test_dashboard/server.mjs --mathjax3chtml",
+    "mathjax4chtml": "node devtools/test_dashboard/server.mjs --mathjax4chtml",
     "strict": "node devtools/test_dashboard/server.mjs --strict",
     "start": "node devtools/test_dashboard/server.mjs",
     "baseline": "node test/image/make_baseline.mjs",
