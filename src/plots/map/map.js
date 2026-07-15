@@ -241,15 +241,9 @@ function saveViewToLayout(self, opts) {
     opts._input.center = opts.center = center;
     opts._input.zoom = opts.zoom = zoom;
     // Use below to determine if the current view is still on the fit view during supplyDefaults.
-    // Bearing and pitch aren't set by auto-fit, but a user change to either signals
-    // they've engaged with the view and don't want it refit under them. `_fitView` represents
-    // the view attributes returned by MapLibre after the auto-fit has been completed.
-    opts._input._fitView = {
-        center: { ...center },
-        zoom,
-        bearing: opts._input.bearing,
-        pitch: opts._input.pitch
-    };
+    // `_fitView` represents the view attributes returned by MapLibre after the auto-fit has been
+    // completed.
+    opts._input._fitView = { center: { ...center }, zoom };
 }
 
 // Snapshot the current map view state for the Reset view modebar

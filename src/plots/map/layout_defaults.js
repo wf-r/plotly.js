@@ -48,20 +48,12 @@ function handleDefaults(containerIn, containerOut, coerce, opts) {
     // hold the exact values that were auto-computed last time. Skipped when
     // the user has explicitly opted out via `fitbounds: false`.
     // - `_fitBounds` contains the lon/lat coords for the geometry bounding box
-    // - `_fitView` contains the view attributes after the MapLibre auto-fit has been completed
-    const {
-        _fitView: { center: fitCenter, zoom: fitZoom, bearing: fitBearing, pitch: fitPitch } = {},
-        center,
-        zoom,
-        bearing,
-        pitch
-    } = containerIn;
-    const isFitView =
-        bearing === fitBearing &&
-        center?.lon === fitCenter?.lon &&
-        center?.lat === fitCenter?.lat &&
-        pitch === fitPitch &&
-        zoom === fitZoom;
+    //   and is used to store the values passed in to MapLibre for fitting
+    // - `_fitView` contains the view attributes after the MapLibre auto-fit
+    //   has been completed and is used to determine if the current view is
+    //   still the auto-fit view
+    const { _fitView: { center: fitCenter, zoom: fitZoom } = {}, center, zoom } = containerIn;
+    const isFitView = center?.lon === fitCenter?.lon && center?.lat === fitCenter?.lat && zoom === fitZoom;
     if (fitbounds && isFitView) {
         const fitBounds = getMapFitBounds(opts.fullData, opts.id);
         if (fitBounds) containerOut._fitBounds = fitBounds;
