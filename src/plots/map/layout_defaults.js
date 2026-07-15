@@ -39,7 +39,7 @@ function handleDefaults(containerIn, containerOut, coerce, opts) {
         handleItemDefaults: handleLayerDefaults
     });
 
-    // Explicitly assign `_fitBounds` (even when null) so `relinkPrivateKeys`
+    // Explicitly reset `_fitBounds` to null so that `relinkPrivateKeys`
     // doesn't carry a stale value forward from the previous render
     containerOut._fitBounds = null;
 
@@ -47,6 +47,8 @@ function handleDefaults(containerIn, containerOut, coerce, opts) {
     // been set (initial render, or user cleared them) OR when they still
     // hold the exact values that were auto-computed last time. Skipped when
     // the user has explicitly opted out via `fitbounds: false`.
+    // - `_fitBounds` contains the lon/lat coords for the geometry bounding box
+    // - `_fitView` contains the view attributes after the MapLibre auto-fit has been completed
     const {
         _fitView: { center: fitCenter, zoom: fitZoom, bearing: fitBearing, pitch: fitPitch } = {},
         center,
