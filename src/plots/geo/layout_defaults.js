@@ -217,8 +217,9 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
             lonaxisIn.range,
             lataxisIn.range
         ].some((d) => d !== undefined);
-        // The Albers projection doesn't need a fit, so skip here
-        if (hasUserView || isAlbersUsa) geoLayoutOut.fitbounds = false;
+        if (hasUserView || constants.fitboundsIncompatible.has(projType)) {
+            geoLayoutOut.fitbounds = false;
+        }
     }
 
     // Set auto-filled view attributes to null so updateProjection can
