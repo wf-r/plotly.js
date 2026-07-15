@@ -70,17 +70,15 @@ var styleValuesMap = sortObjectKeys(stylesMap);
 
 module.exports = {
     styleValueDflt: 'basic',
-    stylesMap: stylesMap,
-    styleValuesMap: styleValuesMap,
-
+    stylesMap,
+    styleValuesMap,
     traceLayerPrefix: 'plotly-trace-layer-',
     layoutLayerPrefix: 'plotly-layout-layer-',
-
     missingStyleErrorMsg: [
         'No valid maplibre style found, please set `map.style` to one of:',
         styleValuesMap.join(', '),
         'or use a tile service.'
     ].join('\n'),
-
-    mapOnErrorMsg: 'Map error.'
+    mapOnErrorMsg: 'Map error.',
+    fitBoundsPadding: 20
 };

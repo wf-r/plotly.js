@@ -405,8 +405,10 @@ All traces modules set:
   This object is used to generate the plot-schema JSON.
 - `_module.supplyDefaults`: Takes in input trace settings and coerces them into "full" settings
   under `gd._fullData`. This one is called during the figure-wide `Plots.supplyDefaults` routine.
-  Note that the `supplyDefaults` method performance should scale with the number of attributes (**not** the
-  number of data points - so it should not loop over any data arrays).
+  As a rule, `supplyDefaults` performance should scale with the number of attributes rather than
+  the number of data points, so avoid looping over data arrays in this function. That being said,
+  there are a few exceptions to this rule due to technical requirements (`fitbounds` on map subplots).
+  The same guidance applies to `_module.supplyLayoutDefaults`.
 - `_module.calc`: Converts inputs data into "calculated" (or sanitized) data. This one is called during
   the figure-wide `Plots.doCalcdata` routine. The `calc` method is allowed to
   scale with the number of data points and is in general more costly than `supplyDefaults`.
