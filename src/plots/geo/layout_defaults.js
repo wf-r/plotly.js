@@ -216,7 +216,7 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
             { dst: geoLayoutOut.projection, key: 'scale', src: projectionIn }
         ];
         // Branch order is important because scoped projections can also be clipped,
-        // but these should be treated as scoped below.
+        // but these should be treated as scoped below
         if (isScoped) {
             // Scoped only sets center, so move on
         } else if (isClipped) {
@@ -230,13 +230,19 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
             viewAttributes.push({ dst: geoLayoutOut.projection.rotation, key: 'lon', src: rotationIn });
         }
 
+        // Add entries for axis ranges with no `dst` key for non-clipped projections.
+        // These ranges signal user view-config intent, but non-clipped projections should
+        // skip the null step because it would break the fit calc.
+        if (!isClipped) {
+            viewAttributes.push({ key: 'range', src: lonaxisIn }, { key: 'range', src: lataxisIn });
+        }
         const hasUserView = viewAttributes.some(({ src, key }) => src[key] != null); // Use loose comparison so null/undefined count as unset
         if (hasUserView || constants.fitboundsIncompatible.has(projType)) {
             geoLayoutOut.fitbounds = false;
         } else {
             // Set auto-filled view attributes to null so updateProjection can
             // compute the fit from scratch and fullLayout matches user input
-            viewAttributes.forEach(({ dst, key }) => (dst[key] = null));
+            viewAttributes.forEach(({ dst, key }) => dst && (dst[key] = null));
         }
     }
 }
