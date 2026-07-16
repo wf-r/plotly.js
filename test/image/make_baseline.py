@@ -47,7 +47,7 @@ if "mathjax3" in sys.argv or "mathjax3=" in sys.argv:
 else:
     mathjax_version = 4
     # Kaleido still defaults to MathJax v2, so we need to explicitly specify the path to MathJax v4
-    mathjax = "https://cdn.jsdelivr.net/npm/mathjax@4.1.2/tex-svg.js"
+    mathjax = "https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-svg.js"
     print("Kaleido using MathJax v4")
 
 virtual_webgl_version = 0  # i.e. virtual-webgl is not used
