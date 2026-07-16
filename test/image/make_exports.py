@@ -9,7 +9,7 @@ dirOut = os.path.join(root, "build", "test_images")
 
 pio.templates.default = "none"
 pio.defaults.plotlyjs = os.path.join(root, "build", "plotly.js")
-pio.defaults.mathjax = "https://cdn.jsdelivr.net/npm/mathjax@4.1.2/tex-svg.js"
+pio.defaults.mathjax = "https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-svg.js"
 
 allFormats = ["svg", "jpg", "jpeg", "webp", "pdf"]
 # 'png' is tested by image-test

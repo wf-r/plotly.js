@@ -101,7 +101,7 @@ MathJax is not included in the plotly.js bundle, so it must be loaded separately
 
 For MathJax v4:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/mathjax@4.1.2/tex-svg.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-svg.js"></script>
 ```
 
 For MathJax v3:
