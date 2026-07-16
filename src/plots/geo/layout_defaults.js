@@ -199,8 +199,9 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
 
     coerce('bgcolor');
 
-    // Only use fitbounds if user hasn't set any view attributes. This prevents
-    // user-specified view info from being ignored.
+    // `fitbounds` updates a selection of view attributes, specific to the projection type.
+    // Check to see if a user has set any of these. If they have, skip fitbounds. Otherwise
+    // null out the proper attributes and run the fitting logic.
     coerce('fitbounds');
     if (geoLayoutOut.fitbounds) {
         const centerIn = geoLayoutIn.center || {};
@@ -208,39 +209,34 @@ function handleGeoDefaults(geoLayoutIn, geoLayoutOut, coerce, opts) {
         const rotationIn = projectionIn.rotation || {};
         const lonaxisIn = geoLayoutIn.lonaxis || {};
         const lataxisIn = geoLayoutIn.lataxis || {};
-        const hasUserView = [
-            centerIn.lon,
-            centerIn.lat,
-            rotationIn.lon,
-            rotationIn.lat,
-            projectionIn.scale,
-            lonaxisIn.range,
-            lataxisIn.range
-        ].some((d) => d !== undefined);
+        // All projection types will set these attributes
+        const viewAttributes = [
+            { dst: geoLayoutOut.center, key: 'lon', src: centerIn },
+            { dst: geoLayoutOut.center, key: 'lat', src: centerIn },
+            { dst: geoLayoutOut.projection, key: 'scale', src: projectionIn }
+        ];
+        // Branch order is important because scoped projections can also be clipped,
+        // but these should be treated as scoped below.
+        if (isScoped) {
+            // Scoped only sets center, so move on
+        } else if (isClipped) {
+            viewAttributes.push(
+                { dst: geoLayoutOut.projection.rotation, key: 'lon', src: rotationIn },
+                { dst: geoLayoutOut.projection.rotation, key: 'lat', src: rotationIn },
+                { dst: geoLayoutOut.lonaxis, key: 'range', src: lonaxisIn },
+                { dst: geoLayoutOut.lataxis, key: 'range', src: lataxisIn }
+            );
+        } else {
+            viewAttributes.push({ dst: geoLayoutOut.projection.rotation, key: 'lon', src: rotationIn });
+        }
+
+        const hasUserView = viewAttributes.some(({ src, key }) => src[key] != null); // Use loose comparison so null/undefined count as unset
         if (hasUserView || constants.fitboundsIncompatible.has(projType)) {
             geoLayoutOut.fitbounds = false;
-        }
-    }
-
-    // Set auto-filled view attributes to null so updateProjection can
-    // compute the fit from scratch and fullLayout matches user input
-    if (geoLayoutOut.fitbounds) {
-        geoLayoutOut.projection.scale = null;
-
-        if (isScoped) {
-            geoLayoutOut.center.lon = null;
-            geoLayoutOut.center.lat = null;
-        } else if (isClipped) {
-            geoLayoutOut.center.lon = null;
-            geoLayoutOut.center.lat = null;
-            geoLayoutOut.projection.rotation.lon = null;
-            geoLayoutOut.projection.rotation.lat = null;
-            geoLayoutOut.lonaxis.range = null;
-            geoLayoutOut.lataxis.range = null;
         } else {
-            geoLayoutOut.center.lon = null;
-            geoLayoutOut.center.lat = null;
-            geoLayoutOut.projection.rotation.lon = null;
+            // Set auto-filled view attributes to null so updateProjection can
+            // compute the fit from scratch and fullLayout matches user input
+            viewAttributes.forEach(({ dst, key }) => (dst[key] = null));
         }
     }
 }
