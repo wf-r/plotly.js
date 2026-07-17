@@ -12626,6 +12626,11 @@ export interface MapLayout {
         lon?: number;
     };
     domain?: Domain;
+    /**
+     * Determines whether the map view auto-fits to the data. For *true* (default), `center` and `zoom` are computed from the provided lon/lat coordinates, For *false*, `center` and `zoom` are computed from the schema defaults or user-supplied values. If `fitbounds` is enabled but a user provides `center` or `zoom`, auto-fit will be skipped.
+     * @default true
+     */
+    fitbounds?: boolean;
     layers?: Array<{
         /** Determines if the layer will be inserted before the layer with the specified ID. If omitted or set to '', the layer will be inserted above every existing layer. */
         below?: string;
@@ -16375,7 +16380,7 @@ export interface ConfigBase {
      */
     topojsonURL?: string;
     /**
-     * Determines whether math should be typeset or not, when MathJax (either v2 or v3) is present on the page.
+     * Determines whether math should be typeset or not, when MathJax (either v3 or v4) is present on the page.
      * @default true
      */
     typesetMath?: boolean;

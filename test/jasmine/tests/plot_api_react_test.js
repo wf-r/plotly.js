@@ -1683,16 +1683,15 @@ describe('Plotly.react and uirevision attributes', function() {
                 data: [{lat: [1, 2], lon: [1, 2], type: 'scattermap'}],
                 layout: {
                     uirevision: mainRev,
-                    map: {uirevision: mapRev}
+                    // Use explicit zoom to opt out of the v4 default auto-fit
+                    map: {uirevision: mapRev, zoom: 1}
                 }
             };
         }
 
         function attrs(original) {
             return {
-                'map.center.lat': original ? [undefined, 0] : 1,
-                'map.center.lon': original ? [undefined, 0] : 2,
-                'map.zoom': original ? [undefined, 1] : 3,
+                'map.zoom': original ? [1, 1] : 3,
                 'map.bearing': original ? [undefined, 0] : 4,
                 'map.pitch': original ? [undefined, 0] : 5
             };
@@ -2072,7 +2071,9 @@ describe('Test Plotly.react + interactions under uirevision:', function() {
             }], {
                 width: 500,
                 height: 500,
-                uirevision: true
+                uirevision: true,
+                // Opt out of the v4 default auto-fit
+                map: { zoom: 1 }
             });
         }
 
@@ -2113,12 +2114,12 @@ describe('Test Plotly.react + interactions under uirevision:', function() {
             var preGUI = gd._fullLayout._preGUI;
             expect(preGUI['map.center.lon']).toBe(null, msg);
             expect(preGUI['map.center.lat']).toBe(null, msg);
-            expect(preGUI['map.zoom']).toBe(null, msg);
+            expect(preGUI['map.zoom']).toBe(1, msg);
         }
 
         _react()
         .then(function() {
-            expect(gd.layout.map).toEqual({});
+            expect(gd.layout.map).toEqual({ zoom: 1 });
 
             var fullMap = gd._fullLayout.map;
             expect(fullMap.center.lon).toBe(0);
