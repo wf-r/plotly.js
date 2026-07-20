@@ -8,9 +8,8 @@
       "v": [1, 1, 1, 2, 2, 2, 3, 3, 3],
       "sizemode": "scaled",
       "anchor": "tail",
+      "anglemode": "paper",
       "marker": {
-        "color": [1.41, 2.24, 3.16, 2.24, 2.83, 3.61, 3.16, 3.61, 4.24],
-        "colorscale": "Viridis",
         "showscale": true,
         "colorbar": {
           "title": {"text": "Magnitude"}
@@ -22,6 +21,9 @@
   "layout": {
     "width": 600,
     "height": 500,
-    "title": {"text": "Quiver with Colorscale"}
+    "title": {
+      "text": "Quiver with Colorscale",
+      "subtitle": {"text": "When using a colorscale, vector magnitude is used for color,<br> unless marker.color is an array of values"}
+    }
   }
 }
