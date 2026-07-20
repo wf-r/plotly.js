@@ -353,9 +353,12 @@ proto.updateProjection = function (geoCalcData, fullLayout) {
     // so here's this hack to make it respond to 'geoLayout.center'
     if (geoLayout._isAlbersUsa) {
         var centerPx = projection([center.lon, center.lat]);
-        var tt = projection.translate();
-
-        projection.translate([tt[0] - (centerPx[0] - tt[0]), tt[1] - (centerPx[1] - tt[1])]);
+        // If center isn't within the Albers USA bounds (clipped to the USA),
+        // `projection(...)` returns null so skip the recentering
+        if (centerPx) {
+            var tt = projection.translate();
+            projection.translate([tt[0] - (centerPx[0] - tt[0]), tt[1] - (centerPx[1] - tt[1])]);
+        }
     }
 };
 
@@ -644,7 +647,9 @@ proto.saveViewInitial = function (geoLayout) {
     } else if (geoLayout._isClipped) {
         extra = {
             'projection.rotation.lon': rotation.lon,
-            'projection.rotation.lat': rotation.lat
+            'projection.rotation.lat': rotation.lat,
+            'center.lon': center.lon,
+            'center.lat': center.lat
         };
     } else {
         extra = {

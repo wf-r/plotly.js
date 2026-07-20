@@ -63,6 +63,8 @@ function sync(geo, projection, cb) {
 
     cb(set);
     set('projection.scale', projection.scale() / geo.fitScale);
+    // Turn off fitbounds so subsequent replays don't re-run the auto-fit and
+    // overwrite the user's dragged/scrolled position
     set('fitbounds', false);
     gd.emit('plotly_relayout', eventData);
 }

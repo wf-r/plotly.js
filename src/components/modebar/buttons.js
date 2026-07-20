@@ -594,6 +594,8 @@ modeBarButtons.hoverClosestGeo = {
     click: toggleHover
 };
 
+const ZOOM_STEP_GEO = 2;
+
 function handleGeo(gd, ev) {
     const button = ev.currentTarget;
     const attr = button.getAttribute('data-attr');
@@ -603,21 +605,38 @@ function handleGeo(gd, ev) {
 
     for (const id of geoIds) {
         const geoLayout = fullLayout[id];
+        const geoSubplot = geoLayout._subplot;
 
         if (attr === 'zoom') {
-            const { minscale, scale } = geoLayout.projection;
+            // Under fitbounds, geoLayout.projection.scale is undefined; read the
+            // effective view from the D3 projection state instead
+            const projection = geoSubplot.projection;
+            const effectiveScale = projection.scale() / geoSubplot.fitScale; // Convert to schema format (multiples of original scale)
+            const [rotationLon, rotationLat] = projection.rotate().map((d) => -d); // Flip sign because D3 rotation is opposite of ours
+            const [centerLon, centerLat] = projection.invert(geoSubplot.midPt);
+
+            const { minscale } = geoLayout.projection;
             const maxscale = geoLayout.projection.maxscale ?? Infinity;
             // swap if user supplied min > max so clamping is well-defined
             const min = Math.min(minscale, maxscale);
             const max = Math.max(minscale, maxscale);
-            let newScale = val === 'in' ? 2 * scale : 0.5 * scale;
+            let newScale = val === 'in' ? ZOOM_STEP_GEO * effectiveScale : (1 / ZOOM_STEP_GEO) * effectiveScale;
 
             // clamp to [min, max]
             if (newScale > max) newScale = max;
             else if (newScale < min) newScale = min;
 
-            if (newScale !== scale) {
-                Registry.call('_guiRelayout', gd, id + '.projection.scale', newScale);
+            if (newScale !== effectiveScale) {
+                // Persist the currently-effective view attrs with the new scale; turn
+                // off fitbounds so auto-fit doesn't overwrite them on the ensuing replot
+                Registry.call('_guiRelayout', gd, {
+                    [id + '.projection.scale']: newScale,
+                    [id + '.projection.rotation.lon']: rotationLon,
+                    [id + '.projection.rotation.lat']: rotationLat,
+                    [id + '.center.lon']: centerLon,
+                    [id + '.center.lat']: centerLat,
+                    [id + '.fitbounds']: false
+                });
             }
         }
     }
