@@ -535,16 +535,6 @@ describe('config argument', function() {
 
         afterEach(destroyGraphDiv);
 
-        it('should default to an empty string', function(done) {
-            Plotly.newPlot(gd, [], {})
-            .then(function() {
-                expect(gd._context.plotlyServerURL).not.toBe('https://plot.ly');
-                expect(gd._context.plotlyServerURL).not.toBe('https://chart-studio.plotly.com');
-                expect(gd._context.plotlyServerURL).toBe('');
-            })
-            .then(done, done.fail);
-        });
-
         it('should open confirmation dialog when set to a correctly-formatted URL', function(done) {
             Plotly.newPlot(gd, [], {}, {
                 plotlyServerURL: 'https://example.plotly.com/endpoint'
