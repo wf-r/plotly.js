@@ -72,7 +72,7 @@ modeBarButtons.toImage = {
 modeBarButtons.sendChartToCloud = {
     name: 'sendChartToCloud',
     title: function (gd) {
-        return _(gd, 'Share with Plotly Cloud');
+        return _(gd, 'Share Chart');
     },
     icon: Icons.cloudupload,
     click: function (gd) {
