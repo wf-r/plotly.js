@@ -81,12 +81,13 @@ var attrs = (module.exports = overrideAll(
         },
 
         fitbounds: {
-            valType: 'boolean',
-            dflt: true,
+            valType: 'enumerated',
+            values: [false, 'locations'],
+            dflt: 'locations',
             description: [
-                'Determines whether the map view auto-fits to the data.',
-                'For *true* (default), `center` and `zoom` are computed from the provided lon/lat coordinates,',
-                'For *false*, `center` and `zoom` are computed from the schema defaults or user-supplied values.',
+                "Determines if this subplot's view settings are auto-computed to fit trace data.",
+                'If *locations* (default), the view is auto-fit to the lon/lat coordinates of the visible trace data.',
+                'If *false*, the view settings are used as-is; set this to opt out of auto-fitting.',
                 'If `fitbounds` is enabled but a user provides `center` or `zoom`, auto-fit will be skipped.'
             ].join(' ')
         },
