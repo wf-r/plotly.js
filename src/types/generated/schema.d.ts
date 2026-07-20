@@ -6776,6 +6776,11 @@ export interface SankeyData {
         label?: Datum[] | Datum[][] | TypedArray;
         line?: _internal.Line;
         /**
+         * For `auto` (the default), the order of links attached to each node is determined automatically by the layout. For `input`, the order of links at each node is kept the same as the order in the input array.
+         * @default 'auto'
+         */
+        sort?: 'auto' | 'input';
+        /**
          * An integer number `[0..nodes.length - 1]` that represents the source node.
          * @default []
          */
@@ -6837,6 +6842,11 @@ export interface SankeyData {
          * Minimum: 0
          */
         pad?: number;
+        /**
+         * For `auto` (the default), the vertical order of nodes will be determined automatically by the layout. For `input`, the vertical order of nodes is kept the same as the order in the input array.
+         * @default 'auto'
+         */
+        sort?: 'auto' | 'input';
         /**
          * Sets the thickness (in px) of the `nodes`.
          * @default 20

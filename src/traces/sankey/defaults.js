@@ -34,6 +34,7 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     handleHoverLabelDefaults(nodeIn, nodeOut, coerceNode, hoverlabelDefault);
     coerceNode('hovertemplate');
     coerceNode('align');
+    coerceNode('sort');
 
     var colors = layout.colorway;
 
@@ -62,6 +63,7 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     coerceLink('hoverinfo', traceIn.hoverinfo);
     handleHoverLabelDefaults(linkIn, linkOut, coerceLink, hoverlabelDefault);
     coerceLink('hovertemplate');
+    coerceLink('sort');
 
     var darkBG = Color.color(layout.paper_bgcolor).luminosity() < 0.333;
     var defaultLinkColor = darkBG ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.2)';

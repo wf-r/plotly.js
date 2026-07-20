@@ -70,6 +70,21 @@ function sankeyModel(layout, d, traceIndex) {
       .nodes(nodes)
       .links(links);
 
+    function applyInputSort(type) {
+        if (trace[type].sort === 'input') {
+            if (circular) {
+                Lib.warn(
+                    `Circular Sankey diagrams do not support the "input" ${type}.sort mode; falling back to the default sort.`
+                );
+            } else {
+                // Passing null maintains the input order
+                sankey[`${type}Sort`](null);
+            }
+        }
+    }
+    applyInputSort('link');
+    applyInputSort('node');
+
     var graph = sankey();
 
     if(sankey.nodePadding() < nodePad) {
