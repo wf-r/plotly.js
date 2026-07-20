@@ -1715,7 +1715,7 @@ describe('ModeBar', function() {
         it('remove buttons using template', function(done) {
             function countButtons() {
                 var modeBarEl = gd._fullLayout._modeBar.element;
-                return d3Select(modeBarEl).selectAll('a.modebar-btn').size();
+                return d3Select(modeBarEl).selectAll('button.modebar-btn, a.modebar-btn').size();
             }
 
             var initial = 11;
