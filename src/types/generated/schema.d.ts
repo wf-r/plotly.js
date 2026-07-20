@@ -12637,10 +12637,10 @@ export interface MapLayout {
     };
     domain?: Domain;
     /**
-     * Determines whether the map view auto-fits to the data. For *true* (default), `center` and `zoom` are computed from the provided lon/lat coordinates, For *false*, `center` and `zoom` are computed from the schema defaults or user-supplied values. If `fitbounds` is enabled but a user provides `center` or `zoom`, auto-fit will be skipped.
-     * @default true
+     * Determines if this subplot's view settings are auto-computed to fit trace data. If *locations* (default), the view is auto-fit to the lon/lat coordinates of the visible trace data. If *false*, the view settings are used as-is; set this to opt out of auto-fitting. If `fitbounds` is enabled but a user provides `center` or `zoom`, auto-fit will be skipped.
+     * @default 'locations'
      */
-    fitbounds?: boolean;
+    fitbounds?: false | 'locations';
     layers?: Array<{
         /** Determines if the layer will be inserted before the layer with the specified ID. If omitted or set to '', the layer will be inserted above every existing layer. */
         below?: string;
