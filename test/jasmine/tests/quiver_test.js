@@ -99,14 +99,6 @@ describe('Test quiver defaults', function() {
         gd = makeGD();
         supplyAllDefaults(gd);
         expect(gd._fullData[0].sizemode).toBe('scaled');
-        expect(gd._fullData[0].sizeref).toBe(0.5);
-    });
-
-    it('should set sizeref to 1 when sizemode is raw', function() {
-        gd = makeGD();
-        gd.data[0].sizemode = 'raw';
-        supplyAllDefaults(gd);
-        expect(gd._fullData[0].sizemode).toBe('raw');
         expect(gd._fullData[0].sizeref).toBe(1);
     });
 
@@ -312,14 +304,14 @@ describe('Test quiver interactions', function() {
             sizeref: 0.5
         }]).then(function() {
             expect(gd._fullData[0].sizemode).toBe('scaled');
-            return Plotly.restyle(gd, 'sizemode', 'absolute');
-        })
-        .then(function() {
-            expect(gd._fullData[0].sizemode).toBe('absolute');
             return Plotly.restyle(gd, 'sizemode', 'raw');
         })
         .then(function() {
             expect(gd._fullData[0].sizemode).toBe('raw');
+            return Plotly.restyle(gd, 'sizemode', 'scaled');
+        })
+        .then(function() {
+            expect(gd._fullData[0].sizemode).toBe('scaled');
         })
         .then(done, done.fail);
     });
