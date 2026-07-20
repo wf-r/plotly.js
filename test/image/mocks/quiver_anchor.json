@@ -10,7 +10,7 @@
       "sizemode": "scaled",
       "anchor": "tail",
       "marker": {
-        "color": "red",
+        "color": "#4466ee",
         "line": {"width": 2}
       },
       "xaxis": "x",
@@ -26,7 +26,7 @@
       "sizemode": "scaled",
       "anchor": "tip",
       "marker": {
-        "color": "blue",
+        "color": "#ee3344",
         "line": {"width": 2}
       },
       "xaxis": "x2",
@@ -42,7 +42,7 @@
       "sizemode": "scaled",
       "anchor": "center",
       "marker": {
-        "color": "green",
+        "color": "#8811cc",
         "line": {"width": 2}
       },
       "xaxis": "x3",
@@ -50,9 +50,10 @@
     }
   ],
   "layout": {
-    "width": 900,
+    "width": 700,
     "height": 400,
-    "showlegend": true,
+    "showlegend": false,
+    "title": {"text": "Quiver anchors"},
     "xaxis": {
       "domain": [0, 0.3],
       "title": {"text": "tail anchor"}

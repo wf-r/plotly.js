@@ -8,7 +8,7 @@
       "v": [1],
       "anchor": "tail",
       "marker": {
-        "color": "red",
+        "color": "#fe218b",
         "arrowsize": 1,
         "line": {"width": 1}
       },
@@ -22,7 +22,7 @@
       "v": [1],
       "anchor": "tail",
       "marker": {
-        "color": "red",
+        "color": "#fe218b",
         "arrowsize": 2,
         "line": {"width": 1}
       },
@@ -36,7 +36,7 @@
       "v": [1],
       "anchor": "tail",
       "marker": {
-        "color": "red",
+        "color": "#fe218b",
         "arrowsize": 3,
         "line": {"width": 1}
       },
@@ -50,7 +50,7 @@
       "v": [1],
       "anchor": "tail",
       "marker": {
-        "color": "blue",
+        "color": "#e0af00",
         "arrowsize": 1,
         "line": {"width": 2}
       },
@@ -64,7 +64,7 @@
       "v": [1],
       "anchor": "tail",
       "marker": {
-        "color": "blue",
+        "color": "#e0af00",
         "arrowsize": 2,
         "line": {"width": 2}
       },
@@ -78,7 +78,7 @@
       "v": [1],
       "anchor": "tail",
       "marker": {
-        "color": "blue",
+        "color": "#e0af00",
         "arrowsize": 3,
         "line": {"width": 2}
       },
@@ -92,7 +92,7 @@
       "v": [1],
       "anchor": "tail",
       "marker": {
-        "color": "green",
+        "color": "#21b0fe",
         "arrowsize": 1,
         "line": {"width": 3}
       },
@@ -106,7 +106,7 @@
       "v": [1],
       "anchor": "tail",
       "marker": {
-        "color": "green",
+        "color": "#21b0fe",
         "arrowsize": 2,
         "line": {"width": 3}
       },
@@ -120,7 +120,7 @@
       "v": [1],
       "anchor": "tail",
       "marker": {
-        "color": "green",
+        "color": "#21b0fe",
         "arrowsize": 3,
         "line": {"width": 3}
       },
