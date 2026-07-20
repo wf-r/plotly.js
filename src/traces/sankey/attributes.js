@@ -292,6 +292,15 @@ var attrs = (module.exports = overrideAll(
                     ]
                 })
             }),
+            sort: {
+                valType: 'enumerated',
+                values: ['auto', 'input'],
+                dflt: 'auto',
+                description: [
+                    'For `auto` (the default), the order of links attached to each node is determined automatically by the layout.',
+                    'For `input`, the order of links at each node is kept the same as the order in the input array.'
+                ].join(' ')
+            },
             description: 'The links of the Sankey plot.'
         }
     },
