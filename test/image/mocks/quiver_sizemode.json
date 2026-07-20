@@ -8,7 +8,6 @@
       "u": [1, 2, 3, 1, 2, 3, 1, 2, 3],
       "v": [1, 1, 1, 1, 1, 1, 1, 1, 1],
       "sizemode": "scaled",
-      "sizeref": 0.4,
       "anchor": "tail",
       "marker": {
         "color": "red",
@@ -19,13 +18,13 @@
     },
     {
       "type": "quiver",
-      "name": "absolute",
+      "name": "raw (sizeref=1.2)",
       "x": [0, 1, 2, 0, 1, 2, 0, 1, 2],
       "y": [0, 0, 0, 1, 1, 1, 2, 2, 2],
       "u": [1, 2, 3, 1, 2, 3, 1, 2, 3],
       "v": [1, 1, 1, 1, 1, 1, 1, 1, 1],
-      "sizemode": "absolute",
-      "sizeref": 0.15,
+      "sizemode": "raw",
+      "sizeref": 1.2,
       "anchor": "tail",
       "marker": {
         "color": "blue",
@@ -36,11 +35,11 @@
     },
     {
       "type": "quiver",
-      "name": "raw",
+      "name": "raw (sizeref=0.6)",
       "x": [0, 1, 2, 0, 1, 2, 0, 1, 2],
       "y": [0, 0, 0, 1, 1, 1, 2, 2, 2],
-      "u": [0.3, 0.6, 0.9, 0.3, 0.6, 0.9, 0.3, 0.6, 0.9],
-      "v": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+      "u": [1, 2, 3, 1, 2, 3, 1, 2, 3],
+      "v": [1, 1, 1, 1, 1, 1, 1, 1, 1],
       "sizemode": "raw",
       "sizeref": 0.6,
       "anchor": "tail",
@@ -65,7 +64,7 @@
     },
     "xaxis2": {
       "domain": [0.35, 0.65],
-      "title": {"text": "absolute"}
+      "title": {"text": "raw (sizeref=1.2)"}
     },
     "yaxis2": {
       "domain": [0, 1],
@@ -73,7 +72,7 @@
     },
     "xaxis3": {
       "domain": [0.7, 1],
-      "title": {"text": "raw"}
+      "title": {"text": "raw (sizeref=0.6)"}
     },
     "yaxis3": {
       "domain": [0, 1],

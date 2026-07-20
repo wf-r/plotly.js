@@ -8,7 +8,6 @@
       "u": [1, 1.5, 2, 1, 1.5, 2],
       "v": [0.5, 1, 0.5, 1, 1.5, 1],
       "sizemode": "scaled",
-      "sizeref": 0.4,
       "anchor": "tail",
       "marker": {
         "color": "red",
@@ -23,7 +22,6 @@
       "u": [-1, -1.5, -2, -1, -1.5, -2],
       "v": [1, 0.5, 1, 0.5, 1, 0.5],
       "sizemode": "scaled",
-      "sizeref": 0.4,
       "anchor": "tail",
       "marker": {
         "color": "blue",

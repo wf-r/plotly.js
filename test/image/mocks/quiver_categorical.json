@@ -10,7 +10,6 @@
       "textposition": "top center",
       "textfont": { "size": 12 },
       "sizemode": "scaled",
-      "sizeref": 0.5,
       "anchor": "tail",
       "marker": {
         "line": {"width": 2}

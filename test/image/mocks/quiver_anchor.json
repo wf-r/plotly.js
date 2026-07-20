@@ -8,7 +8,6 @@
       "u": [1, 1, 1, 1, 1, 1, 1, 1, 1],
       "v": [1, 1, 1, 1, 1, 1, 1, 1, 1],
       "sizemode": "scaled",
-      "sizeref": 0.4,
       "anchor": "tail",
       "marker": {
         "color": "red",
@@ -25,7 +24,6 @@
       "u": [1, 1, 1, 1, 1, 1, 1, 1, 1],
       "v": [1, 1, 1, 1, 1, 1, 1, 1, 1],
       "sizemode": "scaled",
-      "sizeref": 0.4,
       "anchor": "tip",
       "marker": {
         "color": "blue",
@@ -42,7 +40,6 @@
       "u": [1, 1, 1, 1, 1, 1, 1, 1, 1],
       "v": [1, 1, 1, 1, 1, 1, 1, 1, 1],
       "sizemode": "scaled",
-      "sizeref": 0.4,
       "anchor": "center",
       "marker": {
         "color": "green",
