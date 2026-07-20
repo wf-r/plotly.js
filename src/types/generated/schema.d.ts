@@ -6684,6 +6684,11 @@ export interface QuiverData {
      * @default 'tail'
      */
     anchor?: 'tip' | 'tail' | 'center';
+    /**
+     * Sets the mode used to determine the angle of the arrow vectors. If *paper*, u/v are interpreted in pixel coordinates and the rendered vector angle does not change regardless of the axes scales. If *data*, u/v are interpreted in data coordinates and the rendered vector angle may change, e.g. if zooming in along a single axis
+     * @default 'axis'
+     */
+    anglemode?: 'paper' | 'data';
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
     customdata?: Datum[] | Datum[][] | TypedArray;
     /**
@@ -6813,12 +6818,13 @@ export interface QuiverData {
      */
     showlegend?: boolean;
     /**
-     * Determines whether `sizeref` is set as a *scaled* (unitless) scalar (normalized by the max u/v norm in the vector field), as an *absolute* value (in the same units as the vector field), or *raw* to use the raw vector lengths.
+     * Determines whether arrows are drawn according to their raw lengths, or scaled based on the maximum vector length and point density. Note: When `anglemode` is *data* arrows are alwyas scaled and `sizemode` *raw* is ignored.
      * @default 'scaled'
      */
-    sizemode?: 'scaled' | 'absolute' | 'raw';
+    sizemode?: 'scaled' | 'raw';
     /**
-     * Adjusts the arrow size scaling. The arrow length is determined by the vector norm multiplied by `sizeref`, optionally normalized when `sizemode` is *scaled*.
+     * Adjusts the arrow size scaling. The arrow length is determined by the vector norm multiplied by `sizeref`, optionally normalized when `sizemode` is *scaled* (`sizeref` is applied after scaling).
+     * @default 1
      * Minimum: 0
      */
     sizeref?: number;
