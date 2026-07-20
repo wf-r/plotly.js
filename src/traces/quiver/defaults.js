@@ -30,9 +30,11 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
         for(var j = 0; j < len; j++) traceOut.v[j] = 0;
     }
 
-    // Sizing API similar to cone
-    var sizemode = coerce('sizemode');
-    coerce('sizeref', sizemode === 'raw' ? 1 : 0.5);
+    coerce('anglemode');
+
+    // Sizing API inspired by cone, but not identical
+    coerce('sizemode');
+    coerce('sizeref');
     coerce('anchor');
 
     // Arrow styling

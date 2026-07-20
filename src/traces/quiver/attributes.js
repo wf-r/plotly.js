@@ -38,26 +38,38 @@ var attrs = {
         anim: true,
         description: 'Sets the y components of the arrow vectors.'
     },
+    anglemode: {
+        valType: 'enumerated',
+        values: ['paper', 'data'],
+        dflt: 'axis',
+        editType: 'calc',
+        description: [
+            'Sets the mode used to determine the angle of the arrow vectors.',
+            'If *paper*, u/v are interpreted in pixel coordinates and the rendered vector angle',
+            'does not change regardless of the axes scales.',
+            'If *data*, u/v are interpreted in data coordinates and the rendered vector angle',
+            'may change, e.g. if zooming in along a single axis'
+        ].join(' ')
+    },
     sizemode: {
         valType: 'enumerated',
-        values: ['scaled', 'absolute', 'raw'],
+        values: ['scaled', 'raw'],
         editType: 'calc',
         dflt: 'scaled',
         description: [
-            'Determines whether `sizeref` is set as a *scaled* (unitless) scalar',
-            '(normalized by the max u/v norm in the vector field), as an *absolute*',
-            'value (in the same units as the vector field), or *raw* to use the',
-            'raw vector lengths.'
+            'Determines whether arrows are drawn according to their raw lengths,',
+            'or scaled based on the maximum vector length and point density. Note: When `anglemode` is *data*', 
+            'arrows are alwyas scaled and `sizemode` *raw* is ignored.',
         ].join(' ')
     },
     sizeref: {
         valType: 'number',
         min: 0,
         editType: 'calc',
+        dflt: 1,
         description: [
-            'Adjusts the arrow size scaling.',
-            'The arrow length is determined by the vector norm multiplied by `sizeref`,',
-            'optionally normalized when `sizemode` is *scaled*.'
+            'Adjusts the arrow size scaling. The arrow length is determined by the vector norm multiplied by `sizeref`,',
+            'optionally normalized when `sizemode` is *scaled* (`sizeref` is applied after scaling).'
         ].join(' ')
     },
     anchor: {

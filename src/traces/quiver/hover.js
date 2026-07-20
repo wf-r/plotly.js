@@ -34,12 +34,8 @@ module.exports = function hoverPoints(pointData, xval, yval, hovermode) {
     // Check distance from the whole arrow body (base -> tip)
     // rather than only the (x,y) data position of the arrow
     var distfn = function(di) {
-        if(di._x0 === undefined) return Infinity;
-        var ax0 = xa.c2p(di._x0);
-        var ay0 = ya.c2p(di._y0);
-        var ax1 = xa.c2p(di._x1);
-        var ay1 = ya.c2p(di._y1);
-        return distToSegment(xpx, ypx, ax0, ay0, ax1, ay1);
+        if(di._px0 === undefined) return Infinity;
+        return distToSegment(xpx, ypx, di._px0, di._py0, di._px1, di._py1);
     };
 
     Fx.getClosest(cd, distfn, pointData);

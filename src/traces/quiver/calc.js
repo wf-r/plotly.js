@@ -13,34 +13,56 @@ var calcSelection = require('../scatter/calc_selection');
  */
 module.exports = function calc(gd, trace) {
     // Map x/y through axes so category/date values become numeric calcdata
-    var xa = trace._xA = Axes.getFromId(gd, trace.xaxis || 'x', 'x');
-    var ya = trace._yA = Axes.getFromId(gd, trace.yaxis || 'y', 'y');
+    const xa = trace._xA = Axes.getFromId(gd, trace.xaxis || 'x', 'x');
+    const ya = trace._yA = Axes.getFromId(gd, trace.yaxis || 'y', 'y');
 
-    var xVals = xa.makeCalcdata(trace, 'x');
-    var yVals = ya.makeCalcdata(trace, 'y');
+    const xVals = xa.makeCalcdata(trace, 'x');
+    const yVals = ya.makeCalcdata(trace, 'y');
 
-    var len = Math.min(xVals.length, yVals.length);
+    const len = Math.min(xVals.length, yVals.length);
     trace._length = len;
-    var cd = new Array(len);
+    const cd = new Array(len);
 
     var normMin = Infinity;
     var normMax = -Infinity;
     var cMin = Infinity;
     var cMax = -Infinity;
-    var markerColor = (trace.marker || {}).color;
-    var hasMarkerColorArray = Lib.isArrayOrTypedArray(markerColor);
+    const markerColor = trace.marker.color;
+    const hasMarkerColorArray = Lib.isArrayOrTypedArray(markerColor);
 
-    var uArr = trace.u || [];
-    var vArr = trace.v || [];
+    const uArr = trace.u || [];
+    const vArr = trace.v || [];
 
-    // First pass: build calcdata and compute maxNorm (needed for 'scaled' sizemode)
+    const anglemode = trace.anglemode;
+    const sizemode = trace.sizemode;
+    const anchor = trace.anchor;
+    const isTip = anchor === 'tip';
+    const isCenter = anchor === 'center';
+
+    // Keep track of:
+    // - minimum and maximum x and y (for density calculation)
+    // - number of valid (x, y) pairs (for density calculation)
+    // - minimum and maximum u and v (for setting axis ranges)
+    var xMin = Infinity;
+    var xMax = -Infinity;
+    var yMin = Infinity;
+    var yMax = -Infinity;
+    var uMin = Infinity;
+    var uMax = -Infinity;
+    var vMin = Infinity;
+    var vMax = -Infinity;
+    var nValid = 0;
+
+    // First pass: build calcdata, and keep track of the maximum and minimum vector norm in the trace,
+    // to be used for sizemode 'scaled' (max norm only) and for magnitude-based colorscale range
     for(var i = 0; i < len; i++) {
         var cdi = cd[i] = { i: i };
         var xValid = isNumeric(xVals[i]);
         var yValid = isNumeric(yVals[i]);
 
         // Sanitize u/v: If either u or v is non-numeric (bad strings, Infinity,
-        // NaN, null, undefined) for a single point, set both to zero. Numeric strings are cast.
+        // NaN, null, undefined) for a single point, set both to zero.
+        // Cast numeric strings to numbers.
         // Store in calcdata so that the sanitized values can be reused.
         // Use underscore-prefixed keys because 'v' is already used by box/violin
         // (meaning "value") and setting it here has unintended side effects.
@@ -54,14 +76,19 @@ module.exports = function calc(gd, trace) {
         }
 
         if(xValid && yValid) {
+            nValid++;
             cdi.x = xVals[i];
             cdi.y = yVals[i];
 
-            // Only plottable points feed the ranges derived here: the vector norm
-            // range that drives 'scaled' arrow sizing (_maxNorm) and the
-            // magnitude-based colorscale range. A point that can't be drawn must
-            // not stretch either range. (u/v are already finite, so norm needs no
-            // isFinite guard.)
+            if (xVals[i] < xMin) xMin = xVals[i];
+            if (xVals[i] > xMax) xMax = xVals[i];
+            if (yVals[i] < yMin) yMin = yVals[i];
+            if (yVals[i] > yMax) yMax = yVals[i];
+            if (ui < uMin) uMin = ui;
+            if (ui > uMax) uMax = ui;
+            if (vi < vMin) vMin = vi;
+            if (vi > vMax) vMax = vi;
+
             var norm = Math.sqrt(ui * ui + vi * vi);
             if(norm > normMax) normMax = norm;
             if(norm < normMin) normMin = norm;
@@ -79,104 +106,85 @@ module.exports = function calc(gd, trace) {
         }
     }
 
-    // Store maxNorm for use by plot.js
+    // Store maxNorm for use by plot step
     trace._maxNorm = normMax;
 
-    // Compute arrow geometry for axis autorange.
-    //
-    // The v-component is drawn directly in data space, so each arrow's y-tip is
-    // exact and we expand the y-axis here with the tip coordinates. The
-    // u-component is stretched by scaleRatio = pxPerY / pxPerX in plot.js so
-    // that arrows keep their on-screen angle, which makes an arrow's *horizontal
-    // pixel extent* depend on the y-scale rather than the x-scale:
-    //     |dx_px| = pxPerY * baseLen * |unitx|
-    // We therefore expand the x-axis with pixel padding (ppad) rather than
-    // data-space tips (whose data width would depend on the very x-range we are
-    // trying to compute). Since that ppad depends on the y-scale - which depends
-    // on the combined y-extent of every quiver trace sharing the axis - the
-    // x-axis expansion is finished in crossTraceCalc; here we stash the per-point
-    // geometry and y-bounds it needs.
-    var sizemode = trace.sizemode || 'scaled';
-    var sizeref = (trace.sizeref !== undefined) ? trace.sizeref : (sizemode === 'raw' ? 1 : 0.5);
-    var anchor = trace.anchor || 'tail';
-    var isTip = anchor === 'tip';
-    var isCenter = anchor === 'center';
+    if (sizemode === 'scaled' || anglemode === 'paper') {
+        // Ignore sizemode 'raw' if anglemode is set to 'paper': always scale
 
-    var baseX = new Array(len);
-    var tipsY = new Array(len * 2);
-    var geomLen = new Array(len);
-    var geomUx = new Array(len);
-
-    var yMin = Infinity;
-    var yMax = -Infinity;
-
-    for(var k = 0; k < len; k++) {
-        var xk = xVals[k];
-        var yk = yVals[k];
-        var uk = cd[k]._u;
-        var vk = cd[k]._v;
-        var nk = Math.sqrt(uk * uk + vk * vk);
-
-        var baseLen;
-        if(sizemode === 'scaled') {
-            baseLen = normMax ? (nk / normMax) * sizeref : 0;
+        // Compute point density of the entire trace: Area of bounding box
+        // divided by number of points. This is used to scale arrows in
+        // 'scaled' sizemode.
+        // TODO: How to handle the case where there is just one point in a trace,
+        // or all points have the same x or y value? This will give a boxArea of 0.
+        // For now I'm going to just normalize to a vector of unit length (1) in that case,
+        // but that's not a great solution
+        const boxArea = (xMax - xMin) * (yMax - yMin);
+        const pointDensity = boxArea / len;
+        // Now, compute the scale factor for scaled size mode
+        // The scale factor should be such that
+        // _maxNorm * _scaleFactor = Math.sqrt(_pointDensity)
+        // Therefore: _scaleFactor = Math.sqrt(_pointDensity) / _maxNorm
+        if (pointDensity === 0) {
+            trace._scaleFactor = 1 / trace._maxNorm
         } else {
-            baseLen = nk * sizeref;
+            trace._scaleFactor = Math.sqrt(pointDensity) / trace._maxNorm;
         }
+        // Note: If anglemode === 'paper', this scale factor must be
+        // multiplied by Math.sqrt(xa._m * ya._m), but we can't do that quite yet
+        // since the axis scales are not fully determined. Do it in plot step instead.
+    } else {  // sizemode === 'raw'
+        // For raw sizemode, scale factor is always 1
+        trace._scaleFactor = 1;
+    }
 
-        var unitxk = nk ? (uk / nk) : 0;
-        var unityk = nk ? (vk / nk) : 0;
-        var dyk = unityk * baseLen;
+    // Multiply scale factor by sizeref
+    trace._scaleFactor *= trace.sizeref;
 
-        geomLen[k] = baseLen;
-        geomUx[k] = unitxk;
-        baseX[k] = xk;
-
-        var y0, y1;
-        if(isTip) {
-            y1 = yk;
-            y0 = yk - dyk;
-        } else if(isCenter) {
-            y0 = yk - dyk / 2;
-            y1 = yk + dyk / 2;
-        } else { // tail (default)
-            y0 = yk;
-            y1 = yk + dyk;
+    // Now we need to compute the arrow geometry for axis autorange
+    const xTipPositions = new Array(len);
+    const yTipPositions = new Array(len);
+    const xTailPositions = new Array(len);
+    const yTailPositions = new Array(len);
+    var arrowLenX, arrowLenY;
+    // Compute the x- and y-positions of the tip of each arrow,
+    // assuming anglemode === 'data' (i.e. u/v are in data coordinates)
+    for(var i = 0; i < len; i++) {
+        var cdi = cd[i];
+        arrowLenX = cdi._u * trace._scaleFactor;
+        arrowLenY = cdi._v * trace._scaleFactor;
+        if (isTip) {
+            xTipPositions[i] = cdi.x;
+            yTipPositions[i] = cdi.y;
+            xTailPositions[i] = cdi.x - arrowLenX;
+            yTailPositions[i] = cdi.y - arrowLenY;
+        } else if (isCenter) {
+            xTipPositions[i] = cdi.x + arrowLenX / 2;
+            yTipPositions[i] = cdi.y + arrowLenY / 2;
+            xTailPositions[i] = cdi.x - arrowLenX / 2;
+            yTailPositions[i] = cdi.y - arrowLenY / 2;
+        } else {  // tail
+            xTipPositions[i] = cdi.x + arrowLenX;
+            yTipPositions[i] = cdi.y + arrowLenY;
+            xTailPositions[i] = cdi.x;
+            yTailPositions[i] = cdi.y;
         }
-        tipsY[k * 2] = y0;
-        tipsY[k * 2 + 1] = y1;
+    }
 
-        if(isNumeric(y0)) {
-            if(y0 < yMin) yMin = y0;
-            if(y0 > yMax) yMax = y0;
-        }
-        if(isNumeric(y1)) {
-            if(y1 < yMin) yMin = y1;
-            if(y1 > yMax) yMax = y1;
-        }
+    if (anglemode === 'data') {
+        // If anglemode is 'data', we can use the arrow tip positions directly to expand the axes ranges
+        trace._extremes[xa._id] = Axes.findExtremes(xa, xTipPositions.concat(xTailPositions), {padded: true});
+        trace._extremes[ya._id] = Axes.findExtremes(ya, yTipPositions.concat(yTailPositions), {padded: true});
+    } else {  // anglemode === 'paper'
+        // TODO: For now, just do the same thing as for anglemode === 'data', but this is not correct. 
+        // We actually need more sophisticated logic here, since this will give a bad result
+        // if the data aspect ratio is very different from the plot aspect ratio.
+        trace._extremes[xa._id] = Axes.findExtremes(xa, xTipPositions.concat(xTailPositions), {padded: true});
+        trace._extremes[ya._id] = Axes.findExtremes(ya, yTipPositions.concat(yTailPositions), {padded: true});
     }
 
     xa._minDtick = 0;
     ya._minDtick = 0;
-
-    // y-axis: arrow tips are exact in data space.
-    trace._extremes[ya._id] = Axes.findExtremes(ya, tipsY, {padded: true});
-
-    // x-axis: provisional bound from the base positions only; crossTraceCalc
-    // replaces this with a ppad-based expansion once the combined y-scale across
-    // all quiver traces on this axis is known.
-    trace._extremes[xa._id] = Axes.findExtremes(xa, baseX, {padded: true});
-
-    // Geometry needed to finish the x-axis expansion in crossTraceCalc.
-    trace._quiver = {
-        baseX: baseX,
-        geomLen: geomLen,
-        geomUx: geomUx,
-        isTip: isTip,
-        isCenter: isCenter,
-        yMin: yMin,
-        yMax: yMax
-    };
 
     // Merge text arrays into calcdata for Drawing.textPointStyle
     Lib.mergeArray(trace.text, cd, 'tx');

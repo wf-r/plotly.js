@@ -102,10 +102,15 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
     lineSegments.exit().remove();
 
     // Use maxNorm precomputed in calc
-    var maxNorm = trace._maxNorm || 0;
-    var sizemode = trace.sizemode || 'scaled';
-    var sizeref = (trace.sizeref !== undefined) ? trace.sizeref : (sizemode === 'raw' ? 1 : 0.5);
-    var anchor = trace.anchor || 'tail';
+    const maxNorm = trace._maxNorm || 0;
+    const anglemode = trace.anglemode;
+    const sizemode = trace.sizemode;
+    const sizeref = trace.sizeref;
+    const anchor = trace.anchor;
+
+    // Adjust scale factor if anglemode is 'paper'
+    const scaleFactor = (anglemode === 'paper') ? trace._scaleFactor * Math.sqrt(Math.abs(xa._m * ya._m)) : trace._scaleFactor;
+    const markerArrowsize = trace.marker.arrowsize;
 
     // Update line segments
     lineSegments.each(function(cdi) {
@@ -117,66 +122,43 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
             return;
         }
 
+        // Compute pixel location of vector tip, *relative to* vector base (before scaling).
+        // If anglemode is 'paper', then u/v are interpreted in pixel coordinates, so we can use them directly.
+        // If anglemode is 'data', then u/v are interpreted in data coordinates, so we need to convert them to pixel coordinates.
+        // TODO: This probably doesn't work for log axes, but let's ignore log axes for now
+        // since I'm not sure they make sense for quiver plots anyway
+        const pu = ((anglemode === 'paper') ? cdi._u * Math.sign(xa._m) : d3.round(xa._m * cdi._u)) * scaleFactor;
+        const pv = ((anglemode === 'paper') ? cdi._v * Math.sign(ya._m) : d3.round(ya._m * cdi._v)) * scaleFactor;
+
         // Compute arrow in data space
-        // Derive pixel-per-data scaling from axes at this point
-        const pxPerX = Math.abs(xa.c2p(cdi.x + 1) - xa.c2p(cdi.x));
-        const pxPerY = Math.abs(ya.c2p(cdi.y + 1) - ya.c2p(cdi.y));
-        const scaleRatio = (pxPerX && pxPerY) ? (pxPerY / pxPerX) : 1;
-        const markerArrowsize = trace.marker.arrowsize;
         // Check whether arrowsize was set explicitly in the input trace
         const hasExplicitArrowsize = (trace._input.marker || {}).arrowsize !== undefined;
 
-        // u/v were sanitized in calc (non-numeric -> 0); reuse those values.
-        const u = cdi._u || 0;
-        const v = cdi._v || 0;
-
-        const norm = Math.sqrt(u * u + v * v);
-        const unitx = norm ? (u / norm) : 0;
-        const unity = norm ? (v / norm) : 0;
-        var baseLen;
-        if(sizemode === 'scaled') {
-            var n = maxNorm ? (norm / maxNorm) : 0;
-            baseLen = n * sizeref;
-        } else {
-            baseLen = norm * sizeref;
-        }
-
-        const dxBase = unitx * baseLen;
-        const dyBase = unity * baseLen;
-        const dx = dxBase * scaleRatio;
-        const dy = dyBase;
-
-        var x0, y0, x1, y1;
+        var px0, px1, py0, py1;
         if(anchor === 'tip') {
-            x1 = cdi.x;
-            y1 = cdi.y;
-            x0 = x1 - dx;
-            y0 = y1 - dy;
+            px0 = xa.c2p(cdi.x) - pu;
+            py0 = ya.c2p(cdi.y) - pv;
+            px1 = xa.c2p(cdi.x);
+            py1 = ya.c2p(cdi.y);
         } else if(anchor === 'center') {
-            x0 = cdi.x - dx / 2;
-            y0 = cdi.y - dy / 2;
-            x1 = cdi.x + dx / 2;
-            y1 = cdi.y + dy / 2;
+            px0 = xa.c2p(cdi.x) - pu / 2;
+            py0 = ya.c2p(cdi.y) - pv / 2;
+            px1 = xa.c2p(cdi.x) + pu / 2;
+            py1 = ya.c2p(cdi.y) + pv / 2;
         } else { // tail
-            x0 = cdi.x;
-            y0 = cdi.y;
-            x1 = x0 + dx;
-            y1 = y0 + dy;
+            px0 = xa.c2p(cdi.x);
+            py0 = ya.c2p(cdi.y);
+            px1 = xa.c2p(cdi.x) + pu;
+            py1 = ya.c2p(cdi.y) + pv;
         }
 
         // Store the arrow body endpoints in calcData so that
         // hovertext can be shown based on distance to the whole arrow segment,
         // not just the base point (x,y)
-        cdi._x0 = x0;
-        cdi._y0 = y0;
-        cdi._x1 = x1;
-        cdi._y1 = y1;
-
-        // Arrow body endpoints (px)
-        const p0x = xa.c2p(x0);
-        const p0y = ya.c2p(y0);
-        const p1x = xa.c2p(x1);
-        const p1y = ya.c2p(y1);
+        cdi._px0 = px0;
+        cdi._py0 = py0;
+        cdi._px1 = px1;
+        cdi._py1 = py1;
 
         // Arrowhead is sized in pixels (relative to the line width)
         // so it remains the same regardless of zoom, rather than scaling with the data space
@@ -187,17 +169,17 @@ function plotOne(gd, idx, plotinfo, cdscatter, cdscatterAll, element, transition
         // to a minimum value, in order to avoid very small arrowheads
         if(!hasExplicitArrowsize) lineWidthForArrowsize = Math.max(lineWidthForArrowsize, MIN_LINE_WIDTH_FOR_ARROWSIZE);
 
-        const bodyLenPx = Math.sqrt((p1x - p0x) * (p1x - p0x) + (p1y - p0y) * (p1y - p0y));
+        const bodyLenPx = Math.sqrt((px1 - px0) * (px1 - px0) + (py1 - py0) * (py1 - py0));
         const maxHeadPx = MAX_HEAD_FRAC * bodyLenPx;
         const headLenPx = Math.min(HEAD_LEN_PER_WIDTH * markerArrowsize * lineWidthForArrowsize, maxHeadPx);
-        const angPx = Math.atan2(p1y - p0y, p1x - p0x);
+        const angPx = Math.atan2(py1 - py0, px1 - px0);
 
-        const ph1x = p1x - headLenPx * Math.cos(angPx - HEAD_ANGLE);
-        const ph1y = p1y - headLenPx * Math.sin(angPx - HEAD_ANGLE);
-        const ph2x = p1x - headLenPx * Math.cos(angPx + HEAD_ANGLE);
-        const ph2y = p1y - headLenPx * Math.sin(angPx + HEAD_ANGLE);
+        const ph1x = px1 - headLenPx * Math.cos(angPx - HEAD_ANGLE);
+        const ph1y = py1 - headLenPx * Math.sin(angPx - HEAD_ANGLE);
+        const ph2x = px1 - headLenPx * Math.cos(angPx + HEAD_ANGLE);
+        const ph2y = py1 - headLenPx * Math.sin(angPx + HEAD_ANGLE);
 
-        const pathData = 'M' + p0x + ',' + p0y + 'L' + p1x + ',' + p1y + 'L' + ph1x + ',' + ph1y + 'L' + p1x + ',' + p1y + 'L' + ph2x + ',' + ph2y;
+        const pathData = 'M' + px0 + ',' + py0 + 'L' + px1 + ',' + py1 + 'L' + ph1x + ',' + ph1y + 'L' + px1 + ',' + py1 + 'L' + ph2x + ',' + ph2y;
         path.attr('d', pathData);
     });
 
