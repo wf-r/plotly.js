@@ -175,9 +175,8 @@ var attrs = (module.exports = overrideAll(
                 values: ['auto', 'input'],
                 dflt: 'auto',
                 description: [
-                    'If the value is `auto` (the default), the vertical order of nodes will be determined automatically',
-                    'by the layout.',
-                    'If the value is `input`, the vertical order is kept the same as the order in the input node array'
+                    'For `auto` (the default), the vertical order of nodes will be determined automatically by the layout.',
+                    'For `input`, the vertical order of nodes is kept the same as the order in the input array.'
                 ].join(' ')
             },
             description: 'The nodes of the Sankey plot.'

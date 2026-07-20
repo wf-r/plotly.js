@@ -40,7 +40,7 @@ function sankeyModel(layout, d, traceIndex) {
         right: d3Sankey.sankeyRight,
         center: d3Sankey.sankeyCenter
     }[trace.node.align];
-    var input_sort = trace.node.sort === 'input';
+    const inputNodeSort = trace.node.sort === 'input';
 
     var width = layout.width * (domain.x[1] - domain.x[0]);
     var height = layout.height * (domain.y[1] - domain.y[0]);
@@ -48,10 +48,6 @@ function sankeyModel(layout, d, traceIndex) {
     var nodes = calcData._nodes;
     var links = calcData._links;
     var circular = calcData.circular;
-
-    if(circular && input_sort) {
-        Lib.error('Circular Sankey diagrams do not support the "input" node.sort mode; falling back to the default sort.');
-    }
 
     // Select Sankey generator
     var sankey;
@@ -75,9 +71,13 @@ function sankeyModel(layout, d, traceIndex) {
       .nodes(nodes)
       .links(links);
 
-    // d3-sankey-circular does not support the nodeSort method
-    if(!circular) {
-        sankey.nodeSort(input_sort ? null : undefined);
+    if (inputNodeSort) {
+        if (circular) {
+            Lib.warn('Circular Sankey diagrams do not support the "input" node.sort mode; falling back to the default sort.');
+        } else {
+            // Passing null keeps nodes in their input order
+            sankey.nodeSort(null);
+        }
     }
 
     var graph = sankey();
