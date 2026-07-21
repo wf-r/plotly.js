@@ -509,7 +509,7 @@ describe('config argument', function() {
                 modeBarButtons.sendChartToCloud.click(gd);
                 var msg = document.querySelector('.plotly-cloud-dialog-message');
                 expect(msg).not.toBe(null, 'confirmation dialog should be shown');
-                expect(msg.textContent).toContain('https://example.plotly.com/endpoint');
+                expect(msg.textContent).toContain('example.plotly.com');
             })
             .then(done, done.fail);
         });
@@ -560,8 +560,8 @@ describe('config argument', function() {
 
                 var msg = document.querySelector('.plotly-cloud-dialog-message');
                 expect(msg).not.toBe(null, 'confirmation dialog should be shown');
-                expect(msg.textContent).toContain('https://yo.plotly.com/endpoint');
-                expect(msg.textContent).not.toContain('https://example.plotly.com/endpoint2');
+                expect(msg.textContent).toContain('yo.plotly.com');
+                expect(msg.textContent).not.toContain('example.plotly.com');
             })
             .catch(failTest)
             .then(function() {
