@@ -32,9 +32,13 @@ module.exports = function confirmCloudDialog(gd, serverUrl, onConfirm) {
         .classed('plotly-cloud-dialog-title', true)
         .text(_(gd, 'Share with Plotly Cloud'));
 
-    dialog.append('div')
-        .classed('plotly-cloud-dialog-message', true)
-        .text(_(gd, 'This chart and its data will be sent to') + ' ' + serverUrl + '.');
+    var serverUrlText = new URL(serverUrl).hostname;
+
+    var description = dialog.append('div');
+    description.classed('plotly-cloud-dialog-message', true);
+    description.append('span').text(_(gd, 'This chart and its data will be sent to '));
+    description.append('span').text(serverUrlText).classed('plotly-cloud-dialog-message--hostname', true);
+    description.append('span').text('. ');
 
     var buttons = dialog.append('div')
         .classed('plotly-cloud-dialog-buttons', true);

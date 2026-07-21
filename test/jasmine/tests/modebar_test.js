@@ -1584,7 +1584,7 @@ describe('ModeBar', function() {
                 return d3Select(modeBarEl).selectAll('button.modebar-btn, a.modebar-btn').size();
             }
 
-            var initial = 10;
+            var initial = 11;
             Plotly.newPlot(gd, [{y: [1, 2]}], {})
             .then(function() {
                 expect(countButtons()).toBe(initial);
@@ -1669,7 +1669,7 @@ describe('ModeBar', function() {
                 return d3Select(modeBarEl).selectAll('button.modebar-btn, a.modebar-btn').size();
             }
 
-            var initial = 10;
+            var initial = 11;
             Plotly.newPlot(gd, [{y: [1, 2]}], {})
             .then(function() {
                 expect(countButtons()).toBe(initial);
@@ -1715,10 +1715,10 @@ describe('ModeBar', function() {
         it('remove buttons using template', function(done) {
             function countButtons() {
                 var modeBarEl = gd._fullLayout._modeBar.element;
-                return d3Select(modeBarEl).selectAll('a.modebar-btn').size();
+                return d3Select(modeBarEl).selectAll('button.modebar-btn, a.modebar-btn').size();
             }
 
-            var initial = 10;
+            var initial = 11;
             Plotly.newPlot(gd, [{y: [1, 2]}], {
                 template: {
                     layout: {
@@ -1750,7 +1750,7 @@ describe('ModeBar', function() {
                 return d3Select(modeBarEl).selectAll('button.modebar-btn, a.modebar-btn').size();
             }
 
-            var initial = 10;
+            var initial = 11;
             Plotly.newPlot(gd, [{y: [1, 2]}], {
                 template: {
                     layout: {
@@ -1773,7 +1773,7 @@ describe('ModeBar', function() {
                     return d3Select(modeBarEl).selectAll('button.modebar-btn, a.modebar-btn').size();
                 }
 
-                var initial = 10;
+                var initial = 11;
                 Plotly.newPlot(gd, [{y: [1, 2]}], {
                     modebar: {
                         remove: t
@@ -1794,7 +1794,7 @@ describe('ModeBar', function() {
                 return d3Select(modeBarEl).selectAll('button.modebar-btn, a.modebar-btn').size();
             }
 
-            var initial = 10;
+            var initial = 11;
             Plotly.newPlot(gd, [{y: [1, 2]}], {
                 modebar: {
                     add: 'drawline'

@@ -16540,7 +16540,10 @@ export interface ConfigBase {
      * Range: [1, 4]
      */
     plotGlPixelRatio?: number;
-    /** Sets the URL for the `sendChartToCloud` modebar button. When clicked, the button will send the chart data to this URL. */
+    /**
+     * Sets the URL for the `sendChartToCloud` modebar button. When clicked, the button will send the chart data to this URL.
+     * @default 'https://cloud.plotly.com/newchart'
+     */
     plotlyServerURL?: string;
     /**
      * Sets the length of the undo/redo queue.
@@ -16575,7 +16578,7 @@ export interface ConfigBase {
     showAxisRangeEntryBoxes?: boolean;
     /**
      * Should we include a modebar button that sends this chart to a URL specified by `plotlyServerURL`, for sharing the chart with others? Note that this button will (after a confirmation step) send chart data to an external server.
-     * @default false
+     * @default true
      */
     showSendToCloud?: boolean;
     /**

@@ -500,16 +500,6 @@ describe('config argument', function() {
 
         afterEach(destroyGraphDiv);
 
-        it('should default to an empty string', function(done) {
-            Plotly.newPlot(gd, [], {})
-            .then(function() {
-                expect(gd._context.plotlyServerURL).not.toBe('https://plot.ly');
-                expect(gd._context.plotlyServerURL).not.toBe('https://chart-studio.plotly.com');
-                expect(gd._context.plotlyServerURL).toBe('');
-            })
-            .then(done, done.fail);
-        });
-
         it('should open confirmation dialog when set to a correctly-formatted URL', function(done) {
             Plotly.newPlot(gd, [], {}, {
                 plotlyServerURL: 'https://example.plotly.com/endpoint'
@@ -519,7 +509,7 @@ describe('config argument', function() {
                 modeBarButtons.sendChartToCloud.click(gd);
                 var msg = document.querySelector('.plotly-cloud-dialog-message');
                 expect(msg).not.toBe(null, 'confirmation dialog should be shown');
-                expect(msg.textContent).toContain('https://example.plotly.com/endpoint');
+                expect(msg.textContent).toContain('example.plotly.com');
             })
             .then(done, done.fail);
         });
@@ -570,8 +560,8 @@ describe('config argument', function() {
 
                 var msg = document.querySelector('.plotly-cloud-dialog-message');
                 expect(msg).not.toBe(null, 'confirmation dialog should be shown');
-                expect(msg.textContent).toContain('https://yo.plotly.com/endpoint');
-                expect(msg.textContent).not.toContain('https://example.plotly.com/endpoint2');
+                expect(msg.textContent).toContain('yo.plotly.com');
+                expect(msg.textContent).not.toContain('example.plotly.com');
             })
             .catch(failTest)
             .then(function() {
