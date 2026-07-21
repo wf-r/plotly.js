@@ -284,7 +284,7 @@ function isSelectable(fullData) {
 
         if(!trace._module || !trace._module.selectPoints) continue;
 
-        if(Registry.traceIs(trace, 'scatter-like')) {
+        if(Registry.traceIs(trace, 'scatter-like') && trace.type !== 'quiver') {
             if(scatterSubTypes.hasMarkers(trace) || scatterSubTypes.hasText(trace)) {
                 selectable = true;
             }
