@@ -1,1 +1,1 @@
-- Update minimum required Node version to 22 [[#7861](https://github.com/plotly/plotly.js/pull/7861)]
+- **Breaking**: Update minimum required Node version to 22 [[#7861](https://github.com/plotly/plotly.js/pull/7861)]

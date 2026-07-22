@@ -1,1 +1,2 @@
-- Drop support for MathJax v2 [[#7898](https://github.com/plotly/plotly.js/pull/7898)]
+- **Breaking**: Drop support for MathJax v2 [[#7898](https://github.com/plotly/plotly.js/pull/7898)]
+  - MathJax v3 and v4 are now supported in plotly.js
