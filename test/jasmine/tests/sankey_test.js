@@ -982,10 +982,28 @@ describe('sankey tests', function () {
 
         it('@noCI should position hover labels correctly - horizontal, reverse', function (done) {
             var gd = createGraphDiv();
-            var mockCopy = Lib.extendDeep({}, mock);
-            mockCopy.data[0].direction = 'reverse';
+            var forwardOffsetX;
 
-            Plotly.newPlot(gd, mockCopy)
+            function plotWith(direction) {
+                var fig = Lib.extendDeep({}, mock);
+                if (direction !== undefined) fig.data[0].direction = direction;
+                return Plotly.newPlot(gd, fig);
+            }
+
+            plotWith()
+                .then(function () {
+                    // Baseline: the label's offset from its own link's center,
+                    // under the default 'forward' direction (absolute pixel
+                    // positions are font/browser sensitive - see the plain
+                    // 'horizontal'/'vertical' tests above - so we anchor to the
+                    // link itself rather than a hard-coded literal).
+                    hoverLink('Thermal generation', 'Losses');
+                    var linkRect = rectForLink('Thermal generation', 'Losses');
+                    var pos = d3Select('.hovertext').node().getBoundingClientRect();
+                    forwardOffsetX = pos.x - (linkRect.left + linkRect.width / 2);
+
+                    return plotWith('reverse');
+                })
                 .then(function () {
                     hoverLink('Thermal generation', 'Losses');
 
@@ -994,31 +1012,47 @@ describe('sankey tests', function () {
                         ['rgb(0, 0, 96)', 'rgb(255, 255, 255)', 13, 'Arial', 'rgb(255, 255, 255)']
                     );
 
-                    // With direction:'reverse' the link is drawn mirrored on screen
+                    // The link itself is drawn mirrored under direction:'reverse'
                     // (see 'applies the correct group transform per orientation and
-                    // direction'). The hover label must track that mirrored link,
-                    // not the 'forward' position - which is exactly what a
-                    // hoverCenterPosition unaware of `direction` would still produce.
+                    // direction' above). hoverCenterPosition places the label at a
+                    // fixed offset from its anchor regardless of direction, so that
+                    // offset - not the absolute position - is what should stay
+                    // constant here. If hoverCenterPosition ignored `direction`, the
+                    // link would still be mirrored but the label would stay glued to
+                    // the old, un-mirrored anchor, breaking this invariant.
                     var linkRect = rectForLink('Thermal generation', 'Losses');
-                    var g = d3Select('.hovertext');
-                    var pos = g.node().getBoundingClientRect();
-                    expect(pos.x).toBeCloseTo(
-                        linkRect.left + linkRect.width / 2,
+                    var pos = d3Select('.hovertext').node().getBoundingClientRect();
+                    var reverseOffsetX = pos.x - (linkRect.left + linkRect.width / 2);
+
+                    expect(reverseOffsetX).toBeCloseTo(
+                        forwardOffsetX,
                         -1.5,
-                        'label tracks the mirrored link horizontally'
+                        'label offset from its link is direction-independent'
                     );
-                    expect(pos.x).not.toBeCloseTo(782, -1.5, 'label must not sit at the un-mirrored (forward) position');
                 })
                 .then(done, done.fail);
         });
 
         it('@noCI should position hover labels correctly - vertical, reverse', function (done) {
             var gd = createGraphDiv();
-            var mockCopy = Lib.extendDeep({}, mock);
-            mockCopy.data[0].orientation = 'v';
-            mockCopy.data[0].direction = 'reverse';
+            var forwardOffsetY;
 
-            Plotly.newPlot(gd, mockCopy)
+            function plotWith(direction) {
+                var fig = Lib.extendDeep({}, mock);
+                fig.data[0].orientation = 'v';
+                if (direction !== undefined) fig.data[0].direction = direction;
+                return Plotly.newPlot(gd, fig);
+            }
+
+            plotWith()
+                .then(function () {
+                    hoverLink('Thermal generation', 'Losses');
+                    var linkRect = rectForLink('Thermal generation', 'Losses');
+                    var pos = d3Select('.hovertext').node().getBoundingClientRect();
+                    forwardOffsetY = pos.y - (linkRect.top + linkRect.height / 2);
+
+                    return plotWith('reverse');
+                })
                 .then(function () {
                     hoverLink('Thermal generation', 'Losses');
 
@@ -1028,14 +1062,14 @@ describe('sankey tests', function () {
                     );
 
                     var linkRect = rectForLink('Thermal generation', 'Losses');
-                    var g = d3Select('.hovertext');
-                    var pos = g.node().getBoundingClientRect();
-                    expect(pos.y).toBeCloseTo(
-                        linkRect.top + linkRect.height / 2,
+                    var pos = d3Select('.hovertext').node().getBoundingClientRect();
+                    var reverseOffsetY = pos.y - (linkRect.top + linkRect.height / 2);
+
+                    expect(reverseOffsetY).toBeCloseTo(
+                        forwardOffsetY,
                         -1.5,
-                        'label tracks the mirrored link vertically'
+                        'label offset from its link is direction-independent'
                     );
-                    expect(pos.y).not.toBeCloseTo(500, -1.5, 'label must not sit at the un-mirrored (forward) position');
                 })
                 .then(done, done.fail);
         });
