@@ -138,13 +138,22 @@ describe('sankey tests', function () {
             expect(fullTrace.domain.y).toEqual(attributes.domain.y.dflt, 'y domain by default');
         });
 
-        it('coerces the vertical orientation values', function() {
-            ['h', 'v', 'left-right', 'right-left', 'top-down', 'bottom-up'].forEach(function(o) {
+        it('coerces the orientation values', function() {
+            ['h', 'v'].forEach(function(o) {
                 expect(_supply({orientation: o}).orientation)
                     .toBe(o, o + ' is a valid orientation');
             });
             expect(_supply({orientation: 'sideways'}).orientation)
                 .toBe(attributes.orientation.dflt, 'invalid orientation falls back to default');
+        });
+
+        it('coerces the direction values', function() {
+            ['forward', 'reverse'].forEach(function(dir) {
+                expect(_supply({direction: dir}).direction)
+                    .toBe(dir, dir + ' is a valid direction');
+            });
+            expect(_supply({direction: 'backward'}).direction)
+                .toBe(attributes.direction.dflt, 'invalid direction falls back to default');
         });
 
         it("'Sankey' layout dependent specification should have proper types", function () {
@@ -385,13 +394,14 @@ describe('sankey tests', function () {
         });
         afterEach(destroyGraphDiv);
 
-        it('applies the correct group transform per orientation', function(done) {
+        it('applies the correct group transform per orientation and direction', function(done) {
             function groupTransform() {
                 return d3Select('.sankey').attr('transform');
             }
-            function plotWith(orientation) {
+            function plotWith(orientation, direction) {
                 var fig = Lib.extendDeep({}, mock);
                 fig.data[0].orientation = orientation;
+                if(direction !== undefined) fig.data[0].direction = direction;
                 // newPlot re-enters the trace, so the transform is set synchronously
                 // (no mid-transition interpolation to race against).
                 return Plotly.newPlot(gd, fig);
@@ -399,24 +409,25 @@ describe('sankey tests', function () {
 
             plotWith('h')
                 .then(function() {
+                    // forward is the default direction
                     expect(groupTransform()).toContain('matrix(1 0 0 1 0 0)');
-                    return plotWith('left-right'); // legacy synonym of h
+                    return plotWith('h', 'forward');
                 })
                 .then(function() {
                     expect(groupTransform()).toContain('matrix(1 0 0 1 0 0)');
-                    return plotWith('right-left');
+                    return plotWith('h', 'reverse');
                 })
                 .then(function() {
                     expect(groupTransform()).toContain('matrix(-1 0 0 1 0 0)');
-                    return plotWith('top-down');
+                    return plotWith('v', 'forward');
                 })
                 .then(function() {
                     expect(groupTransform()).toContain('matrix(0 1 1 0 0 0)');
-                    return plotWith('v'); // legacy synonym of top-down
+                    return plotWith('v'); // forward is the default direction
                 })
                 .then(function() {
                     expect(groupTransform()).toContain('matrix(0 1 1 0 0 0)');
-                    return plotWith('bottom-up');
+                    return plotWith('v', 'reverse');
                 })
                 .then(function() {
                     expect(groupTransform()).toContain('matrix(0 -1 1 0 0 0)');
