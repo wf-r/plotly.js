@@ -1067,9 +1067,9 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
             svgTextUtils.convertToTspans(e, gd);
         })
         .attr('text-anchor', function(d) {
-            // vertical: labels are centered over the node. horizontal: aligned to the outer
-            // edge (reverse mirrors the layout, so the outer side and anchor flip).
-            if(!d.horizontal) return 'middle';
+            // horizontal: aligned to the outer edge (reverse flips which side is outer).
+            // vertical: inside-node placement, anchored at 'start'.
+            if(!d.horizontal) return 'start';
             return (d.left !== d.reverse) ? 'end' : 'start';
         })
         .attr('transform', function(d) {
@@ -1083,12 +1083,18 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
             var pad = d.nodeLineWidth / 2 + TEXTPAD;
 
             if(!d.horizontal) {
-                var posY = d.visibleHeight / 2;
-                // last Column (originalLayer === 1): put label towards center.
-                var posX = d.reverse ?
-                    (d.left ? -(pad + CAP_SHIFT * d.textFont.size) : (d.visibleWidth + pad)) : (d.left ? -pad : (d.visibleWidth + pad + CAP_SHIFT * d.textFont.size));
+                // vertical: label sits inside the node, centered along its length. 
+                // forward's local flip (scale(-1,1) + rotate(90)) is a reflection, 
+                // reverse's (rotate(90) alone) a pure rotation; the group
+                // matrix has the same opposing handedness. That flips the sign with which
+                // the CAP_SHIFT baseline correction (baked into blockHeight) lands on
+                // screen, so it must be applied with the opposite sign for reverse -
+                // otherwise the label renders about half a line height too high.
+                var posY = d.reverse
+                    ? (d.visibleWidth + blockHeight) / 2
+                    : (d.visibleWidth - blockHeight) / 2;
                 var flipV = d.reverse ? strRotate(90) : ('scale(-1,1)' + strRotate(90));
-                return strTranslate(posX, posY) + flipV;
+                return strTranslate(posY, pad) + flipV;
             }
 
             // horizontal: center along the node length, place just past the thickness edge.
