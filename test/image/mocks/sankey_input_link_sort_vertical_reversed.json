@@ -3,7 +3,7 @@
     {
       "type": "sankey",
       "orientation": "v",
-      "direction": "reverse",
+      "direction": "reversed",
       "node": {
         "label": ["0", "1", "2", "3", "4", "5"],
         "align": "center",
@@ -26,7 +26,7 @@
     }
   ],
   "layout": {
-    "title": { "text": "Sankey with link ordering matching the input array" },
+    "title": { "text": "Sankey with link ordering matching the input array, reversed" },
     "width": 800,
     "height": 800
   }

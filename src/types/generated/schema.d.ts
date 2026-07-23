@@ -6902,10 +6902,10 @@ export interface SankeyData {
     /** Assigns extra data each datum. This may be useful when listening to hover, click and selection events. Note that, *scatter* traces also appends customdata items in the markers DOM elements */
     customdata?: Datum[] | Datum[][] | TypedArray;
     /**
-     * Sets the direction of the flow along the `orientation` axis. With `forward` (the default), sources are on the left (horizontal) or top (vertical). With `reverse`, sources are on the right (horizontal) or bottom (vertical).
+     * Sets the direction of the flow along the `orientation` axis. With `forward` (the default), sources are on the left (horizontal) or top (vertical). With `reversed`, sources are on the right (horizontal) or bottom (vertical).
      * @default 'forward'
      */
-    direction?: 'forward' | 'reverse';
+    direction?: 'forward' | 'reversed';
     domain?: Domain;
     /**
      * Determines what trace information appears on hover. If `none` or `skip` are set, no information is displayed upon hovering. But, if `none` is set, click and hover events are still fired. Note that this attribute is superseded by `node.hoverinfo` and `node.hoverinfo` for nodes and links respectively.

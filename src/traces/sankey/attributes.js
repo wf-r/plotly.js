@@ -43,12 +43,12 @@ var attrs = (module.exports = overrideAll(
 
         direction: {
             valType: 'enumerated',
-            values: ['forward', 'reverse'],
+            values: ['forward', 'reversed'],
             dflt: 'forward',
             description: [
                 'Sets the direction of the flow along the `orientation` axis.',
                 'With `forward` (the default), sources are on the left (horizontal) or top (vertical).',
-                'With `reverse`, sources are on the right (horizontal) or bottom (vertical).',
+                'With `reversed`, sources are on the right (horizontal) or bottom (vertical).',
             ].join(' ')
         },
 

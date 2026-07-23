@@ -3,7 +3,7 @@
     {
       "type": "sankey",
       "orientation": "v",
-      "direction": "reverse",
+      "direction": "reversed",
       "node": {
         "pad": 5,
         "label": ["0", "1", "2", "3", "4", "5", "6"]
@@ -17,7 +17,7 @@
     }
   ],
   "layout": {
-    "title": { "text": "Sankey with circular data and arrows" },
+    "title": { "text": "Sankey with circular data and arrows, reversed" },
     "width": 800,
     "height": 800
   }

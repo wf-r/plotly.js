@@ -32,9 +32,9 @@ function sankeyModel(layout, d, traceIndex) {
     var trace = calcData.trace;
     var domain = trace.domain;
     var horizontal = trace.orientation === 'h';
-    // reverse flips the source side along the flow axis: horizontal -> sources on the
+    // reversed flips the source side along the flow axis: horizontal -> sources on the
     // right (flow leftward), vertical -> sources at the bottom (flow upward).
-    var reverse = trace.direction === 'reverse';
+    var reversed = trace.direction === 'reversed';
     var nodePad = trace.node.pad;
     var nodeThickness = trace.node.thickness;
     var nodeAlign = {
@@ -288,7 +288,7 @@ function sankeyModel(layout, d, traceIndex) {
         trace: trace,
         guid: Lib.randstr(),
         horizontal: horizontal,
-        reverse: reverse,
+        reversed: reversed,
         width: width,
         height: height,
         nodePad: trace.node.pad,
@@ -592,7 +592,7 @@ function nodeModel(d, n) {
         sizeAcross: d.width,
         forceLayouts: d.forceLayouts,
         horizontal: d.horizontal,
-        reverse: d.reverse,
+        reversed: d.reversed,
         darkBackground: Color.color(n.color).isDark(),
         rgb: Color.rgb(n.color),
         alpha: Color.color(n.color).alpha(),
@@ -635,15 +635,15 @@ function salientEnough(d) {return (d.link.width > 1 || d.linkLineWidth > 0);}
 
 function sankeyTransform(d) {
     if(d.horizontal) {
-        if(d.reverse) {
-            // horizontal + reverse: sources on the right, flow leftward; a mirror of forward.
+        if(d.reversed) {
+            // horizontal + reversed: sources on the right, flow leftward; a mirror of forward.
             return strTranslate(d.translateX + d.width, d.translateY) + 'matrix(-1 0 0 1 0 0)';
         }
         // horizontal + forward: sources on the left, flow rightward.
         return strTranslate(d.translateX, d.translateY) + 'matrix(1 0 0 1 0 0)';
     }
-    if(d.reverse) {
-        // vertical + reverse: sources at the bottom, flow upward; a mirror of forward.
+    if(d.reversed) {
+        // vertical + reversed: sources at the bottom, flow upward; a mirror of forward.
         // Pure 90deg rotation (det +1) keeps the cross axis intact.
         return strTranslate(d.translateX, d.translateY + d.height) + 'matrix(0 -1 1 0 0 0)';
     }
@@ -1067,10 +1067,10 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
             svgTextUtils.convertToTspans(e, gd);
         })
         .attr('text-anchor', function(d) {
-            // horizontal: aligned to the outer edge (reverse flips which side is outer).
+            // horizontal: aligned to the outer edge (reversed flips which side is outer).
             // vertical: inside-node placement, anchored at 'start'.
             if(!d.horizontal) return 'start';
-            return (d.left !== d.reverse) ? 'end' : 'start';
+            return (d.left !== d.reversed) ? 'end' : 'start';
         })
         .attr('transform', function(d) {
             var e = d3.select(this);
@@ -1085,15 +1085,15 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
             if(!d.horizontal) {
                 // vertical: label sits inside the node, centered along its length. 
                 // forward's local flip (scale(-1,1) + rotate(90)) is a reflection, 
-                // reverse's (rotate(90) alone) a pure rotation; the group
+                // reversed's (rotate(90) alone) a pure rotation; the group
                 // matrix has the same opposing handedness. That flips the sign with which
                 // the CAP_SHIFT baseline correction (baked into blockHeight) lands on
-                // screen, so it must be applied with the opposite sign for reverse -
+                // screen, so it must be applied with the opposite sign for reversed -
                 // otherwise the label renders about half a line height too high.
-                var posY = d.reverse
+                var posY = d.reversed
                     ? (d.visibleWidth + blockHeight) / 2
                     : (d.visibleWidth - blockHeight) / 2;
-                var flipV = d.reverse ? strRotate(90) : ('scale(-1,1)' + strRotate(90));
+                var flipV = d.reversed ? strRotate(90) : ('scale(-1,1)' + strRotate(90));
                 return strTranslate(posY, pad) + flipV;
             }
 
@@ -1105,7 +1105,7 @@ module.exports = function(gd, svg, calcData, layout, callbacks) {
             } else {
                 posX += d.visibleWidth;
             }
-            return strTranslate(posX, posY) + (d.reverse ? 'scale(-1,1)' : '');
+            return strTranslate(posX, posY) + (d.reversed ? 'scale(-1,1)' : '');
         });
 
     nodeLabel

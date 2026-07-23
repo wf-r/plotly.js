@@ -51265,13 +51265,13 @@
           "valType": "data_array"
         },
         "direction": {
-          "description": "Sets the direction of the flow along the `orientation` axis. With `forward` (the default), sources are on the left (horizontal) or top (vertical). With `reverse`, sources are on the right (horizontal) or bottom (vertical).",
+          "description": "Sets the direction of the flow along the `orientation` axis. With `forward` (the default), sources are on the left (horizontal) or top (vertical). With `reversed`, sources are on the right (horizontal) or bottom (vertical).",
           "dflt": "forward",
           "editType": "calc",
           "valType": "enumerated",
           "values": [
             "forward",
-            "reverse"
+            "reversed"
           ]
         },
         "domain": {

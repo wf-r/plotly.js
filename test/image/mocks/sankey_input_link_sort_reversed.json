@@ -2,12 +2,11 @@
   "data": [
     {
       "type": "sankey",
-      "direction": "reverse",
+      "direction": "reversed",
       "node": {
         "label": ["0", "1", "2", "3", "4", "5"],
         "align": "center",
-        "color": "gray",
-        "sort": "input"
+        "color": "gray"
       },
       "link": {
         "source": [0, 0, 0, 0, 1, 4],
@@ -20,12 +19,13 @@
           "rgba(0, 130, 200, 0.6)",
           "rgba(145, 30, 180, 0.6)",
           "rgba(128, 128, 128, 0.6)"
-        ]
+        ],
+        "sort": "input"
       }
     }
   ],
   "layout": {
-    "title": { "text": "Sankey with vertical node ordering matching the input array" },
+    "title": { "text": "Sankey with link ordering matching the input array, reversed" },
     "width": 800,
     "height": 800
   }
