@@ -150,7 +150,7 @@ describe('sankey tests', function () {
         });
 
         it('coerces the direction values', function() {
-            ['forward', 'reverse'].forEach(function(dir) {
+            ['forward', 'reversed'].forEach(function(dir) {
                 expect(_supply({direction: dir}).direction)
                     .toBe(dir, dir + ' is a valid direction');
             });
@@ -417,7 +417,7 @@ describe('sankey tests', function () {
                 })
                 .then(function() {
                     expect(groupTransform()).toContain('matrix(1 0 0 1 0 0)');
-                    return plotWith('h', 'reverse');
+                    return plotWith('h', 'reversed');
                 })
                 .then(function() {
                     expect(groupTransform()).toContain('matrix(-1 0 0 1 0 0)');
@@ -429,7 +429,7 @@ describe('sankey tests', function () {
                 })
                 .then(function() {
                     expect(groupTransform()).toContain('matrix(0 1 1 0 0 0)');
-                    return plotWith('v', 'reverse');
+                    return plotWith('v', 'reversed');
                 })
                 .then(function() {
                     expect(groupTransform()).toContain('matrix(0 -1 1 0 0 0)');
@@ -980,7 +980,7 @@ describe('sankey tests', function () {
                 .then(done, done.fail);
         });
 
-        it('@noCI should position hover labels correctly - horizontal, reverse', function (done) {
+        it('@noCI should position hover labels correctly - horizontal, reversed', function (done) {
             var gd = createGraphDiv();
             var forwardOffsetX;
 
@@ -1002,7 +1002,7 @@ describe('sankey tests', function () {
                     var pos = d3Select('.hovertext').node().getBoundingClientRect();
                     forwardOffsetX = pos.x - (linkRect.left + linkRect.width / 2);
 
-                    return plotWith('reverse');
+                    return plotWith('reversed');
                 })
                 .then(function () {
                     hoverLink('Thermal generation', 'Losses');
@@ -1012,7 +1012,7 @@ describe('sankey tests', function () {
                         ['rgb(0, 0, 96)', 'rgb(255, 255, 255)', 13, 'Arial', 'rgb(255, 255, 255)']
                     );
 
-                    // The link itself is drawn mirrored under direction:'reverse'
+                    // The link itself is drawn mirrored under direction:'reversed'
                     // (see 'applies the correct group transform per orientation and
                     // direction' above). hoverCenterPosition places the label at a
                     // fixed offset from its anchor regardless of direction, so that
@@ -1033,7 +1033,7 @@ describe('sankey tests', function () {
                 .then(done, done.fail);
         });
 
-        it('@noCI should position hover labels correctly - vertical, reverse', function (done) {
+        it('@noCI should position hover labels correctly - vertical, reversed', function (done) {
             var gd = createGraphDiv();
             var forwardOffsetY;
 
@@ -1051,7 +1051,7 @@ describe('sankey tests', function () {
                     var pos = d3Select('.hovertext').node().getBoundingClientRect();
                     forwardOffsetY = pos.y - (linkRect.top + linkRect.height / 2);
 
-                    return plotWith('reverse');
+                    return plotWith('reversed');
                 })
                 .then(function () {
                     hoverLink('Thermal generation', 'Losses');
@@ -1810,8 +1810,8 @@ describe('sankey tests', function () {
             };
 
             [
-                { orientation: 'h', direction: 'reverse' },
-                { orientation: 'v', direction: 'reverse' }
+                { orientation: 'h', direction: 'reversed' },
+                { orientation: 'v', direction: 'reversed' }
             ].forEach(function (combo) {
                 it(
                     'should change the position of a node on drag - orientation ' +
